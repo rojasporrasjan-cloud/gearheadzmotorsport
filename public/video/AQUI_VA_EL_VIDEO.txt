@@ -1,0 +1,27 @@
+Coloca aquí el archivo del video con el nombre exacto:
+
+  supra.mp4     ← formato principal  (recomendado)
+  supra.webm    ← formato alternativo (opcional, mejor compresión)
+
+ESPECIFICACIONES RECOMENDADAS
+──────────────────────────────
+  Resolución : 1920×1080 o 3840×2160 (4K)
+  Duración   : 10–30 segundos en loop
+  FPS        : 24 o 30
+  Codec      : H.264 (mp4) / VP9 (webm)
+  Bitrate    : 8–15 Mbps para HD, 25–40 Mbps para 4K
+  Audio      : Sin audio (o eliminar antes de subir)
+
+FUENTES GRATUITAS PARA DESCARGAR
+──────────────────────────────────
+  Pexels Videos  → pexels.com/search/videos/supra
+  Pixabay        → pixabay.com/videos/search/supra
+  Coverr         → coverr.co  (buscar "car", "racing")
+  Mazwai         → mazwai.com
+
+CONSEJO
+────────
+Busca "Toyota Supra night drive" o "JDM supra drift"
+en cualquiera de esas plataformas.
+Descarga en la mayor resolución disponible (MP4).
+Renombra el archivo a "supra.mp4" y pégalo aquí.

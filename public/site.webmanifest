@@ -1,0 +1,26 @@
+{
+  "name": "GearHeadz Motorsports",
+  "short_name": "GearHeadz",
+  "description": "Premium JDM culture apparel and limited-drop gear for motorsports enthusiasts.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#0C0C0C",
+  "theme_color": "#E8001C",
+  "lang": "en-US",
+  "categories": ["shopping", "sports", "lifestyle"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/images/store_hero.png",
+      "type": "image/png",
+      "label": "GearHeadz Motorsports Store"
+    }
+  ]
+}

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Confirmed — GearHeadz Motorsports</title>
+  <meta name="robots" content="noindex" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+  <!-- CURSOR -->
+  <div id="cursor"></div>
+
+  <!-- NAV -->
+  <header id="nav">
+    <a href="/" class="nav-logo">GEAR<em>HEADZ</em></a>
+    <nav class="nav-links">
+      <a href="/" class="nav-link">HOME</a>
+      <a href="/store.html" class="nav-link" data-page="store">STORE</a>
+      <a href="/events.html" class="nav-link" data-page="events">EVENTS</a>
+    </nav>
+    <div class="nav-right"></div>
+  </header>
+
+  <!-- RACING TICKET CONFIRMATION -->
+  <main class="ticket-page">
+    <div class="ticket-wrap">
+      <!-- Upper ticket -->
+      <div class="ticket">
+        <div class="ticket-header">
+          <span class="ticket-logo">GEAR<em>HEADZ</em> MOTORSPORTS</span>
+          <span class="ticket-badge">CONFIRMED</span>
+        </div>
+        <div class="ticket-body">
+          <div class="ticket-confirm-icon">✓</div>
+          <div class="ticket-title">ORDER CONFIRMED</div>
+          <p class="ticket-sub">
+            Your payment was processed successfully.
+            You'll receive a confirmation email shortly.
+            Thank you for repping the culture. 🏁
+          </p>
+
+          <div class="ticket-details">
+            <div class="ticket-detail">
+              <span class="ticket-detail-lbl">ORDER ID</span>
+              <span class="ticket-detail-val" id="ticket-order-id">—</span>
+            </div>
+            <div class="ticket-detail">
+              <span class="ticket-detail-lbl">DATE</span>
+              <span class="ticket-detail-val" id="ticket-date">—</span>
+            </div>
+            <div class="ticket-detail">
+              <span class="ticket-detail-lbl">STATUS</span>
+              <span class="ticket-detail-val" style="color:#10B981">PAID ✓</span>
+            </div>
+            <div class="ticket-detail">
+              <span class="ticket-detail-lbl">GRID POSITION</span>
+              <span class="ticket-detail-val" id="ticket-grid">—</span>
+            </div>
+          </div>
+
+          <!-- Simulated barcode -->
+          <div class="ticket-barcode" id="ticket-barcode"></div>
+          <div class="ticket-barcode-num" id="ticket-barcode-num"></div>
+        </div>
+      </div>
+
+      <!-- Tear line -->
+      <div class="ticket-tear">
+        <div class="ticket-tear-line"></div>
+      </div>
+
+      <!-- Lower stub -->
+      <div class="ticket-footer">
+        <div class="ticket-actions">
+          <a href="/store.html" class="btn-red">KEEP SHOPPING →</a>
+          <a href="/" class="btn-outline">GO HOME</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script type="module">
+    import { initCursor, initNav } from '/js/utils.js';
+    import { saveOrder } from '/js/data-store.js';
+
+    // Clear cart
+    localStorage.removeItem('ghz-cart');
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      initCursor();
+      initNav();
+
+      // Generate order ID from session or random
+      const params  = new URLSearchParams(window.location.search);
+      const session = params.get('session_id') || '';
+      const orderId = session
+        ? 'GHZ-' + session.slice(-8).toUpperCase()
+        : 'GHZ-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+
+      document.getElementById('ticket-order-id').textContent = orderId;
+
+      // Date
+      let dateVal = new Date();
+
+      // If we have a session ID, fetch details from Stripe and save to Firestore
+      if (session) {
+        try {
+          const res = await fetch(`/api/retrieve-session?session_id=${session}`);
+          if (res.ok) {
+            const order = await res.json();
+            
+            // Format date from Stripe session
+            if (order.date) {
+              dateVal = new Date(order.date * 1000);
+            }
+
+            // Save order to Firestore
+            await saveOrder({
+              id: order.id,
+              orderNum: orderId,
+              customer: order.customer,
+              shipping: order.shipping,
+              total: order.total,
+              paymentStatus: order.paymentStatus,
+              status: 'Pending', // Fulfillment status
+              items: order.items,
+              date: order.date || Math.floor(Date.now() / 1000)
+            });
+          }
+        } catch (err) {
+          console.error('[Success] Error saving order:', err);
+        }
+      }
+
+      document.getElementById('ticket-date').textContent =
+        dateVal.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
+
+      // Grid position (fun random number 1-99)
+      document.getElementById('ticket-grid').textContent =
+        'P' + (Math.floor(Math.random() * 99) + 1);
+
+      // Generate barcode bars
+      const barcode = document.getElementById('ticket-barcode');
+      const barcodeNum = document.getElementById('ticket-barcode-num');
+      let code = '';
+      for (let i = 0; i < 48; i++) {
+        const bar = document.createElement('span');
+        const h = 20 + Math.random() * 20;
+        bar.style.height = h + 'px';
+        bar.style.opacity = Math.random() > 0.3 ? '1' : '0.3';
+        barcode.appendChild(bar);
+        if (i % 6 === 0) code += Math.floor(Math.random() * 10);
+      }
+      barcodeNum.textContent = orderId + ' · ' + code;
+
+      // Confetti burst 🎉
+      const colors = ['#E8001C', '#FF4D5E', '#ffcc00', '#4ADE80', '#fff'];
+      for (let i = 0; i < 40; i++) {
+        const el = document.createElement('div');
+        el.className = 'confetti-piece';
+        el.style.left = Math.random() * 100 + 'vw';
+        el.style.top = '-10px';
+        el.style.width = (4 + Math.random() * 6) + 'px';
+        el.style.height = (4 + Math.random() * 6) + 'px';
+        el.style.background = colors[Math.floor(Math.random() * colors.length)];
+        el.style.animationDuration = (2 + Math.random() * 3) + 's';
+        el.style.animationDelay = Math.random() * 1.5 + 's';
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 6000);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment Cancelled — GearHeadz Motorsports</title>
+  <meta name="robots" content="noindex" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+
+  <style>
+    .cancel-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+      background: var(--ink);
+    }
+    .cancel-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #1a1a1a;
+      border: 2px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 2rem;
+    }
+    .cancel-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      letter-spacing: .04em;
+      color: var(--white);
+      margin-bottom: .5rem;
+    }
+    .cancel-sub {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 420px;
+      line-height: 1.6;
+      margin: 0 auto 2.5rem;
+    }
+    .cancel-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .btn-outline {
+      padding: .75rem 2rem;
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--white);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: .08em;
+      cursor: pointer;
+      transition: border-color .2s, color .2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-outline:hover { border-color: var(--white); }
+  </style>
+</head>
+<body>
+
+  <!-- CURSOR -->
+  <div id="cursor"></div>
+
+  <!-- NAV -->
+  <header id="nav">
+    <a href="/" class="nav-logo">GEAR<em>HEADZ</em></a>
+    <nav class="nav-links">
+      <a href="/" class="nav-link">HOME</a>
+      <a href="/store.html" class="nav-link" data-page="store">STORE</a>
+      <a href="/events.html" class="nav-link" data-page="events">EVENTS</a>
+    </nav>
+    <div class="nav-right"></div>
+  </header>
+
+  <!-- CANCEL MESSAGE -->
+  <main class="cancel-page">
+    <div class="cancel-icon">✕</div>
+    <h1 class="cancel-title">Payment Cancelled</h1>
+    <p class="cancel-sub">
+      No worries — your cart is still saved. Head back to the store
+      whenever you're ready to complete your order.
+    </p>
+    <div class="cancel-actions">
+      <a href="/store.html" class="btn-red">BACK TO STORE →</a>
+      <a href="/" class="btn-outline">GO HOME</a>
+    </div>
+  </main>
+
+  <script type="module">
+    import { initCursor, initNav } from '/js/utils.js';
+    document.addEventListener('DOMContentLoaded', () => {
+      initCursor();
+      initNav();
+    });
+  </script>
+</body>
+</html>

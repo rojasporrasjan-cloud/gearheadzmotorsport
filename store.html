@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ── PRIMARY META ─────────────────────────── -->
+  <title>Shop JDM Apparel &amp; Motorsports Gear | GearHeadz Motorsports</title>
+  <meta name="description" content="Shop GearHeadz Motorsports — Limited-drop JDM culture apparel, tees, hats and accessories. Exclusive designs for car enthusiasts. Ships across the USA. No restocks." />
+  <meta name="keywords" content="JDM apparel shop, buy JDM clothing, motorsports tees, car enthusiast shirts, JDM hat, drift culture gear, limited drop apparel USA" />
+  <meta name="author" content="GearHeadz Motorsports" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="theme-color" content="#0C0C0C" />
+  <meta name="geo.region" content="US" />
+
+  <!-- ── CANONICAL ────────────────────────────── -->
+  <link rel="canonical" href="https://gearheadzmotorsports.com/store.html" />
+
+  <!-- ── FAVICON ──────────────────────────────── -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+  <!-- ── OPEN GRAPH ───────────────────────────── -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:site_name"   content="GearHeadz Motorsports" />
+  <meta property="og:title"       content="Shop JDM Apparel &amp; Motorsports Gear | GearHeadz Motorsports" />
+  <meta property="og:description" content="Limited-drop JDM culture apparel, tees, hats and accessories for car enthusiasts. No restocks." />
+  <meta property="og:url"         content="https://gearheadzmotorsports.com/store.html" />
+  <meta property="og:image"       content="https://gearheadzmotorsports.com/images/store_hero.png" />
+  <meta property="og:image:width"  content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale"      content="en_US" />
+
+  <!-- ── TWITTER CARD ─────────────────────────── -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:site"        content="@2gearheadz" />
+  <meta name="twitter:title"       content="Shop JDM Apparel | GearHeadz Motorsports" />
+  <meta name="twitter:description" content="Limited-drop JDM culture apparel and gear. No restocks." />
+  <meta name="twitter:image"       content="https://gearheadzmotorsports.com/images/store_hero.png" />
+
+  <!-- ── STRUCTURED DATA ──────────────────────── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://gearheadzmotorsports.com/#organization",
+        "name": "GearHeadz Motorsports",
+        "url": "https://gearheadzmotorsports.com/"
+      },
+      {
+        "@type": "CollectionPage",
+        "@id": "https://gearheadzmotorsports.com/store.html#webpage",
+        "url": "https://gearheadzmotorsports.com/store.html",
+        "name": "Shop JDM Apparel & Motorsports Gear | GearHeadz Motorsports",
+        "description": "Limited-drop JDM culture apparel, tees, hats and accessories for car enthusiasts.",
+        "isPartOf": { "@id": "https://gearheadzmotorsports.com/#website" },
+        "breadcrumb": {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home",  "item": "https://gearheadzmotorsports.com/" },
+            { "@type": "ListItem", "position": 2, "name": "Store", "item": "https://gearheadzmotorsports.com/store.html" }
+          ]
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- ── FONTS ─────────────────────────────────── -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Permanent+Marker&display=swap" rel="stylesheet" />
+
+  <!-- ── PWA / PERFORMANCE ─────────────────────── -->
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta name="format-detection" content="telephone=no" />
+  <!-- Preload hero so it's the LCP element, not a blank space -->
+  <link rel="preload" as="image" href="/images/store_hero.png" fetchpriority="high" />
+
+  <link rel="stylesheet" href="/style.css" />
+</head>
+
+<body>
+
+  <!-- CURSOR -->
+  <div id="cursor"></div>
+
+  <!-- TOAST -->
+  <div id="toast-wrap"></div>
+
+  <!-- ══════════════════════════════════════
+       CART SIDEBAR
+  ═══════════════════════════════════════ -->
+  <div id="cart-overlay"></div>
+
+  <div id="cart-sidebar">
+    <div class="cart-hd">
+      <span class="cart-hd-title">YOUR BAG &nbsp;<span id="cart-count-s">0</span></span>
+      <button class="cart-close" id="cart-close">✕</button>
+    </div>
+    <div class="cart-body" id="cart-body"></div>
+    <div class="cart-ft">
+      <div class="cart-total-row">
+        <span class="cart-total-lbl">SUBTOTAL</span>
+        <span class="cart-total-val" id="cart-total">$0.00</span>
+      </div>
+      <button class="btn-red" style="width:100%;justify-content:center">CHECKOUT →</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       NAV
+  ═══════════════════════════════════════ -->
+  <header id="nav">
+    <a href="/" class="nav-logo">GEAR<em>HEADZ</em></a>
+
+    <nav class="nav-links">
+      <a href="/" class="nav-link">HOME</a>
+      <a href="/store.html" class="nav-link" data-page="store">STORE</a>
+      <a href="/events.html" class="nav-link" data-page="events">EVENTS</a>
+    </nav>
+
+    <div class="nav-right">
+      <button id="cart-btn">BAG &nbsp;<span id="cart-count">0</span></button>
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════════════
+       PAGE HERO
+  ═══════════════════════════════════════ -->
+  <div class="page-hero">
+    <!-- Imagen de fondo premium -->
+    <div class="hero-bg">
+      <img src="/images/store_hero.png" alt="GearHeadz Motorsports — JDM street racing culture apparel collection"
+        style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9) saturate(1.1); object-position: center 20%;" />
+    </div>
+
+    <!-- Capa de superposición para contraste -->
+    <div class="hero-overlay"></div>
+
+    <!-- Contenido de texto -->
+    <div style="position: relative; z-index: 2; width: 100%;">
+      <h1 class="sec-title">THE DROP</h1>
+      <p class="sec-sub">EXCLUSIVE APPAREL &amp; JDM CULTURE GEAR</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       PRODUCTS
+  ═══════════════════════════════════════ -->
+  <div class="sec-full">
+
+    <div class="filter-sort-bar">
+      <div class="filter-bar">
+        <button class="f-btn active" data-cat="ALL">ALL</button>
+        <button class="f-btn" data-cat="APPAREL">APPAREL</button>
+        <button class="f-btn" data-cat="HEADWEAR">HEADWEAR</button>
+        <button class="f-btn" data-cat="ACCESSORIES">ACCESSORIES</button>
+        <button class="f-btn" data-cat="KIDS">KIDS</button>
+      </div>
+      <div class="sort-wrap">
+        <span class="sort-label">SORT BY</span>
+        <select class="sort-select" id="sort-select">
+          <option value="default">Featured</option>
+          <option value="price-asc">Price: Low → High</option>
+          <option value="price-desc">Price: High → Low</option>
+          <option value="name-az">Name: A → Z</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="products-grid" id="products-grid">
+      <!-- Rendered by JS -->
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════
+       FAQ
+  ═══════════════════════════════════════ -->
+  <section id="faq" class="page-section">
+    <div class="sec">
+      <div class="sec-hd reveal">
+        <div>
+          <h2 class="sec-title">FAQ</h2>
+          <p class="sec-sub">EVERYTHING YOU NEED TO KNOW</p>
+        </div>
+      </div>
+      <div class="faq-grid">
+        <div class="faq-item">
+          <button class="faq-q">
+            <span>Do you ship internationally?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-a-inner">Currently we ship across the United States only. International shipping is coming soon — follow us on Instagram <strong>@2gearheadz</strong> to be the first to know when we expand.</div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">
+            <span>When is the next drop?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-a-inner">We release limited drops with no fixed schedule — that's what makes them exclusive. Subscribe to our newsletter at the bottom of this page to get early access and drop alerts before anyone else.</div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">
+            <span>Will items be restocked?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-a-inner">No. Once a drop sells out, it's gone forever. Every piece is produced in limited quantities to keep the culture authentic. If it says <strong>SOLD OUT</strong>, it won't come back.</div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">
+            <span>How do event tickets work?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-a-inner">Tickets are purchased through our secure checkout powered by Stripe. After payment, you'll receive a confirmation email with all event details including location, time, and what to bring. Show your confirmation at the door.</div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">
+            <span>What is your return policy?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-a-inner">Due to the limited nature of our drops, all sales are final. We do accept exchanges for sizing issues within 14 days of delivery — contact us on Instagram <strong>@2gearheadz</strong> for assistance.</div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">
+            <span>How long does shipping take?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-a-inner">Orders are processed within 2–3 business days. Standard shipping within the US takes 5–7 business days. You'll receive a tracking number via email once your order ships.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       NEWSLETTER
+  ═══════════════════════════════════════ -->
+  <section id="newsletter" class="reveal">
+    <div>
+      <h3 class="nl-title">JOIN THE GRID</h3>
+      <p class="nl-sub">First access to drops, event tickets, and JDM culture.<br>No spam. Unsubscribe anytime.</p>
+    </div>
+    <div>
+      <form class="nl-form" id="nl-form">
+        <input type="email" class="nl-input" placeholder="your@email.com" required />
+        <button type="submit" class="nl-submit">SUBSCRIBE</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════ -->
+  <footer id="footer">
+    <div class="footer-brand-bar">
+      <div class="f-logo">GEAR<em>HEADZ</em></div>
+      <div class="f-social">
+        <a href="#" class="f-social-link">IG</a>
+        <a href="#" class="f-social-link">TT</a>
+        <a href="#" class="f-social-link">YT</a>
+        <a href="#" class="f-social-link">FB</a>
+      </div>
+    </div>
+    <div class="footer-grid">
+      <div>
+        <p class="f-tagline">JDM culture gear for those who live and breathe motorsports. Built different since 2024.
+        </p>
+      </div>
+      <div>
+        <span class="f-col-title">SHOP</span>
+        <a href="/store.html" class="f-link">Apparel</a>
+        <a href="/store.html" class="f-link">Headwear</a>
+        <a href="/store.html" class="f-link">Accessories</a>
+        <a href="/store.html" class="f-link">New Drops</a>
+      </div>
+      <div>
+        <span class="f-col-title">EVENTS</span>
+        <a href="/events.html" class="f-link">Race Schedule</a>
+        <a href="/events.html" class="f-link">Get Tickets</a>
+        <a href="/" class="f-link">Gallery</a>
+        <a href="/" class="f-link">About</a>
+      </div>
+      <div>
+        <span class="f-col-title">CONNECT</span>
+        <a href="#" class="f-link">Instagram</a>
+        <a href="#" class="f-link">TikTok</a>
+        <a href="#" class="f-link">YouTube</a>
+        <a href="#" class="f-link">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="f-legal">© 2026 GearHeadz Motorsports. All rights reserved.</span>
+      <span class="f-legal">Privacy Policy · Terms of Service</span>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/store.js"></script>
+</body>
+
+</html>

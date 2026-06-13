@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ── PRIMARY META ─────────────────────────── -->
+  <title>GearHeadz Motorsports | JDM Culture Apparel &amp; Limited Drops</title>
+  <meta name="description" content="GearHeadz Motorsports — Premium JDM culture apparel and limited-drop gear. Tees, hats, accessories and live events for those who live and breathe motorsports. No restocks." />
+  <meta name="keywords" content="JDM apparel, JDM clothing, motorsports gear, JDM culture, car meet apparel, drift culture clothing, GearHeadz, limited drop streetwear, car enthusiast merchandise" />
+  <meta name="author" content="GearHeadz Motorsports" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="theme-color" content="#0C0C0C" />
+  <meta name="geo.region" content="US" />
+
+  <!-- ── CANONICAL ────────────────────────────── -->
+  <!-- TODO: replace with your actual domain before going live -->
+  <link rel="canonical" href="https://gearheadzmotorsports.com/" />
+
+  <!-- ── FAVICON ──────────────────────────────── -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+  <!-- ── OPEN GRAPH ───────────────────────────── -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:site_name"   content="GearHeadz Motorsports" />
+  <meta property="og:title"       content="GearHeadz Motorsports | JDM Culture Apparel &amp; Limited Drops" />
+  <meta property="og:description" content="Premium JDM culture apparel and limited-drop gear. Tees, hats, accessories and live events for those who live and breathe motorsports." />
+  <meta property="og:url"         content="https://gearheadzmotorsports.com/" />
+  <meta property="og:image"       content="https://gearheadzmotorsports.com/images/store_hero.png" />
+  <meta property="og:image:width"  content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale"      content="en_US" />
+
+  <!-- ── TWITTER CARD ─────────────────────────── -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:site"        content="@2gearheadz" />
+  <meta name="twitter:creator"     content="@2gearheadz" />
+  <meta name="twitter:title"       content="GearHeadz Motorsports | JDM Culture Apparel" />
+  <meta name="twitter:description" content="Premium JDM culture apparel and limited-drop gear. No restocks." />
+  <meta name="twitter:image"       content="https://gearheadzmotorsports.com/images/store_hero.png" />
+
+  <!-- ── STRUCTURED DATA ──────────────────────── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://gearheadzmotorsports.com/#organization",
+        "name": "GearHeadz Motorsports",
+        "url": "https://gearheadzmotorsports.com/",
+        "logo": "https://gearheadzmotorsports.com/images/store_hero.png",
+        "description": "Premium JDM culture apparel and limited-drop gear for motorsports enthusiasts.",
+        "foundingDate": "2024",
+        "sameAs": [
+          "https://instagram.com/2gearheadz",
+          "https://tiktok.com/@2gearheadz"
+        ],
+        "address": { "@type": "PostalAddress", "addressCountry": "US" }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://gearheadzmotorsports.com/#website",
+        "url": "https://gearheadzmotorsports.com/",
+        "name": "GearHeadz Motorsports",
+        "publisher": { "@id": "https://gearheadzmotorsports.com/#organization" },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://gearheadzmotorsports.com/store.html?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://gearheadzmotorsports.com/#webpage",
+        "url": "https://gearheadzmotorsports.com/",
+        "name": "GearHeadz Motorsports | JDM Culture Apparel & Limited Drops",
+        "description": "Premium JDM culture apparel and limited-drop gear.",
+        "isPartOf": { "@id": "https://gearheadzmotorsports.com/#website" }
+      }
+    ]
+  }
+  </script>
+
+  <!-- ── FONTS ─────────────────────────────────── -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Permanent+Marker&display=swap" rel="stylesheet" />
+
+  <!-- ── PWA / PERFORMANCE ─────────────────────── -->
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta name="format-detection" content="telephone=no" />
+  <!-- Preload hero poster so it shows instantly before video plays -->
+  <link rel="preload" as="image" href="/images/supra.png" fetchpriority="high" />
+
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+  <!-- CURSOR -->
+  <div id="cursor"></div>
+
+  <!-- TOAST -->
+  <div id="toast-wrap"></div>
+
+  <!-- ══════════════════════════════════════
+       PRELOADER
+  ═══════════════════════════════════════ -->
+  <div id="preloader">
+    <div class="pre-logo">GEAR<span>HEADZ</span></div>
+    <div class="pre-bar-wrap">
+      <div id="pre-bar"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       CART SIDEBAR
+  ═══════════════════════════════════════ -->
+  <div id="cart-overlay"></div>
+
+  <div id="cart-sidebar">
+    <div class="cart-hd">
+      <span class="cart-hd-title">YOUR BAG &nbsp;<span id="cart-count-s">0</span></span>
+      <button class="cart-close" id="cart-close">✕</button>
+    </div>
+    <div class="cart-body" id="cart-body"></div>
+    <div class="cart-ft">
+      <div class="cart-total-row">
+        <span class="cart-total-lbl">SUBTOTAL</span>
+        <span class="cart-total-val" id="cart-total">$0.00</span>
+      </div>
+      <button class="btn-red" style="width:100%;justify-content:center">CHECKOUT →</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       NAV
+  ═══════════════════════════════════════ -->
+  <header id="nav" class="page-section opacity-0">
+    <a href="/" class="nav-logo">GEAR<em>HEADZ</em></a>
+
+    <nav class="nav-links">
+      <a href="/" class="nav-link active">HOME</a>
+      <a href="/store.html" class="nav-link" data-page="store">STORE</a>
+      <a href="/events.html" class="nav-link" data-page="events">EVENTS</a>
+    </nav>
+
+    <div class="nav-right">
+      <button id="cart-btn">BAG &nbsp;<span id="cart-count">0</span></button>
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════ -->
+  <section id="hero" class="page-section opacity-0">
+    <div class="hero-bg">
+      <video id="hero-video" autoplay muted loop playsinline preload="metadata"
+             poster="/images/supra.png" aria-hidden="true">
+        <source src="/video/supra.mp4"  type="video/mp4" />
+        <source src="/video/supra.webm" type="video/webm" />
+      </video>
+    </div>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-bottom">
+      <div class="hero-info">
+        <h1 class="hero-title">
+          <span class="hero-animate">GEARHEADZ</span>
+          <span class="hero-title-sub hero-animate">MOTORSPORTS</span>
+        </h1>
+        <p class="hero-tagline">
+          JDM culture gear for those who live and breathe motorsports.<br />
+          Limited drops. Real events. No restocks.
+        </p>
+        <div class="hero-ctas">
+          <a href="/store.html" class="btn-red">SHOP THE DROP →</a>
+          <a href="/events.html" class="btn-outline">VIEW EVENTS</a>
+        </div>
+      </div>
+      <div class="hero-scroll">SCROLL DOWN</div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       ABOUT
+  ═══════════════════════════════════════ -->
+  <section id="about" class="page-section">
+    <div class="about-inner">
+      <div class="about-text reveal">
+        <h2 class="sec-title nfs-style" style="margin-bottom:1.25rem">
+          <span class="nfs-white">BUILT FOR</span><br>
+          <span class="nfs-yellow">THE GRID</span>
+        </h2>
+        <p>
+          Founded by Chris & Elsa — a husband and wife team fueled by JDM culture.
+          What started as a passion for touge nights and circuit days became GearHeadz Motorsports,
+          a brand built by the community, for the community. We don't just sell merch; we create
+          an identity for those who understand that a car is more than metal.
+        </p>
+        <p style="margin-top:1rem">
+          Every piece is designed with precision, dropped in limited quantities,
+          and worn by people who actually show up to the track and live the lifestyle.
+        </p>
+        <div style="margin-top:2rem;display:flex;gap:.75rem;flex-wrap:wrap">
+          <a href="/store.html" class="btn-red">SHOP NOW</a>
+          <a href="/events.html" class="btn-outline">OUR EVENTS</a>
+        </div>
+      </div>
+      <div class="about-stats reveal reveal-delay-1">
+        <div class="stat-box">
+          <div class="stat-num">50+</div>
+          <div class="stat-lbl">EVENTS HOSTED</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">12K</div>
+          <div class="stat-lbl">COMMUNITY MEMBERS</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">3</div>
+          <div class="stat-lbl">COUNTRIES ACTIVE</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">2024</div>
+          <div class="stat-lbl">FOUNDED</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       GALLERY
+  ═══════════════════════════════════════ -->
+  <section id="gallery" class="page-section">
+    <div class="sec">
+      <div class="sec-hd reveal">
+        <div>
+          <h2 class="sec-title">THE GRID</h2>
+          <p class="sec-sub">JDM CULTURE IN MOTION</p>
+        </div>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-item reveal">
+          <img src="/images/supra.png" alt="Toyota Supra MK4 — GearHeadz JDM culture" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;" />
+          <div class="gallery-item-overlay"></div>
+        </div>
+        <div class="gallery-item reveal reveal-delay-1">
+          <img src="/images/skyline.png" alt="Nissan Skyline R34 GTR — JDM legend" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;" />
+          <div class="gallery-item-overlay"></div>
+        </div>
+        <div class="gallery-item reveal reveal-delay-2">
+          <img src="/images/rx7.png" alt="Mazda RX-7 FD — rotary powered JDM icon" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;" />
+          <div class="gallery-item-overlay"></div>
+        </div>
+        <div class="gallery-item reveal">
+          <img src="/images/race_grid.png" alt="JDM race grid — GearHeadz Motorsports car meet" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;" />
+          <div class="gallery-item-overlay"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       EVENTS PREVIEW
+  ═══════════════════════════════════════ -->
+  <section id="events-preview" class="page-section">
+    <div class="sec">
+      <div class="sec-hd reveal">
+        <div>
+          <h2 class="sec-title">UPCOMING EVENTS</h2>
+          <p class="sec-sub">RACE SCHEDULE 2026</p>
+        </div>
+        <a href="/events.html" class="btn-ghost">VIEW ALL EVENTS →</a>
+      </div>
+      <div class="ev-cards" id="ev-cards-preview">
+        <!-- Rendered by JS from data-store.js / Firestore -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       FEATURED PRODUCTS
+  ═══════════════════════════════════════ -->
+  <section id="featured" class="page-section">
+    <div class="sec">
+      <div class="sec-hd reveal">
+        <div>
+          <h2 class="sec-title">FEATURED DROP</h2>
+          <p class="sec-sub">LATEST ARRIVALS — LIMITED QUANTITIES</p>
+        </div>
+        <a href="/store.html" class="btn-ghost">VIEW ALL PRODUCTS →</a>
+      </div>
+      <div class="featured-grid" id="featured-grid">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       NEWSLETTER
+  ═══════════════════════════════════════ -->
+  <section id="newsletter" class="page-section reveal">
+    <div>
+      <h3 class="nl-title">JOIN THE GRID</h3>
+      <p class="nl-sub">First access to drops, event tickets, and JDM culture.<br>No spam. Unsubscribe anytime.</p>
+    </div>
+    <div>
+      <form class="nl-form" id="nl-form">
+        <input type="email" class="nl-input" placeholder="your@email.com" required />
+        <button type="submit" class="nl-submit">SUBSCRIBE</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════ -->
+  <footer id="footer" class="page-section">
+    <div class="footer-brand-bar">
+      <div class="f-logo">GEAR<em>HEADZ</em></div>
+      <div class="f-social">
+        <a href="https://instagram.com/2gearheadz" class="f-social-link" target="_blank" rel="noopener noreferrer" aria-label="GearHeadz on Instagram">IG</a>
+        <a href="#" class="f-social-link" target="_blank" rel="noopener noreferrer" aria-label="GearHeadz on TikTok">TT</a>
+        <a href="#" class="f-social-link" target="_blank" rel="noopener noreferrer" aria-label="GearHeadz on YouTube">YT</a>
+        <a href="#" class="f-social-link" target="_blank" rel="noopener noreferrer" aria-label="GearHeadz on Facebook">FB</a>
+      </div>
+    </div>
+    <div class="footer-grid">
+      <div>
+        <p class="f-tagline">JDM culture gear for those who live and breathe motorsports. Built different since 2024.</p>
+      </div>
+      <div>
+        <span class="f-col-title">SHOP</span>
+        <a href="/store.html" class="f-link">Apparel</a>
+        <a href="/store.html" class="f-link">Headwear</a>
+        <a href="/store.html" class="f-link">Accessories</a>
+        <a href="/store.html" class="f-link">New Drops</a>
+      </div>
+      <div>
+        <span class="f-col-title">EVENTS</span>
+        <a href="/events.html" class="f-link">Race Schedule</a>
+        <a href="/events.html" class="f-link">Get Tickets</a>
+        <a href="#gallery"    class="f-link">Gallery</a>
+        <a href="#about"      class="f-link">About</a>
+      </div>
+      <div>
+        <span class="f-col-title">CONNECT</span>
+        <a href="#" class="f-link">Instagram</a>
+        <a href="#" class="f-link">TikTok</a>
+        <a href="#" class="f-link">YouTube</a>
+        <a href="#" class="f-link">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="f-legal">© 2026 GearHeadz Motorsports. All rights reserved.</span>
+      <span class="f-legal">Privacy Policy · Terms of Service</span>
+    </div>
+  </footer>
+
+  <script type="module" src="/js/index.js"></script>
+</body>
+</html>
