@@ -1,0 +1,53 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+  
+    // Helper function to verify if the user is an active admin
+    function isAdmin() {
+      return request.auth != null
+        && exists(/databases/$(database)/documents/users/$(request.auth.token.email))
+        && get(/databases/$(database)/documents/users/$(request.auth.token.email)).data.active == true;
+    }
+
+    match /products/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    match /events/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    match /site-config/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    match /orders/{document} {
+      // Create is false because only the backend (webhook) should create orders via Firebase Admin SDK
+      allow create: if false;                    
+      allow read, update, delete: if isAdmin();  // Admins can manage orders
+    }
+
+    match /users/{userEmail} {
+      allow read: if request.auth != null;
+
+      // Anti-escalada de privilegios:
+      // - CREATE: el superadmin puede crear cualquier doc (onboarding de admins);
+      //   un usuario solo puede auto-crear SU PROPIO doc como guest/inactivo.
+      allow create: if request.auth != null && (
+        request.auth.token.email == 'rojasporrasjan@gmail.com' ||
+        (request.auth.token.email == userEmail
+          && request.resource.data.role == 'guest'
+          && request.resource.data.active == false)
+      );
+
+      // - UPDATE/DELETE: SOLO el superadmin gestiona roles y estado. Un admin
+      //   regular (active:true) NO debe tocar docs de usuario; si pudiera, se
+      //   auto-ascendería a superadmin vía update.
+      allow update, delete: if request.auth != null
+        && request.auth.token.email == 'rojasporrasjan@gmail.com';
+    }
+  }
+}

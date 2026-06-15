@@ -87,7 +87,6 @@
 
   <script type="module">
     import { initCursor, initNav } from '/js/utils.js';
-    import { saveOrder } from '/js/data-store.js';
 
     // Clear cart
     localStorage.removeItem('ghz-cart');
@@ -108,7 +107,7 @@
       // Date
       let dateVal = new Date();
 
-      // If we have a session ID, fetch details from Stripe and save to Firestore
+      // If we have a session ID, fetch details from Stripe to display
       if (session) {
         try {
           const res = await fetch(`/api/retrieve-session?session_id=${session}`);
@@ -119,22 +118,10 @@
             if (order.date) {
               dateVal = new Date(order.date * 1000);
             }
-
-            // Save order to Firestore
-            await saveOrder({
-              id: order.id,
-              orderNum: orderId,
-              customer: order.customer,
-              shipping: order.shipping,
-              total: order.total,
-              paymentStatus: order.paymentStatus,
-              status: 'Pending', // Fulfillment status
-              items: order.items,
-              date: order.date || Math.floor(Date.now() / 1000)
-            });
+            // Note: The order is now saved securely via the Stripe Webhook in the backend.
           }
         } catch (err) {
-          console.error('[Success] Error saving order:', err);
+          console.error('[Success] Error retrieving order:', err);
         }
       }
 

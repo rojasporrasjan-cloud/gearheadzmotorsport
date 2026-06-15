@@ -41,6 +41,10 @@ export async function getFirebase() {
 
     // ── Firestore helpers ──
     collection:  firestoreMod.collection,
+    query:       firestoreMod.query,
+    orderBy:     firestoreMod.orderBy,
+    limit:       firestoreMod.limit,
+    startAfter:  firestoreMod.startAfter,
     getDocs:     firestoreMod.getDocs,
     getDoc:      firestoreMod.getDoc,
     doc:         firestoreMod.doc,

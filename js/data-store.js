@@ -61,16 +61,35 @@ export async function deleteEvent(id) {
 
 // ── ORDERS ────────────────────────────────────────
 
-export async function getOrders() {
+export async function getOrders(lastDoc = null, limitCount = 50) {
   const fb = await getFirebase();
-  if (!fb) return [];
+  if (!fb) return { list: [], lastDoc: null };
   try {
-    const snap = await fb.getDocs(fb.collection(fb.db, 'orders'));
-    if (snap.empty) return [];
+    let q;
+    if (lastDoc) {
+      q = fb.query(
+        fb.collection(fb.db, 'orders'),
+        fb.orderBy('date', 'desc'),
+        fb.startAfter(lastDoc),
+        fb.limit(limitCount)
+      );
+    } else {
+      q = fb.query(
+        fb.collection(fb.db, 'orders'),
+        fb.orderBy('date', 'desc'),
+        fb.limit(limitCount)
+      );
+    }
+    
+    const snap = await fb.getDocs(q);
+    if (snap.empty) return { list: [], lastDoc: null };
+    
     const list = snap.docs.map(d => ({ ...d.data(), id: d.id }));
-    list.sort((a, b) => (b.date || 0) - (a.date || 0));
-    return list;
-  } catch { return []; }
+    return { list, lastDoc: snap.docs[snap.docs.length - 1] };
+  } catch (err) {
+    console.error('[getOrders] Error:', err);
+    return { list: [], lastDoc: null };
+  }
 }
 
 export async function saveOrder(order) {
@@ -93,8 +112,9 @@ export async function deleteOrder(orderId) {
 
 // ── USER ROLES / ADMINS ───────────────────────────
 
-export async function checkUserRole(email) {
-  const isSuperadminEmail = email.toLowerCase() === 'rojasporrasjan@gmail.com';
+export async function checkUserRole(rawEmail) {
+  const email = String(rawEmail).toLowerCase();
+  const isSuperadminEmail = email === 'rojasporrasjan@gmail.com';
   const fb = await getFirebase();
   if (!fb) return { email, role: 'superadmin', active: true }; // Fallback offline
   try {
@@ -123,14 +143,14 @@ export async function checkUserRole(email) {
       await fb.setDoc(docRef, newUser);
       return newUser;
     } else {
-      // Default to regular admin for subsequent users
-      const newUser = { email, role: 'admin', active: true };
+      // Default to guest for subsequent users (Wait for admin approval)
+      const newUser = { email, role: 'guest', active: false };
       await fb.setDoc(docRef, newUser);
       return newUser;
     }
   } catch (err) {
     console.error('[checkUserRole] Error:', err);
-    return { email, role: 'admin', active: true };
+    return { email, role: 'guest', active: false }; // FAIL-CLOSED
   }
 }
 
@@ -144,7 +164,8 @@ export async function getAdminUsers() {
   } catch { return []; }
 }
 
-export async function saveAdminUser(email, role, active) {
+export async function saveAdminUser(rawEmail, role, active) {
+  const email = String(rawEmail).toLowerCase();
   const fb = await getFirebase();
   if (!fb) throw new Error('Firebase no configurado');
   await fb.setDoc(fb.doc(fb.db, 'users', email), { email, role, active }, { merge: true });

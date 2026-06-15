@@ -16,6 +16,17 @@ const ALL_SIZES     = ['XS','S','M','L','XL','2XL','ONE SIZE'];
 const CATS          = ['APPAREL','HEADWEAR','ACCESSORIES','KIDS'];
 const BADGES        = ['', 'NEW DROP', 'LIMITED'];
 
+// ── UTILS ─────────────────────────────────────────
+function escapeHTML(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 let currentSec  = 'dashboard';
 let saveFn      = null;
 
@@ -43,7 +54,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           } catch (err) {
             console.error('[Auth Listener] Error:', err);
-            showApp(u.email, 'admin');
+            // FAIL-CLOSED: si no podemos verificar el rol, no abrimos el panel.
+            await fb.signOut(fb.auth);
+            showLogin('No se pudo verificar tu cuenta. Inicia sesión de nuevo.');
           }
         } else {
           showLogin();
@@ -412,11 +425,11 @@ async function renderProducts() {
       return `
         <tr>
           <td>${p.img
-            ? `<img class="a-thumb" src="${p.img}" alt="" />`
+            ? `<img class="a-thumb" src="${escapeHTML(p.img)}" alt="" />`
             : `<div class="a-thumb-ph">◻</div>`}
           </td>
-          <td style="font-weight:500;max-width:180px">${p.name}</td>
-          <td><span style="font-size:.72rem;color:var(--muted)">${p.cat}</span></td>
+          <td style="font-weight:500;max-width:180px">${escapeHTML(p.name)}</td>
+          <td><span style="font-size:.72rem;color:var(--muted)">${escapeHTML(p.cat)}</span></td>
           <td>$${p.price}</td>
           <td>${stockBadge}</td>
           <td>${badgeEl}</td>
@@ -671,13 +684,13 @@ async function renderEvents() {
     const statusCls   = { open: 'ok',   limited: 'warn',      soon: 'muted' };
     document.getElementById('ev-list').innerHTML = list.length ? list.map(ev => `
       <div class="a-ev-row">
-        <div class="a-ev-img" style="background-image:url('${ev.img}')"></div>
+        <div class="a-ev-img" style="background-image:url('${escapeHTML(ev.img)}')"></div>
         <div class="a-ev-info">
-          <div class="a-ev-name">${ev.name}</div>
+          <div class="a-ev-name">${escapeHTML(ev.name)}</div>
           <div class="a-ev-meta">
-            ${ev.month} ${ev.day}${ev.year ? ' · ' + ev.year : ''}
-            ${ev.price ? ' · $' + ev.price : ''}
-            ${ev.location ? ' · 📍 ' + ev.location : ''}
+            ${escapeHTML(ev.month)} ${escapeHTML(ev.day)}${ev.year ? ' · ' + escapeHTML(ev.year) : ''}
+            ${ev.price ? ' · $' + escapeHTML(ev.price) : ''}
+            ${ev.location ? ' · 📍 ' + escapeHTML(ev.location) : ''}
             ${ev.instagramUrl ? ' · 📸 Embed' : ''}
           </div>
         </div>
@@ -1146,15 +1159,20 @@ async function renderPolicies() {
 // ════════════════════════════════════════════════
 // SECCIÓN: PEDIDOS / VENTAS
 // ════════════════════════════════════════════════
+let allOrders = [];
+let ordersLastDoc = null;
+
 async function renderOrders() {
   setContent('<div class="a-loading">Cargando pedidos…</div>');
-  const orders = await getOrders();
+  const res = await getOrders();
+  allOrders = res.list || [];
+  ordersLastDoc = res.lastDoc || null;
 
   setContent(`
     <div class="a-page-hd">
       <div>
         <div class="a-page-title">PEDIDOS / VENTAS</div>
-        <div class="a-page-sub">${orders.length} pedidos registrados — Filtro:
+        <div class="a-page-sub" id="order-count-label">${allOrders.length} pedidos cargados — Filtro:
           <select id="order-filter" style="background:var(--card2);border:1px solid var(--line);color:var(--snow);border-radius:4px;padding:.2rem .5rem;font-size:.75rem;margin-left:.4rem">
             <option value="ALL">TODOS</option>
             <option value="Pending">PENDIENTES</option>
@@ -1184,6 +1202,7 @@ async function renderOrders() {
         </table>
       </div>
     </div>
+    <div id="order-load-more-wrap" style="text-align:center; padding: 1.5rem 0;"></div>
   `);
 
   function renderRows(list) {
@@ -1200,7 +1219,7 @@ async function renderOrders() {
       // Build products list string
       const itemsHtml = (o.items || []).map(item => `
         <div class="a-order-item">
-          <span>${item.qty}x ${item.name} <span class="a-order-item-meta">(${item.size || 'ONE SIZE'})</span></span>
+          <span>${item.qty}x ${escapeHTML(item.name)} <span class="a-order-item-meta">(${escapeHTML(item.size) || 'ONE SIZE'})</span></span>
           <span style="color:var(--muted)">$${(item.price * item.qty).toFixed(2)}</span>
         </div>
       `).join('');
@@ -1216,10 +1235,10 @@ async function renderOrders() {
         
         addrHtml = `
           <div class="a-order-addr">
-            <div style="font-weight:500">${o.shipping.name || ''}</div>
-            <div>${street}</div>
-            <div>${cityState}</div>
-            <div>${country}</div>
+            <div style="font-weight:500">${escapeHTML(o.shipping.name || '')}</div>
+            <div>${escapeHTML(street)}</div>
+            <div>${escapeHTML(cityState)}</div>
+            <div>${escapeHTML(country)}</div>
             <button class="a-order-copy-btn" data-copy="${o.id}">Copiar dirección</button>
             <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${street}, ${cityState}, ${country}`)}" target="_blank" rel="noopener noreferrer" style="font-size:.7rem;color:var(--yellow);margin-left:.5rem;text-decoration:underline">Ver Mapa</a>
           </div>
@@ -1232,9 +1251,9 @@ async function renderOrders() {
           <td style="font-family:'JetBrains Mono', monospace;font-size:.8rem;font-weight:500">${o.orderNum || o.id.slice(-8).toUpperCase()}</td>
           <td style="font-size:.78rem;white-space:nowrap">${dateStr}</td>
           <td>
-            <div class="a-order-customer">${o.customer?.name || 'Invitado'}</div>
-            <div class="a-order-email">${o.customer?.email || ''}</div>
-            <div class="a-order-phone">${o.customer?.phone || ''}</div>
+            <div class="a-order-customer">${escapeHTML(o.customer?.name || 'Invitado')}</div>
+            <div class="a-order-email">${escapeHTML(o.customer?.email || '')}</div>
+            <div class="a-order-phone">${escapeHTML(o.customer?.phone || '')}</div>
           </td>
           <td>
             <div class="a-order-items" style="min-width:180px">${itemsHtml}</div>
@@ -1249,7 +1268,7 @@ async function renderOrders() {
               </button>
               <button class="a-btn-del delete-order">Eliminar</button>
             </div>
-            <textarea id="copy-text-${o.id}" style="position:absolute;left:-9999px;opacity:0">${copyAddrText}</textarea>
+            <textarea id="copy-text-${o.id}" style="position:absolute;left:-9999px;opacity:0">${escapeHTML(copyAddrText)}</textarea>
           </td>
         </tr>`;
     }).join('') : `
@@ -1258,8 +1277,8 @@ async function renderOrders() {
       </td></tr>`;
   }
 
-  let allOrders = orders;
   renderRows(allOrders);
+  updateLoadMoreBtn();
 
   // Filter handler
   document.getElementById('order-filter').addEventListener('change', runFilter);
@@ -1287,6 +1306,50 @@ async function renderOrders() {
     }
 
     renderRows(filtered);
+    
+    // Update count label
+    const labelEl = document.getElementById('order-count-label');
+    if (labelEl) {
+      labelEl.innerHTML = `${allOrders.length} pedidos cargados (Mostrando ${filtered.length}) — Filtro:
+          <select id="order-filter" style="background:var(--card2);border:1px solid var(--line);color:var(--snow);border-radius:4px;padding:.2rem .5rem;font-size:.75rem;margin-left:.4rem">
+            <option value="ALL" ${f === 'ALL' ? 'selected' : ''}>TODOS</option>
+            <option value="Pending" ${f === 'Pending' ? 'selected' : ''}>PENDIENTES</option>
+            <option value="Completed" ${f === 'Completed' ? 'selected' : ''}>COMPLETADOS</option>
+          </select>
+          <input type="text" id="order-search" value="${q}" placeholder="Buscar por email o # de orden..." style="background:var(--card2);border:1px solid var(--line);color:var(--snow);border-radius:4px;padding:.2rem .5rem;font-size:.75rem;margin-left:.6rem;width:220px" />`;
+      document.getElementById('order-filter').addEventListener('change', runFilter);
+      document.getElementById('order-search').addEventListener('input', runFilter);
+    }
+  }
+
+  function updateLoadMoreBtn() {
+    const wrap = document.getElementById('order-load-more-wrap');
+    if (!wrap) return;
+    if (ordersLastDoc) {
+      wrap.innerHTML = '<button id="btn-load-more-orders" class="a-btn" style="padding:0.6rem 1.2rem;">Cargar más pedidos</button>';
+      document.getElementById('btn-load-more-orders').addEventListener('click', async (e) => {
+        e.target.disabled = true;
+        e.target.textContent = 'Cargando...';
+        try {
+          const nextRes = await getOrders(ordersLastDoc, 50);
+          if (nextRes.list && nextRes.list.length > 0) {
+            allOrders = [...allOrders, ...nextRes.list];
+            ordersLastDoc = nextRes.lastDoc;
+            runFilter();
+            updateLoadMoreBtn();
+          } else {
+            ordersLastDoc = null;
+            updateLoadMoreBtn();
+          }
+        } catch (err) {
+          e.target.disabled = false;
+          e.target.textContent = 'Error. Reintentar';
+          console.error(err);
+        }
+      });
+    } else {
+      wrap.innerHTML = '<div style="color:var(--muted); font-size:0.8rem;">No hay más pedidos para cargar.</div>';
+    }
   }
 
   // Event delegation for table body
