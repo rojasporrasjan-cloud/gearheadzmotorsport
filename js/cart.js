@@ -1,4 +1,5 @@
 // ── SHARED CART MODULE ────────────────────────────
+import { escapeHTML } from './utils.js';
 
 export const cart = {
   items: [],
@@ -60,10 +61,10 @@ export const cart = {
 
     body.innerHTML = this.items.map(item => `
       <div class="cart-item">
-        <div class="ci-thumb">${item.img ? `<img src="${item.img}" alt="${item.name}" />` : ''}</div>
+        <div class="ci-thumb">${item.img ? `<img src="${escapeHTML(item.img)}" alt="${escapeHTML(item.name)}" />` : ''}</div>
         <div class="ci-info">
-          <span class="ci-name">${item.name}</span>
-          <span class="ci-meta">SIZE: ${item.size}</span>
+          <span class="ci-name">${escapeHTML(item.name)}</span>
+          <span class="ci-meta">SIZE: ${escapeHTML(item.size)}</span>
           <div class="ci-qty">
             <button class="ci-qty-btn" data-key="${item.key}" data-d="-1">−</button>
             <span class="ci-qty-n">${item.qty}</span>
@@ -145,7 +146,7 @@ export function toast(msg, icon = '✓') {
   if (!wrap) return;
   const el = document.createElement('div');
   el.className = 'toast';
-  el.innerHTML = `<span>${icon}</span><span>${msg}</span>`;
+  el.innerHTML = `<span>${escapeHTML(icon)}</span><span>${escapeHTML(msg)}</span>`;
   wrap.appendChild(el);
   setTimeout(() => {
     el.classList.add('out');

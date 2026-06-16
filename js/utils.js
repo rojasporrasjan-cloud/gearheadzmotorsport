@@ -1,5 +1,15 @@
 // ── SHARED UTILITIES ──────────────────────────────
 
+export function escapeHTML(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 // Cursor
 export function initCursor() {
   const c = document.getElementById('cursor');

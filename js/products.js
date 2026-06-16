@@ -1,4 +1,5 @@
 // ── PRODUCTS DATA ─────────────────────────────────
+import { escapeHTML } from './utils.js';
 
 export const PRODUCTS = [
   // ── TEES ──────────────────────────────────────────
@@ -126,13 +127,13 @@ export function buildCard(p) {
   const sold = p.stock === 0;
 
   const badge = p.badge
-    ? `<span class="p-badge ${p.badge === 'LIMITED' ? 'lim' : ''}">${p.badge}</span>`
+    ? `<span class="p-badge ${p.badge === 'LIMITED' ? 'lim' : ''}">${escapeHTML(p.badge)}</span>`
     : sold ? `<span class="p-badge sold">SOLD OUT</span>` : '';
 
   const sizes = p.sizes.map(s =>
     `<button class="osz-btn ${sold ? 'os-sold' : ''}"
-      data-pid="${p.id}" data-size="${s}"
-      ${sold ? 'disabled' : ''}>${s}</button>`
+      data-pid="${p.id}" data-size="${escapeHTML(s)}"
+      ${sold ? 'disabled' : ''}>${escapeHTML(s)}</button>`
   ).join('');
 
   const stockEl = sold
@@ -142,11 +143,11 @@ export function buildCard(p) {
       : `<span class="p-stock">${p.stock} IN STOCK</span>`;
 
   const imgEl = p.img
-    ? `<img src="${p.img}" alt="${p.name}" loading="lazy" decoding="async" />`
+    ? `<img src="${escapeHTML(p.img)}" alt="${escapeHTML(p.name)}" loading="lazy" decoding="async" />`
     : '';
 
   return `
-    <div class="p-card" data-id="${p.id}" data-cat="${p.cat}" style="cursor:pointer">
+    <div class="p-card" data-id="${p.id}" data-cat="${escapeHTML(p.cat)}" style="cursor:pointer">
       <div class="p-card-img">
         <div class="p-card-img-inner">${imgEl}</div>
         ${badge}
@@ -157,8 +158,8 @@ export function buildCard(p) {
         </div>
       </div>
       <div class="p-card-body">
-        <span class="p-cat">${p.cat}</span>
-        <div class="p-name">${p.name}</div>
+        <span class="p-cat">${escapeHTML(p.cat)}</span>
+        <div class="p-name">${escapeHTML(p.name)}</div>
         <div class="p-foot">
           <span class="p-price">$${p.price}.00</span>
           ${stockEl}
@@ -213,7 +214,7 @@ function openProductModal(product) {
   // image
   const imgEl = document.getElementById('pmodal-img');
   imgEl.innerHTML = product.img
-    ? `<img src="${product.img}" alt="${product.name}" />`
+    ? `<img src="${escapeHTML(product.img)}" alt="${escapeHTML(product.name)}" />`
     : '';
   if (product.badge) {
     const b = document.createElement('span');
@@ -243,7 +244,7 @@ function openProductModal(product) {
   // sizes
   const sizesEl = document.getElementById('pmodal-sizes');
   sizesEl.innerHTML = product.sizes.map(s =>
-    `<button class="pmodal-sz" data-size="${s}" ${sold ? 'disabled' : ''}>${s}</button>`
+    `<button class="pmodal-sz" data-size="${escapeHTML(s)}" ${sold ? 'disabled' : ''}>${escapeHTML(s)}</button>`
   ).join('');
 
   sizesEl.querySelectorAll('.pmodal-sz:not([disabled])').forEach(btn => {

@@ -93,3 +93,47 @@ Y dos hallazgos adicionales surgidos durante la auditoría:
 3. Probar "Cargar más" (temporalmente bajar el límite a ~5 para forzar páginas).
 4. Intentar (desde DevTools, autenticado como admin regular) escribir
    `users/tu-email` con `role:'superadmin'` → debe ser **denegado**.
+
+---
+
+# Ronda 2 — Hardening del storefront público y dependencias (2026-06-15)
+
+> Verificado en disco. Alcance: defensa en profundidad del frontend público
+> (datos de productos/eventos son admin-controlled tras las reglas de Ronda 1,
+> así que esto protege ante un admin comprometido) + higiene de dependencias.
+
+## Cambios
+
+- **`js/utils.js`** — `escapeHTML` extraído aquí y **exportado** (fuente única).
+  Se eliminó la copia local de `js/admin.js`.
+- **`js/admin.js`** — ahora `import { escapeHTML } from './utils.js'` (sin copia local).
+- **`js/cart.js`** — escapados `item.name`, `item.size`, `item.img`, y el toast.
+- **`js/products.js`** — `buildCard`/`openProductModal` escapan `name`, `cat`,
+  `badge`, tallas e `img`. Añadidos `loading="lazy"` + `decoding="async"` + `alt`
+  semántico en las imágenes de tarjeta.
+- **`js/events-data.js`** — `buildEventFullCard`/`buildEventPreviewCard` escapan
+  `name`, `location`, `month/day/year`, horarios, `img`, y los `href`
+  (`instagramUrl`, `mapsLink`) que ya llevan `rel="noopener"`.
+  (Esto protege indirectamente a `index.js` y `store.js`, que dependen de
+  `buildCard`/`buildEventPreviewCard`.)
+- **`package-lock.json`** — `npm audit fix` (sin `--force`): corrigió `protobufjs`.
+  Conteo 9 → 8.
+
+## Vulnerabilidades restantes (decisión deliberada, NO tocar a ciegas)
+
+Las 8 restantes (6 moderadas, **2 altas**) **no llegan al storefront**:
+
+- Las 2 altas son **`vite` / `esbuild`**: vulnerabilidades del **servidor de
+  desarrollo**, sin impacto en el build de producción ni en el navegador del
+  cliente. Limpiarlas exige un upgrade mayor de Vite — hágase aparte y con
+  prueba de build, **nunca** con `npm audit fix --force`.
+- Las moderadas restantes son del subárbol de **`firebase-admin`** (uuid,
+  gaxios, teeny-request, etc.): backend serverless (`api/webhook.js`), no el
+  frontend. `--force` las "arregla" **degradando firebase-admin 14 → 10**
+  (breaking) — no hacerlo.
+
+## Verificación adicional
+
+5. Inyectar un payload (`<img src=x onerror=alert(1)>`) en el `name` de un
+   producto/evento en Firestore → el storefront debe renderizarlo como **texto
+   inofensivo**, sin ejecutar.

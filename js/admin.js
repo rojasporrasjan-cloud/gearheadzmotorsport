@@ -17,15 +17,7 @@ const CATS          = ['APPAREL','HEADWEAR','ACCESSORIES','KIDS'];
 const BADGES        = ['', 'NEW DROP', 'LIMITED'];
 
 // ── UTILS ─────────────────────────────────────────
-function escapeHTML(str) {
-  if (!str) return '';
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
+import { escapeHTML } from './utils.js';
 
 let currentSec  = 'dashboard';
 let saveFn      = null;
