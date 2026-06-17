@@ -66,3 +66,15 @@ export async function getFirebase() {
 
   return _cache;
 }
+
+export async function createAuthUser(email, password) {
+  if (!isConfigured) throw new Error('Firebase no configurado');
+  const [appMod, authMod] = await Promise.all([
+    import('firebase/app'),
+    import('firebase/auth')
+  ]);
+  const secondaryApp = appMod.initializeApp(firebaseConfig, "SecondaryApp_" + Date.now());
+  const secondaryAuth = authMod.getAuth(secondaryApp);
+  await authMod.createUserWithEmailAndPassword(secondaryAuth, email, password);
+  await appMod.deleteApp(secondaryApp);
+}

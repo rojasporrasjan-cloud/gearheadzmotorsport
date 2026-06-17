@@ -1,5 +1,5 @@
 // ── ADMIN PANEL ───────────────────────────────────
-import { getFirebase, isConfigured as fbReady } from './firebase.js';
+import { getFirebase, isConfigured as fbReady, createAuthUser } from './firebase.js';
 import { isConfigured as cloudReady, uploadImage, uploadVideo } from './cloudinary.js';
 import {
   getProducts, saveProduct, deleteProduct,
@@ -280,11 +280,12 @@ function mapsDirectUrl(address) {
 // ════════════════════════════════════════════════
 async function renderDashboard() {
   setContent('<div class="a-loading">Cargando estadísticas…</div>');
-  const [products, events, orders] = await Promise.all([getProducts(), getEvents(), getOrders()]);
+  const [products, events, ordersData] = await Promise.all([getProducts(), getEvents(), getOrders()]);
   const soldOut   = products.filter(p => p.stock === 0).length;
   const lowStock  = products.filter(p => p.stock > 0 && p.stock <= 5).length;
   const openEvts  = events.filter(e => e.status === 'open').length;
 
+  const orders = ordersData.list || [];
   const pendingOrders = orders.filter(o => o.status === 'Pending').length;
   const totalSales = orders.reduce((sum, o) => sum + (o.total || 0), 0);
 
@@ -1404,12 +1405,16 @@ async function renderAdmins() {
     <div class="a-cfg-card" style="margin-bottom:2rem">
       <div class="a-cfg-title">AGREGAR ADMINISTRADOR</div>
       <p style="font-size:.78rem;color:var(--muted);margin-bottom:1rem;line-height:1.6">
-        Nota: Primero debes registrar el correo y contraseña en la consola de <strong>Firebase Authentication</strong> (sección Users) para que la cuenta exista en el sistema de inicio de sesión. Luego, introduce el correo aquí para asignarle el rol correspondiente.
+        Crea una cuenta completa de administrador (se registrará tanto en Firebase Auth como en la base de datos). El usuario podrá iniciar sesión con las credenciales que definas aquí.
       </p>
-      <form id="add-admin-form" style="display:flex;gap:1rem;align-items:flex-end;max-width:650px">
+      <form id="add-admin-form" style="display:flex;gap:1rem;align-items:flex-end;max-width:850px;flex-wrap:wrap">
         <div class="a-field" style="flex:2;margin-bottom:0">
           <label>EMAIL DEL ADMINISTRADOR</label>
           <input class="a-input" id="new-admin-email" type="email" placeholder="cliente@gearheadzmotorsports.com" required />
+        </div>
+        <div class="a-field" style="flex:2;margin-bottom:0">
+          <label>CONTRASEÑA (Min 6 caracteres)</label>
+          <input class="a-input" id="new-admin-pass" type="password" placeholder="Contraseña..." required minlength="6" />
         </div>
         <div class="a-field" style="flex:1;margin-bottom:0">
           <label>ROL</label>
@@ -1418,7 +1423,7 @@ async function renderAdmins() {
             <option value="superadmin">Superadmin</option>
           </select>
         </div>
-        <button class="a-btn-primary" type="submit" style="height:38px">+ AGREGAR</button>
+        <button class="a-btn-primary" type="submit" style="height:38px">+ CREAR CUENTA</button>
       </form>
     </div>
 
@@ -1477,22 +1482,36 @@ async function renderAdmins() {
   // Add Admin Form
   document.getElementById('add-admin-form').addEventListener('submit', async e => {
     e.preventDefault();
+    const btn = e.target.querySelector('button');
     const email = document.getElementById('new-admin-email').value.trim().toLowerCase();
+    const pass = document.getElementById('new-admin-pass').value;
     const role  = document.getElementById('new-admin-role').value;
 
-    if (!email) return;
+    if (!email || !pass) return;
     if (allUsers.some(u => u.email === email)) {
       toast('Este usuario ya existe en la lista', 'err');
       return;
     }
 
+    btn.disabled = true;
+    btn.textContent = 'CREANDO...';
+
     try {
+      if (fbReady) {
+        await createAuthUser(email, pass);
+      }
       await saveAdminUser(email, role, true);
-      toast('Usuario agregado exitosamente ✓');
+      toast('Cuenta creada exitosamente ✓');
       allUsers.push({ email, role, active: true });
       renderRows(allUsers);
       document.getElementById('new-admin-email').value = '';
-    } catch (err) { toast(err.message, 'err'); }
+      document.getElementById('new-admin-pass').value = '';
+    } catch (err) { 
+      toast(err.message, 'err'); 
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '+ CREAR CUENTA';
+    }
   });
 
   // Table actions delegation
