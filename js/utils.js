@@ -10,6 +10,19 @@ export function escapeHTML(str) {
     .replace(/'/g, '&#039;');
 }
 
+// Cloudinary optimization helper
+export function cldOptimize(url, { w, h, c = 'limit' } = {}) {
+  if (!url || typeof url !== 'string' || !url.includes('res.cloudinary.com')) return url;
+  
+  const transforms = ['f_auto', 'q_auto'];
+  if (w) transforms.push(`w_${w}`);
+  if (h) transforms.push(`h_${h}`);
+  if (w || h) transforms.push(`c_${c}`);
+
+  const insertStr = transforms.join(',');
+  return url.replace(/\/upload\/(v\d+\/)?/, `/upload/${insertStr}/$1`);
+}
+
 // Cursor
 export function initCursor() {
   const c = document.getElementById('cursor');

@@ -1,7 +1,7 @@
 // ── EVENTS FALLBACK DATA ──────────────────────────
 // Datos usados cuando Firebase no está configurado.
 // Una vez conectado Firebase, los eventos vienen de Firestore.
-import { escapeHTML } from './utils.js';
+import { escapeHTML, cldOptimize } from './utils.js';
 
 export const EVENTS = [
   {
@@ -86,7 +86,7 @@ export function buildEventPreviewCard(ev, index = 0) {
 
   return `
     <div class="ev-card reveal ${delay}">
-      <div class="ev-card-img" style="background-image:url('${escapeHTML(ev.img)}');background-size:cover;background-position:center">
+      <div class="ev-card-img" style="background-image:url('${escapeHTML(cldOptimize(ev.img, { w: 800 }))}');background-size:cover;background-position:center">
         <div class="ev-card-date-tag"${isSoon ? ' style="background:#222"' : ''}>
           <span class="ev-date-month">${escapeHTML(ev.month)}</span>
           <span class="ev-date-day"${isSoon ? ' style="font-size:1.3rem;line-height:1.3"' : ''}>${escapeHTML(ev.day)}</span>
@@ -144,7 +144,7 @@ export function buildEventFullCard(ev, index = 0) {
 
   return `
     <div class="ev-full-card reveal ${delay}">
-      <div class="ev-full-img" style="background-image:url('${escapeHTML(ev.img)}');background-size:cover;background-position:center">
+      <div class="ev-full-img" style="background-image:url('${escapeHTML(cldOptimize(ev.img, { w: 800 }))}');background-size:cover;background-position:center">
         <div class="ev-full-date-tag"${isSoon ? ' style="background:#222"' : ''}>
           <span class="ev-full-date-month">${escapeHTML(ev.month)}</span>
           <span class="ev-full-date-day"${isSoon ? ' style="font-size:1.5rem;line-height:1.3"' : ''}>${escapeHTML(ev.day)}</span>

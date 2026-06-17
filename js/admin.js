@@ -17,7 +17,7 @@ const CATS          = ['APPAREL','HEADWEAR','ACCESSORIES','KIDS'];
 const BADGES        = ['', 'NEW DROP', 'LIMITED'];
 
 // ── UTILS ─────────────────────────────────────────
-import { escapeHTML } from './utils.js';
+import { escapeHTML, cldOptimize } from './utils.js';
 
 let currentSec  = 'dashboard';
 let saveFn      = null;
@@ -194,11 +194,12 @@ function toast(msg, type = 'ok') {
 
 // ── IMAGE UPLOAD WIDGET ───────────────────────────
 function imgWidget(id, currentUrl = '') {
+  const optUrl = cldOptimize(currentUrl, { w: 150 });
   return `
     <div class="a-img-wrap">
       <img class="a-img-prev" id="${id}-prev"
-        src="${currentUrl}" onerror="this.style.opacity='.25'"
-        style="${currentUrl ? '' : 'opacity:.25'}" />
+        src="${optUrl}" onerror="this.style.opacity='.25'"
+        style="${optUrl ? '' : 'opacity:.25'}" />
       <div class="a-img-ctrl">
         <label class="a-img-filebtn" for="${id}-file">📎 Seleccionar archivo</label>
         <input type="file" id="${id}-file" accept="image/*" style="display:none" />

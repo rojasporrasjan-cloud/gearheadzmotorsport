@@ -1,5 +1,5 @@
 // ── PRODUCTS DATA ─────────────────────────────────
-import { escapeHTML } from './utils.js';
+import { escapeHTML, cldOptimize } from './utils.js';
 
 export const PRODUCTS = [
   // ── TEES ──────────────────────────────────────────
@@ -142,8 +142,9 @@ export function buildCard(p) {
       ? `<span class="p-stock low">${p.stock} LEFT</span>`
       : `<span class="p-stock">${p.stock} IN STOCK</span>`;
 
-  const imgEl = p.img
-    ? `<img src="${escapeHTML(p.img)}" alt="${escapeHTML(p.name)}" loading="lazy" decoding="async" />`
+  const imgUrl = cldOptimize(p.img, { w: 500 });
+  const imgEl = imgUrl
+    ? `<img src="${escapeHTML(imgUrl)}" alt="${escapeHTML(p.name)}" loading="lazy" decoding="async" />`
     : '';
 
   return `
@@ -213,8 +214,9 @@ function openProductModal(product) {
 
   // image
   const imgEl = document.getElementById('pmodal-img');
-  imgEl.innerHTML = product.img
-    ? `<img src="${escapeHTML(product.img)}" alt="${escapeHTML(product.name)}" />`
+  const modalImgUrl = cldOptimize(product.img, { w: 800 });
+  imgEl.innerHTML = modalImgUrl
+    ? `<img src="${escapeHTML(modalImgUrl)}" alt="${escapeHTML(product.name)}" />`
     : '';
   if (product.badge) {
     const b = document.createElement('span');

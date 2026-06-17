@@ -1,5 +1,5 @@
 // ── SHARED CART MODULE ────────────────────────────
-import { escapeHTML } from './utils.js';
+import { escapeHTML, cldOptimize } from './utils.js';
 
 export const cart = {
   items: [],
@@ -61,7 +61,7 @@ export const cart = {
 
     body.innerHTML = this.items.map(item => `
       <div class="cart-item">
-        <div class="ci-thumb">${item.img ? `<img src="${escapeHTML(item.img)}" alt="${escapeHTML(item.name)}" />` : ''}</div>
+        <div class="ci-thumb">${item.img ? `<img src="${escapeHTML(cldOptimize(item.img, { w: 150 }))}" alt="${escapeHTML(item.name)}" />` : ''}</div>
         <div class="ci-info">
           <span class="ci-name">${escapeHTML(item.name)}</span>
           <span class="ci-meta">SIZE: ${escapeHTML(item.size)}</span>
