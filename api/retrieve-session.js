@@ -27,7 +27,7 @@ export default async function(req, res) {
       return res.status(400).json({ error: 'Missing session_id query parameter' });
     }
 
-    const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
     const session = await stripe.checkout.sessions.retrieve(session_id);
 
     return res.status(200).json({

@@ -25,7 +25,7 @@ export default async function(req, res) {
   const siteUrl = process.env.SITE_URL || `${protocol}://${host}`;
 
   try {
-    const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
     const { items } = req.body;
 
     if (!items || !Array.isArray(items) || items.length === 0) {

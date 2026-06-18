@@ -46,7 +46,7 @@ export default async function(req, res) {
     return res.status(500).json({ error: 'Webhook secret not configured' });
   }
 
-  const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
   const sig = req.headers['stripe-signature'];
 
   let event;
