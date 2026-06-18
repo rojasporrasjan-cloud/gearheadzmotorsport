@@ -98,10 +98,10 @@ export async function saveOrder(order) {
   await fb.setDoc(fb.doc(fb.db, 'orders', order.id), order, { merge: true });
 }
 
-export async function updateOrderStatus(orderId, status) {
+export async function updateOrderStatus(orderId, status, extraData = {}) {
   const fb = await getFirebase();
   if (!fb) throw new Error('Firebase no configurado');
-  await fb.updateDoc(fb.doc(fb.db, 'orders', orderId), { status });
+  await fb.updateDoc(fb.doc(fb.db, 'orders', orderId), { status, ...extraData });
 }
 
 export async function deleteOrder(orderId) {

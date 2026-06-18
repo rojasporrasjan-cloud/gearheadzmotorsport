@@ -1169,7 +1169,9 @@ async function renderOrders() {
         <div class="a-page-sub" id="order-count-label">${allOrders.length} pedidos cargados — Filtro:
           <select id="order-filter" style="background:var(--card2);border:1px solid var(--line);color:var(--snow);border-radius:4px;padding:.2rem .5rem;font-size:.75rem;margin-left:.4rem">
             <option value="ALL">TODOS</option>
+            <option value="Confirmed">CONFIRMADOS</option>
             <option value="Pending">PENDIENTES</option>
+            <option value="Shipped">ENVIADOS</option>
             <option value="Completed">COMPLETADOS</option>
           </select>
           <input type="text" id="order-search" placeholder="Buscar por email o # de orden..." style="background:var(--card2);border:1px solid var(--line);color:var(--snow);border-radius:4px;padding:.2rem .5rem;font-size:.75rem;margin-left:.6rem;width:220px" />
@@ -1201,10 +1203,19 @@ async function renderOrders() {
 
   function renderRows(list) {
     document.getElementById('order-tbody').innerHTML = list.length ? list.map(o => {
-      const isCompleted = o.status === 'Completed';
-      const statusBadge = isCompleted
-        ? '<span class="a-badge ok">COMPLETADO</span>'
-        : '<span class="a-badge pending">PENDIENTE</span>';
+      // ── Status badge with full lifecycle ──────────
+      const statusMap = {
+        'Confirmed': '<span class="a-badge ok">✓ CONFIRMADO</span>',
+        'Shipped':   '<span class="a-badge" style="background:rgba(59,130,246,.15);color:#60a5fa;border-color:#3b82f6">📦 ENVIADO</span>',
+        'Completed': '<span class="a-badge" style="background:rgba(34,197,94,.15);color:#4ade80;border-color:#22c55e">✔ COMPLETADO</span>',
+        'Pending':   '<span class="a-badge pending">⏳ PENDIENTE</span>',
+      };
+      const statusBadge = statusMap[o.status] || statusMap['Pending'];
+
+      // Tracking info
+      const trackingHtml = o.trackingNumber
+        ? `<div style="font-size:.68rem;color:var(--yellow);margin-top:.3rem">📦 ${escapeHTML(o.trackingCarrier || '')} ${escapeHTML(o.trackingNumber)}</div>`
+        : '';
 
       const dateStr = o.date
         ? new Date(o.date * 1000).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
@@ -1219,7 +1230,7 @@ async function renderOrders() {
       `).join('');
 
       // Build shipping address string
-      let addrHtml = '—';
+      let addrHtml = '<span style="color:var(--muted);font-size:.75rem">Sin dirección</span>';
       let copyAddrText = '';
       if (o.shipping && o.shipping.address) {
         const a = o.shipping.address;
@@ -1233,11 +1244,27 @@ async function renderOrders() {
             <div>${escapeHTML(street)}</div>
             <div>${escapeHTML(cityState)}</div>
             <div>${escapeHTML(country)}</div>
-            <button class="a-order-copy-btn" data-copy="${o.id}">Copiar dirección</button>
-            <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${street}, ${cityState}, ${country}`)}" target="_blank" rel="noopener noreferrer" style="font-size:.7rem;color:var(--yellow);margin-left:.5rem;text-decoration:underline">Ver Mapa</a>
+            <button class="a-order-copy-btn" data-copy="${o.id}">📋 Copiar</button>
+            <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${street}, ${cityState}, ${country}`)}" target="_blank" rel="noopener noreferrer" style="font-size:.7rem;color:var(--yellow);margin-left:.5rem;text-decoration:underline">📍 Mapa</a>
           </div>
         `;
         copyAddrText = `${o.shipping.name || ''}\n${street}\n${cityState}\n${country}`;
+      }
+
+      // ── Action buttons based on current status ────
+      let actionsHtml = '';
+      if (o.status === 'Confirmed' || o.status === 'Pending') {
+        actionsHtml = `
+          <button class="a-btn-edit mark-shipped" style="border-color:var(--yellow);color:var(--yellow)">📦 Marcar Enviado</button>
+          <button class="a-btn-del delete-order">Eliminar</button>`;
+      } else if (o.status === 'Shipped') {
+        actionsHtml = `
+          <button class="a-btn-edit mark-completed" style="border-color:var(--green);color:var(--green)">✔ Completar</button>
+          <button class="a-btn-del delete-order">Eliminar</button>`;
+      } else {
+        actionsHtml = `
+          <button class="a-btn-edit reopen-order" style="border-color:#666;color:var(--muted)">↩ Reabrir</button>
+          <button class="a-btn-del delete-order">Eliminar</button>`;
       }
 
       return `
@@ -1253,15 +1280,10 @@ async function renderOrders() {
             <div class="a-order-items" style="min-width:180px">${itemsHtml}</div>
           </td>
           <td style="font-weight:600">$${(o.total || 0).toFixed(2)}</td>
-          <td>${statusBadge}</td>
+          <td>${statusBadge}${trackingHtml}</td>
           <td>${addrHtml}</td>
           <td>
-            <div class="a-actions">
-              <button class="a-btn-edit toggle-fulfill" style="border-color:${isCompleted ? '#444' : 'var(--green)'};color:${isCompleted ? 'var(--snow)' : 'var(--green)'}">
-                ${isCompleted ? 'Desmarcar' : 'Completar'}
-              </button>
-              <button class="a-btn-del delete-order">Eliminar</button>
-            </div>
+            <div class="a-actions">${actionsHtml}</div>
             <textarea id="copy-text-${o.id}" style="position:absolute;left:-9999px;opacity:0">${escapeHTML(copyAddrText)}</textarea>
           </td>
         </tr>`;
@@ -1307,7 +1329,9 @@ async function renderOrders() {
       labelEl.innerHTML = `${allOrders.length} pedidos cargados (Mostrando ${filtered.length}) — Filtro:
           <select id="order-filter" style="background:var(--card2);border:1px solid var(--line);color:var(--snow);border-radius:4px;padding:.2rem .5rem;font-size:.75rem;margin-left:.4rem">
             <option value="ALL" ${f === 'ALL' ? 'selected' : ''}>TODOS</option>
+            <option value="Confirmed" ${f === 'Confirmed' ? 'selected' : ''}>CONFIRMADOS</option>
             <option value="Pending" ${f === 'Pending' ? 'selected' : ''}>PENDIENTES</option>
+            <option value="Shipped" ${f === 'Shipped' ? 'selected' : ''}>ENVIADOS</option>
             <option value="Completed" ${f === 'Completed' ? 'selected' : ''}>COMPLETADOS</option>
           </select>
           <input type="text" id="order-search" value="${q}" placeholder="Buscar por email o # de orden..." style="background:var(--card2);border:1px solid var(--line);color:var(--snow);border-radius:4px;padding:.2rem .5rem;font-size:.75rem;margin-left:.6rem;width:220px" />`;
@@ -1353,13 +1377,58 @@ async function renderOrders() {
     const orderId = tr.dataset.orderId;
     const order = allOrders.find(x => x.id === orderId);
 
-    // Toggle fulfillment
-    if (e.target.classList.contains('toggle-fulfill')) {
-      const nextStatus = order.status === 'Completed' ? 'Pending' : 'Completed';
+    // ── Mark as Shipped (opens drawer for tracking) ──
+    if (e.target.classList.contains('mark-shipped')) {
+      openDrawer('MARCAR COMO ENVIADO', `
+        <div class="a-field">
+          <label>NÚMERO DE TRACKING (opcional)</label>
+          <input class="a-input" id="ship-tracking" placeholder="Ej. 1Z999AA10123456784" />
+        </div>
+        <div class="a-field">
+          <label>TRANSPORTISTA</label>
+          <select class="a-select" id="ship-carrier">
+            <option value="USPS">USPS</option>
+            <option value="UPS">UPS</option>
+            <option value="FedEx">FedEx</option>
+            <option value="DHL">DHL</option>
+            <option value="Other">Otro</option>
+          </select>
+        </div>
+        <div class="a-field">
+          <label>NOTAS PARA EL CLIENTE (opcional)</label>
+          <textarea class="a-textarea" id="ship-notes" rows="2" placeholder="Ej. Tu pedido fue enviado hoy..."></textarea>
+        </div>
+      `, async () => {
+        const tracking = document.getElementById('ship-tracking').value.trim();
+        const carrier = document.getElementById('ship-carrier').value;
+        const notes = document.getElementById('ship-notes').value.trim();
+        try {
+          await updateOrderStatus(orderId, 'Shipped', { trackingNumber: tracking, trackingCarrier: carrier, shippingNotes: notes, shippedAt: Date.now() });
+          order.status = 'Shipped';
+          order.trackingNumber = tracking;
+          order.trackingCarrier = carrier;
+          toast('📦 Pedido marcado como enviado ✓');
+          runFilter();
+        } catch (err) { toast(err.message, 'err'); }
+      });
+    }
+
+    // ── Mark as Completed ──
+    if (e.target.classList.contains('mark-completed')) {
       try {
-        await updateOrderStatus(orderId, nextStatus);
-        order.status = nextStatus;
-        toast(nextStatus === 'Completed' ? 'Pedido completado ✓' : 'Pedido marcado como pendiente ✓');
+        await updateOrderStatus(orderId, 'Completed', { completedAt: Date.now() });
+        order.status = 'Completed';
+        toast('✔ Pedido completado ✓');
+        runFilter();
+      } catch (err) { toast(err.message, 'err'); }
+    }
+
+    // ── Reopen order ──
+    if (e.target.classList.contains('reopen-order')) {
+      try {
+        await updateOrderStatus(orderId, 'Confirmed');
+        order.status = 'Confirmed';
+        toast('Pedido reabierto');
         runFilter();
       } catch (err) { toast(err.message, 'err'); }
     }

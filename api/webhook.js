@@ -1,7 +1,9 @@
-// ── STRIPE WEBHOOK (HARDENED) ────────────────────────
+// ── STRIPE WEBHOOK (HARDENED v2) ─────────────────────
 // Vercel Serverless Function — /api/webhook
-// Listens for Stripe events, verifies signatures, and saves orders to Firestore.
-// Uses the shared _firebase.js helper for correct ESM initialization.
+// 1. Verifies Stripe signature
+// 2. Retrieves FULL session from Stripe API (webhook payload is incomplete)
+// 3. Saves order with complete shipping address to Firestore
+// 4. Status: "Confirmed" (payment verified by Stripe)
 
 import Stripe from 'stripe';
 import { getDb } from './_firebase.js';
@@ -46,25 +48,46 @@ export default async function(req, res) {
 
   // ── HANDLE checkout.session.completed ──────────────
   if (event.type === 'checkout.session.completed') {
-    const session = event.data.object;
+    const sessionFromEvent = event.data.object;
 
     // Only process paid sessions
-    if (session.payment_status === 'paid') {
+    if (sessionFromEvent.payment_status === 'paid') {
       // ── Fail-closed: Firebase MUST be available ────
       const db = getDb();
       if (!db) {
         console.error('[Webhook] Firebase Admin not available — cannot save order');
-        // Return 500 so Stripe retries this webhook later
         return res.status(500).json({ error: 'Database unavailable' });
       }
 
       try {
+        // ── RETRIEVE FULL SESSION from Stripe API ──────
+        // The webhook event payload often omits shipping_details,
+        // customer_details, etc. We must fetch the complete session.
+        const session = await stripe.checkout.sessions.retrieve(
+          sessionFromEvent.id,
+          { expand: ['shipping_details', 'customer_details'] }
+        );
+
         const orderId = 'GHZ-' + session.id.slice(-8).toUpperCase();
-        // Items come from session.metadata which was written by our
-        // hardened checkout.js with SERVER-VALIDATED data
         const items = session.metadata?.items
           ? JSON.parse(session.metadata.items)
           : [];
+
+        // Build full shipping address object
+        let shipping = null;
+        if (session.shipping_details) {
+          shipping = {
+            name: session.shipping_details.name || '',
+            address: session.shipping_details.address || null,
+          };
+        } else if (session.collected_information?.shipping_details) {
+          // Stripe API v2 sometimes nests differently
+          const sd = session.collected_information.shipping_details;
+          shipping = {
+            name: sd.name || '',
+            address: sd.address || null,
+          };
+        }
 
         const orderData = {
           id: session.id,
@@ -74,25 +97,25 @@ export default async function(req, res) {
             email: session.customer_details?.email || '',
             phone: session.customer_details?.phone || '',
           },
-          shipping: session.shipping_details || null,
+          shipping,
           total: session.amount_total / 100,
           paymentStatus: session.payment_status,
-          status: 'Pending',
+          // Auto-confirmed because Stripe verified the payment
+          status: 'Confirmed',
           items,
           date: Math.floor(event.created),
         };
 
         // Idempotent write using session.id as document key
         await db.collection('orders').doc(session.id).set(orderData, { merge: true });
-        console.log(`[Webhook] ✓ Order ${orderId} (${session.id}) saved.`);
+        console.log(`[Webhook] ✓ Order ${orderId} saved. Shipping: ${shipping ? 'YES' : 'NONE'}`);
 
       } catch (err) {
-        console.error('[Webhook] Firestore save error:', err);
-        // Return 500 so Stripe retries
-        return res.status(500).json({ error: 'Failed to save to database' });
+        console.error('[Webhook] Error:', err);
+        return res.status(500).json({ error: 'Failed to process order' });
       }
     } else {
-      console.log(`[Webhook] Session ${session.id} completed but not yet paid.`);
+      console.log(`[Webhook] Session ${sessionFromEvent.id} completed but not yet paid.`);
     }
   }
 
