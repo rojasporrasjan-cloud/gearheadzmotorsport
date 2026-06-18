@@ -3,9 +3,9 @@
 // Receives cart items, creates a Stripe Checkout Session,
 // and returns the hosted checkout URL.
 
-const Stripe = require('stripe');
+import Stripe from 'stripe';
 
-module.exports = async (req, res) => {
+export default async function(req, res) {
   // CORS headers (needed for local dev)
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');

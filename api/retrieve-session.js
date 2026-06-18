@@ -2,9 +2,9 @@
 // Vercel Serverless Function — /api/retrieve-session
 // Takes a session_id, queries Stripe, and returns order details.
 
-const Stripe = require('stripe');
+import Stripe from 'stripe';
 
-module.exports = async (req, res) => {
+export default async function(req, res) {
   // CORS headers (needed for local dev)
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');

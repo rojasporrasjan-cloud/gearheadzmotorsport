@@ -2,8 +2,8 @@
 // Vercel Serverless Function — /api/webhook
 // Listens for Stripe events, verifies signatures, and updates Firestore.
 
-const Stripe = require('stripe');
-const admin = require('firebase-admin');
+import Stripe from 'stripe';
+import admin from 'firebase-admin';
 
 // ── VERCEL CONFIG ───────────────────────────────────
 // Disabling Vercel's default body parser is required so Stripe can verify the
@@ -36,7 +36,7 @@ const getRawBody = async (req) => {
   return Buffer.concat(chunks);
 };
 
-module.exports = async (req, res) => {
+export default async function(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -108,4 +108,4 @@ module.exports = async (req, res) => {
 
 // Set the Vercel config AFTER the handler assignment above. Assigning to
 // module.exports replaces the object, so this must come last to survive.
-module.exports.config = { api: { bodyParser: false } };
+export const config = { api: { bodyParser: false } };
