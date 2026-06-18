@@ -20,9 +20,9 @@ module.exports = async (req, res) => {
   if (!process.env.STRIPE_SECRET_KEY) {
     return res.status(500).json({ error: 'Stripe key not configured' });
   }
-  if (!process.env.SITE_URL) {
-    return res.status(500).json({ error: 'SITE_URL not configured' });
-  }
+  const protocol = req.headers['x-forwarded-proto'] || 'https';
+  const host = req.headers.host || process.env.VERCEL_URL || 'gearheadzmotorsports.vercel.app';
+  const siteUrl = process.env.SITE_URL || `${protocol}://${host}`;
 
   try {
     const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
@@ -40,7 +40,7 @@ module.exports = async (req, res) => {
           name: item.name + (item.size && item.size !== 'ONE SIZE' ? ` (${item.size})` : ''),
           // Include product image if available
           ...(item.img && {
-            images: [`${process.env.SITE_URL}${item.img}`],
+            images: [item.img.startsWith('http') ? item.img : `${siteUrl}${item.img}`],
           }),
         },
         // Stripe uses cents — multiply by 100
@@ -55,8 +55,8 @@ module.exports = async (req, res) => {
       line_items: lineItems,
       mode: 'payment',
       // Where to redirect after payment
-      success_url: `${process.env.SITE_URL}/success.html?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url:  `${process.env.SITE_URL}/cancel.html`,
+      success_url: `${siteUrl}/success.html?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url:  `${siteUrl}/cancel.html`,
       // Collect shipping address
       shipping_address_collection: {
         allowed_countries: ['US'],
