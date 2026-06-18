@@ -1,32 +1,10 @@
-// ── STRIPE WEBHOOK ───────────────────────────────
+// ── STRIPE WEBHOOK (HARDENED) ────────────────────────
 // Vercel Serverless Function — /api/webhook
-// Listens for Stripe events, verifies signatures, and updates Firestore.
+// Listens for Stripe events, verifies signatures, and saves orders to Firestore.
+// Uses the shared _firebase.js helper for correct ESM initialization.
 
 import Stripe from 'stripe';
-import admin from 'firebase-admin';
-
-// ── VERCEL CONFIG ───────────────────────────────────
-// Disabling Vercel's default body parser is required so Stripe can verify the
-// raw-body signature. The actual `config` export is set at the BOTTOM of this
-// file — it must be attached AFTER module.exports is assigned the handler,
-// otherwise the assignment overwrites it.
-
-// ── INIT FIREBASE ADMIN ─────────────────────────────
-if (!admin.apps.length) {
-  try {
-    const serviceAccountBase64 = process.env.FIREBASE_SERVICE_ACCOUNT;
-    if (serviceAccountBase64) {
-      const serviceAccount = JSON.parse(Buffer.from(serviceAccountBase64, 'base64').toString('utf8'));
-      admin.initializeApp({
-        credential: admin.cert(serviceAccount)
-      });
-    } else {
-      console.error('[Webhook] FIREBASE_SERVICE_ACCOUNT is missing');
-    }
-  } catch (error) {
-    console.error('[Webhook] Firebase admin initialization error', error);
-  }
-}
+import { getDb } from './_firebase.js';
 
 const getRawBody = async (req) => {
   const chunks = [];
@@ -41,9 +19,16 @@ export default async function(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
+  // ── Validate env vars ────────────────────────────
   const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
   if (!endpointSecret) {
+    console.error('[Webhook] STRIPE_WEBHOOK_SECRET is missing');
     return res.status(500).json({ error: 'Webhook secret not configured' });
+  }
+
+  if (!process.env.STRIPE_SECRET_KEY) {
+    console.error('[Webhook] STRIPE_SECRET_KEY is missing');
+    return res.status(500).json({ error: 'Stripe key not configured' });
   }
 
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -59,18 +44,30 @@ export default async function(req, res) {
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
-  // ── HANDLE EVENTS ───────────────────────────────────
+  // ── HANDLE checkout.session.completed ──────────────
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
 
     // Only process paid sessions
     if (session.payment_status === 'paid') {
+      // ── Fail-closed: Firebase MUST be available ────
+      const db = getDb();
+      if (!db) {
+        console.error('[Webhook] Firebase Admin not available — cannot save order');
+        // Return 500 so Stripe retries this webhook later
+        return res.status(500).json({ error: 'Database unavailable' });
+      }
+
       try {
         const orderId = 'GHZ-' + session.id.slice(-8).toUpperCase();
-        const items = session.metadata?.items ? JSON.parse(session.metadata.items) : [];
+        // Items come from session.metadata which was written by our
+        // hardened checkout.js with SERVER-VALIDATED data
+        const items = session.metadata?.items
+          ? JSON.parse(session.metadata.items)
+          : [];
 
         const orderData = {
-          id: session.id, // Using session.id for idempotency
+          id: session.id,
           orderNum: orderId,
           customer: {
             name: session.customer_details?.name || '',
@@ -81,31 +78,26 @@ export default async function(req, res) {
           total: session.amount_total / 100,
           paymentStatus: session.payment_status,
           status: 'Pending',
-          items: items,
-          date: Math.floor(event.created), // from the event timestamp
+          items,
+          date: Math.floor(event.created),
         };
 
-        if (admin.apps.length) {
-          const db = admin.firestore();
-          // Idempotent write using merge
-          await db.collection('orders').doc(session.id).set(orderData, { merge: true });
-          console.log(`[Webhook] Order ${session.id} saved successfully.`);
-        } else {
-          console.error('[Webhook] Admin SDK not initialized, cannot save order.');
-        }
+        // Idempotent write using session.id as document key
+        await db.collection('orders').doc(session.id).set(orderData, { merge: true });
+        console.log(`[Webhook] ✓ Order ${orderId} (${session.id}) saved.`);
 
       } catch (err) {
         console.error('[Webhook] Firestore save error:', err);
+        // Return 500 so Stripe retries
         return res.status(500).json({ error: 'Failed to save to database' });
       }
     } else {
-      console.log(`[Webhook] Session ${session.id} completed but payment_status is not paid yet.`);
+      console.log(`[Webhook] Session ${session.id} completed but not yet paid.`);
     }
   }
 
   res.json({ received: true });
-};
+}
 
-// Set the Vercel config AFTER the handler assignment above. Assigning to
-// module.exports replaces the object, so this must come last to survive.
+// Disable Vercel's body parser so we can verify the raw Stripe signature
 export const config = { api: { bodyParser: false } };
