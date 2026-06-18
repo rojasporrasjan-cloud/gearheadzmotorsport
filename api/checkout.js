@@ -52,25 +52,28 @@ export default async function(req, res) {
 
     // ── Fetch ALL product prices from Firestore (batch) ──
     const productIds = [...new Set(items.map(i => i.id).filter(Boolean))];
-    if (productIds.length === 0) {
-      return res.status(400).json({ error: 'Invalid cart: missing product IDs' });
-    }
+    // ── Fetch ALL products from Firestore ─────────────
+    // We load the full catalog because cart items may use either:
+    // - Firestore auto-generated doc IDs (from live DB)
+    // - Hardcoded IDs like "p-bluezilla" (from fallback data)
+    // A single collection read is cheap and handles both cases.
+    const productsSnap = await db.collection('products').get();
 
-    const refs = productIds.map(id => db.collection('products').doc(id));
-    const snapshots = await db.getAll(...refs);
-
-    // Build a lookup map: id → { price, name, img, stock }
-    const catalog = {};
-    snapshots.forEach(snap => {
-      if (snap.exists) {
-        const data = snap.data();
-        catalog[snap.id] = {
-          price: Number(data.price),
-          name: data.name || 'Product',
-          img: data.img || '',
-          stock: typeof data.stock === 'number' ? data.stock : 999,
-        };
-      }
+    // Build lookup maps: by doc ID and by exact name
+    const catalogById = {};
+    const catalogByName = {};
+    productsSnap.forEach(snap => {
+      const data = snap.data();
+      const entry = {
+        firestoreId: snap.id,
+        price: Number(data.price),
+        name: data.name || 'Product',
+        img: data.img || '',
+        stock: typeof data.stock === 'number' ? data.stock : 999,
+      };
+      catalogById[snap.id] = entry;
+      // Index by normalized name for fallback matching
+      catalogByName[entry.name.toUpperCase().trim()] = entry;
     });
 
     // ── Validate each item against the catalog ─────────
@@ -79,7 +82,9 @@ export default async function(req, res) {
 
     for (const item of items) {
       const id = item.id;
-      const product = catalog[id];
+      // Try by Firestore doc ID first, then by product name
+      const product = catalogById[id]
+        || catalogByName[(item.name || '').toUpperCase().trim()];
 
       if (!product) {
         errors.push(`Product "${item.name || id}" not found or has been removed`);
