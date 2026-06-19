@@ -1318,10 +1318,10 @@ button {
 }
 
 .p-badge.sold {
-  background: #1e1e1e;
-  border: 1px solid #333;
-  color: var(--muted);
-  box-shadow: none;
+  background: #000;
+  border: 1px solid #555;
+  color: #fff;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.5);
 }
 
 .p-card-body {
@@ -1384,6 +1384,12 @@ button {
 
 .p-stock.low {
   color: var(--red);
+  text-shadow: 0 0 8px rgba(232,0,28,0.4);
+}
+
+.p-stock.out {
+  color: var(--red);
+  font-weight: 600;
   text-shadow: 0 0 8px rgba(232,0,28,0.4);
 }
 
@@ -3238,6 +3244,21 @@ input, .nl-input {
   }
   .hero-scroll { display: none; }
   .hero-ctas   { flex-direction: column; width: 100%; }
+
+  /* Ticket layout for mobile */
+  .ticket-details {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding-bottom: 1.25rem;
+  }
+  .ticket-actions {
+    flex-direction: column;
+  }
+  .ticket-actions .btn-red,
+  .ticket-actions .btn-outline {
+    width: 100%;
+    min-width: 0;
+  }
   .hero-ctas .btn-red,
   .hero-ctas .btn-outline {
     width: 100%;

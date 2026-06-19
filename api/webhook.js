@@ -110,6 +110,14 @@ export default async function(req, res) {
         await db.collection('orders').doc(session.id).set(orderData, { merge: true });
         console.log(`[Webhook] ✓ Order ${orderId} saved. Shipping: ${shipping ? 'YES' : 'NONE'}`);
 
+        // ── SEND CONFIRMATION EMAIL ──
+        try {
+          const { sendConfirmationEmail } = await import('./_emails.js');
+          await sendConfirmationEmail(orderData);
+        } catch (err) {
+          console.error('[Webhook] Failed to send confirmation email:', err);
+        }
+
       } catch (err) {
         console.error('[Webhook] Error:', err);
         return res.status(500).json({ error: 'Failed to process order' });

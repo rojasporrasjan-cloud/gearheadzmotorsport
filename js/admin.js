@@ -1404,10 +1404,27 @@ async function renderOrders() {
         const notes = document.getElementById('ship-notes').value.trim();
         try {
           await updateOrderStatus(orderId, 'Shipped', { trackingNumber: tracking, trackingCarrier: carrier, shippingNotes: notes, shippedAt: Date.now() });
+          
+          // ── Send Shipping Email via Vercel API ──
+          if (order.customer && order.customer.email) {
+            fetch('/api/send-email', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                type: 'shipped',
+                orderId: order.orderNum || orderId,
+                trackingNumber: tracking,
+                trackingCarrier: carrier,
+                customerEmail: order.customer.email,
+                customerName: order.customer.name
+              })
+            }).catch(e => console.error('Failed to trigger shipping email', e));
+          }
+
           order.status = 'Shipped';
           order.trackingNumber = tracking;
           order.trackingCarrier = carrier;
-          toast('📦 Pedido marcado como enviado ✓');
+          toast('📦 Pedido marcado como enviado ✓ (Email enviado)');
           runFilter();
         } catch (err) { toast(err.message, 'err'); }
       });
