@@ -63,6 +63,36 @@ export const PRODUCTS = [
     sizes: ['S','M','L','XL','2XL'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/forever-static-tee.png',
   },
+  {
+    id: 'p-boosted-bowl', name: 'THE BOOSTED BOWL TEE',
+    price: 30, cat: 'APPAREL', badge: 'NEW DROP', stock: 15,
+    sizes: ['S','M','L','XL','2XL'],
+    img: '/images/products/boosted-bowl.png',
+  },
+  {
+    id: 'p-turbo-girl', name: 'TURBO GIRL TEE',
+    price: 30, cat: 'APPAREL', badge: 'NEW DROP', stock: 15,
+    sizes: ['S','M','L','XL','2XL'],
+    img: '/images/products/turbo-girl.png',
+  },
+  {
+    id: 'p-jdm-legends', name: 'JDM LEGENDS TEE',
+    price: 30, cat: 'APPAREL', badge: 'NEW DROP', stock: 15,
+    sizes: ['S','M','L','XL','2XL'],
+    img: '/images/products/jdm-legends.png',
+  },
+  {
+    id: 'p-boosted-bowl-text', name: 'THE BOOSTED BOWL TEE (TEXT)',
+    price: 30, cat: 'APPAREL', badge: 'NEW DROP', stock: 15,
+    sizes: ['S','M','L','XL','2XL'],
+    img: '/images/products/boosted-bowl-text.png',
+  },
+  {
+    id: 'p-jdm-legends-text', name: 'THE LEGENDS TEE (TEXT)',
+    price: 30, cat: 'APPAREL', badge: 'NEW DROP', stock: 15,
+    sizes: ['S','M','L','XL','2XL'],
+    img: '/images/products/jdm-legends-text.png',
+  },
   // ── KIDS ──────────────────────────────────────────
   {
     id: 'p-kids-labubi', name: 'KIDS LABUBI MIATA TEE',
