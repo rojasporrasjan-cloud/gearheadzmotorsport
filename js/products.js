@@ -5,172 +5,176 @@ export const PRODUCTS = [
   // ── TEES ──────────────────────────────────────────
   {
     id: 'p-180sx', name: '180 SX TEE',
-    price: 30, cat: 'APPAREL', badge: null, stock: 10,
+    price: 30, cat: 'APPAREL', badge: null,
     sizes: ['S','M','L','XL','2XL'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/180sx-tee.png',
   },
   {
     id: 'p-911', name: '911 TEE',
-    price: 20, cat: 'APPAREL', badge: null, stock: 10,
+    price: 20, cat: 'APPAREL', badge: null,
     sizes: ['S','M','L','XL','2XL'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/911-tee.png',
   },
   {
     id: 'p-bluezilla', name: 'BLUEZILLA GODZILLA TEE',
-    price: 30, cat: 'APPAREL', badge: 'NEW DROP', stock: 8,
+    price: 30, cat: 'APPAREL', badge: 'NEW DROP',
     sizes: ['XS','S','M','L','XL'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/bluezilla-godzilla-tee.png',
   },
   {
     id: 'p-bluzilla', name: 'BLUZILLA TEE',
-    price: 30, cat: 'APPAREL', badge: null, stock: 10,
+    price: 30, cat: 'APPAREL', badge: null,
     sizes: ['S','M','L','XL','2XL'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/bluzilla-tee.png',
   },
   {
     id: 'p-gtr', name: 'GTR TEE',
-    price: 20, cat: 'APPAREL', badge: null, stock: 10,
+    price: 20, cat: 'APPAREL', badge: null,
     sizes: ['S','M','L','XL','2XL'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/gtr-tee.png',
   },
   {
     id: 'p-labubi-miata', name: 'LABUBI MIATA TEE',
-    price: 30, cat: 'APPAREL', badge: null, stock: 10,
+    price: 30, cat: 'APPAREL', badge: null,
     sizes: ['S','M','L','XL','2XL'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/labubi-miata-tee.png',
   },
   {
     id: 'p-miata', name: 'MIATA TEE',
-    price: 30, cat: 'APPAREL', badge: null, stock: 10,
+    price: 30, cat: 'APPAREL', badge: null,
     sizes: ['S','M','L','XL','2XL'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/miata-tee.png',
   },
   {
     id: 'p-rotary', name: 'ROTARY TEE',
-    price: 30, cat: 'APPAREL', badge: null, stock: 10,
+    price: 30, cat: 'APPAREL', badge: null,
     sizes: ['S','M','L','XL','2XL'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/rotary-tee.png',
   },
   {
     id: 'p-sakura', name: 'SAKURA TEE',
-    price: 30, cat: 'APPAREL', badge: null, stock: 10,
+    price: 30, cat: 'APPAREL', badge: null,
     sizes: ['S','M','L','XL','2XL'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/sakura-tee.png',
   },
   {
     id: 'p-forever-static', name: 'FOREVER STATIC TEE',
-    price: 20, cat: 'APPAREL', badge: null, stock: 10,
+    price: 20, cat: 'APPAREL', badge: null,
     sizes: ['S','M','L','XL','2XL'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/forever-static-tee.png',
   },
   {
     id: 'p-boosted-bowl', name: 'THE BOOSTED BOWL TEE',
-    price: 30, cat: 'APPAREL', badge: 'NEW DROP', stock: 15,
+    price: 30, cat: 'APPAREL', badge: 'NEW DROP',
     sizes: ['S','M','L','XL','2XL'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/boosted-bowl.png',
   },
   {
     id: 'p-turbo-girl', name: 'TURBO GIRL TEE',
-    price: 30, cat: 'APPAREL', badge: 'NEW DROP', stock: 15,
+    price: 30, cat: 'APPAREL', badge: 'NEW DROP',
     sizes: ['S','M','L','XL','2XL'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/turbo-girl.png',
   },
   {
     id: 'p-jdm-legends', name: 'JDM LEGENDS TEE',
-    price: 30, cat: 'APPAREL', badge: 'NEW DROP', stock: 15,
+    price: 30, cat: 'APPAREL', badge: 'NEW DROP',
     sizes: ['S','M','L','XL','2XL'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/jdm-legends.png',
   },
   {
     id: 'p-boosted-bowl-text', name: 'THE BOOSTED BOWL TEE (TEXT)',
-    price: 30, cat: 'APPAREL', badge: 'NEW DROP', stock: 15,
+    price: 30, cat: 'APPAREL', badge: 'NEW DROP',
     sizes: ['S','M','L','XL','2XL'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/boosted-bowl-text.png',
   },
   {
     id: 'p-jdm-legends-text', name: 'THE LEGENDS TEE (TEXT)',
-    price: 30, cat: 'APPAREL', badge: 'NEW DROP', stock: 15,
+    price: 30, cat: 'APPAREL', badge: 'NEW DROP',
     sizes: ['S','M','L','XL','2XL'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/jdm-legends-text.png',
+  },
+  {
+    id: 'p-need-speed', name: 'NEED FOR SPEED TEE',
+    price: 35, cat: 'APPAREL', badge: 'NEW DROP',
+    sizes: ['S','M','L','XL','2XL'],
+    img: '/images/products/Need-speed.png',
+  },
+  {
+    id: 'p-honda-civic', name: 'HONDA CIVIC TEE',
+    price: 35, cat: 'APPAREL', badge: 'NEW DROP',
+    sizes: ['S','M','L','XL','2XL'],
+    img: '/images/products/honda-civic.png',
   },
   // ── KIDS ──────────────────────────────────────────
   {
     id: 'p-kids-labubi', name: 'KIDS LABUBI MIATA TEE',
-    price: 20, cat: 'KIDS', badge: null, stock: 5,
+    price: 20, cat: 'KIDS', badge: null,
     sizes: ['XS','S','M','L','XL'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/kids-labubi-miata-tee.png',
   },
   {
     id: 'p-kids-bluezilla', name: 'KIDS BLUEZILLA GODZILLA TEE',
-    price: 20, cat: 'KIDS', badge: null, stock: 0,
+    price: 20, cat: 'KIDS', badge: null,
     sizes: ['XS','S','M','L'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/kids-bluezilla-godzilla-tee.png',
   },
   // ── HEADWEAR ──────────────────────────────────────
   {
     id: 'p-turbi-hat', name: 'GEARHEADZ TURBI HAT — BLACK',
-    price: 20, cat: 'HEADWEAR', badge: null, stock: 15,
+    price: 20, cat: 'HEADWEAR', badge: null,
     sizes: ['ONE SIZE'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/turbi-hat-black.png',
   },
   {
     id: 'p-logo-hat', name: 'GEARHEADZ LOGO HAT — WHITE',
-    price: 20, cat: 'HEADWEAR', badge: null, stock: 12,
+    price: 20, cat: 'HEADWEAR', badge: null,
     sizes: ['ONE SIZE'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/logo-hat-white.png',
   },
   {
     id: 'p-beanie', name: 'GEAR HEADZ LOGO BEANIE',
-    price: 25, cat: 'HEADWEAR', badge: null, stock: 0,
+    price: 25, cat: 'HEADWEAR', badge: null,
     sizes: ['ONE SIZE'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/logo-beanie.png',
   },
   // ── ACCESSORIES ───────────────────────────────────
   {
     id: 'p-koozie', name: '"I IDENTIFY AS WATER" KOOZIE',
-    price: 8, cat: 'ACCESSORIES', badge: null, stock: 20,
+    price: 8, cat: 'ACCESSORIES', badge: null,
     sizes: ['ONE SIZE'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/i-identify-as-water-koozie.png',
   },
   {
     id: 'p-sunbrella', name: 'GEAR HEADZ SUNBRELLA',
-    price: 15, cat: 'ACCESSORIES', badge: null, stock: 8,
+    price: 15, cat: 'ACCESSORIES', badge: null,
     sizes: ['ONE SIZE'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/gear-headz-sunbrella.png',
   },
   {
     id: 'p-soap', name: 'TURBO CLEAN SOAP',
-    price: 15, cat: 'ACCESSORIES', badge: null, stock: 0,
+    price: 15, cat: 'ACCESSORIES', badge: null,
     sizes: ['ONE SIZE'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/turbo-clean-soap.png',
   },
   {
     id: 'p-plushie', name: 'TURBI PILLOW PLUSHIE',
-    price: 30, cat: 'ACCESSORIES', badge: 'LIMITED', stock: 0,
+    price: 30, cat: 'ACCESSORIES', badge: 'LIMITED',
     sizes: ['ONE SIZE'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/turbi-pillow-plushie.png',
   },
 ];
 
 // ── BUILD PRODUCT CARD HTML ───────────────────────
+// Print-on-demand: products are always available, no stock limits.
 export function buildCard(p) {
-  const sold = p.stock === 0;
-
   const badge = p.badge
     ? `<span class="p-badge ${p.badge === 'LIMITED' ? 'lim' : ''}">${escapeHTML(p.badge)}</span>`
-    : sold ? `<span class="p-badge sold">SOLD OUT</span>` : '';
+    : '';
 
   const sizes = p.sizes.map(s =>
-    `<button class="osz-btn ${sold ? 'os-sold' : ''}"
-      data-pid="${p.id}" data-size="${escapeHTML(s)}"
-      ${sold ? 'disabled' : ''}>${escapeHTML(s)}</button>`
+    `<button class="osz-btn"
+      data-pid="${p.id}" data-size="${escapeHTML(s)}">${escapeHTML(s)}</button>`
   ).join('');
-
-  const stockEl = sold
-    ? `<span class="p-stock out">SOLD OUT</span>`
-    : p.stock <= 5
-      ? `<span class="p-stock low">${p.stock} LEFT</span>`
-      : `<span class="p-stock">${p.stock} IN STOCK</span>`;
 
   const imgUrl = cldOptimize(p.img, { w: 500 });
   const imgEl = imgUrl
@@ -184,8 +188,7 @@ export function buildCard(p) {
         ${badge}
         <div class="p-card-overlay">
           <div style="display:flex;gap:.35rem;flex-wrap:wrap">${sizes}</div>
-          <button class="osz-cart-btn" data-pid="${p.id}"
-            ${sold ? 'disabled style="opacity:.3"' : ''}>ADD</button>
+          <button class="osz-cart-btn" data-pid="${p.id}">ADD</button>
         </div>
       </div>
       <div class="p-card-body">
@@ -193,7 +196,6 @@ export function buildCard(p) {
         <div class="p-name">${escapeHTML(p.name)}</div>
         <div class="p-foot">
           <span class="p-price">$${p.price}.00</span>
-          ${stockEl}
         </div>
       </div>
     </div>`;
@@ -239,7 +241,6 @@ function closeModal() {
 
 function openProductModal(product) {
   ensureModal();
-  const sold = product.stock === 0;
   let selectedSize = null;
 
   // image
@@ -260,26 +261,18 @@ function openProductModal(product) {
   document.getElementById('pmodal-name').textContent  = product.name;
   document.getElementById('pmodal-price').textContent = `$${product.price}.00`;
 
-  // stock
+  // stock — print-on-demand, always available
   const stockEl = document.getElementById('pmodal-stock');
-  if (sold) {
-    stockEl.textContent = 'SOLD OUT';
-    stockEl.className = 'pmodal-stock out';
-  } else if (product.stock <= 5) {
-    stockEl.textContent = `${product.stock} LEFT`;
-    stockEl.className = 'pmodal-stock low';
-  } else {
-    stockEl.textContent = `${product.stock} IN STOCK`;
-    stockEl.className = 'pmodal-stock';
-  }
+  stockEl.textContent = '';
+  stockEl.className = 'pmodal-stock';
 
-  // sizes
+  // sizes — all always enabled
   const sizesEl = document.getElementById('pmodal-sizes');
   sizesEl.innerHTML = product.sizes.map(s =>
-    `<button class="pmodal-sz" data-size="${escapeHTML(s)}" ${sold ? 'disabled' : ''}>${escapeHTML(s)}</button>`
+    `<button class="pmodal-sz" data-size="${escapeHTML(s)}">${escapeHTML(s)}</button>`
   ).join('');
 
-  sizesEl.querySelectorAll('.pmodal-sz:not([disabled])').forEach(btn => {
+  sizesEl.querySelectorAll('.pmodal-sz').forEach(btn => {
     btn.addEventListener('click', () => {
       sizesEl.querySelectorAll('.pmodal-sz').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
@@ -291,8 +284,6 @@ function openProductModal(product) {
   const oldBtn = document.getElementById('pmodal-add');
   const newBtn = oldBtn.cloneNode(true);
   oldBtn.replaceWith(newBtn);
-  newBtn.disabled = sold;
-  newBtn.style.opacity = sold ? '.3' : '';
   newBtn.addEventListener('click', () => {
     if (!selectedSize) {
       _cartModule?.toast('Select a size first', '⚠');
@@ -318,8 +309,8 @@ export function bindCards(container, cartModule) {
   _cartModule = cartModule;
   const selected = {};
 
-  // size selection
-  container.querySelectorAll('.osz-btn:not(.os-sold)').forEach(btn => {
+  // size selection — all buttons always enabled (print-on-demand)
+  container.querySelectorAll('.osz-btn').forEach(btn => {
     btn.addEventListener('click', e => {
       e.stopPropagation();
       const pid = btn.dataset.pid;
@@ -330,7 +321,7 @@ export function bindCards(container, cartModule) {
   });
 
   // quick add from overlay
-  container.querySelectorAll('.osz-cart-btn:not([disabled])').forEach(btn => {
+  container.querySelectorAll('.osz-cart-btn').forEach(btn => {
     btn.addEventListener('click', e => {
       e.stopPropagation();
       const pid  = btn.dataset.pid;

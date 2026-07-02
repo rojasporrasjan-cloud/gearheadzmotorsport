@@ -282,8 +282,6 @@ function mapsDirectUrl(address) {
 async function renderDashboard() {
   setContent('<div class="a-loading">Cargando estadísticas…</div>');
   const [products, events, ordersData] = await Promise.all([getProducts(), getEvents(), getOrders()]);
-  const soldOut   = products.filter(p => p.stock === 0).length;
-  const lowStock  = products.filter(p => p.stock > 0 && p.stock <= 5).length;
   const openEvts  = events.filter(e => e.status === 'open').length;
 
   const orders = ordersData.list || [];
@@ -303,14 +301,6 @@ async function renderDashboard() {
       <div class="a-stat">
         <div class="a-stat-val">${products.length}</div>
         <div class="a-stat-lbl">PRODUCTOS</div>
-      </div>
-      <div class="a-stat ${soldOut ? 'danger' : ''}">
-        <div class="a-stat-val">${soldOut}</div>
-        <div class="a-stat-lbl">SOLD OUT</div>
-      </div>
-      <div class="a-stat ${lowStock ? 'warn' : ''}">
-        <div class="a-stat-val">${lowStock}</div>
-        <div class="a-stat-lbl">POCO STOCK</div>
       </div>
       <div class="a-stat">
         <div class="a-stat-val">${events.length}</div>
@@ -391,7 +381,6 @@ async function renderProducts() {
               <th>NOMBRE</th>
               <th>CATEGORÍA</th>
               <th>PRECIO</th>
-              <th>STOCK</th>
               <th>BADGE</th>
               <th>TALLAS</th>
               <th></th>
@@ -405,13 +394,6 @@ async function renderProducts() {
 
   function renderRows(list) {
     document.getElementById('prod-tbody').innerHTML = list.length ? list.map(p => {
-      const sold = p.stock === 0;
-      const low  = p.stock > 0 && p.stock <= 5;
-      const stockBadge = sold
-        ? `<span class="a-badge danger">SOLD OUT</span>`
-        : low
-          ? `<span class="a-badge warn">${p.stock} LEFT</span>`
-          : `<span style="font-size:.78rem">${p.stock}</span>`;
       const badgeEl = p.badge
         ? `<span class="a-badge ${p.badge === 'LIMITED' ? 'lim' : 'new'}">${p.badge}</span>`
         : '—';
@@ -425,7 +407,6 @@ async function renderProducts() {
           <td style="font-weight:500;max-width:180px">${escapeHTML(p.name)}</td>
           <td><span style="font-size:.72rem;color:var(--muted)">${escapeHTML(p.cat)}</span></td>
           <td>$${p.price}</td>
-          <td>${stockBadge}</td>
           <td>${badgeEl}</td>
           <td style="font-size:.72rem;color:var(--muted);max-width:140px">
             ${(p.sizes || []).join(', ')}
@@ -438,7 +419,7 @@ async function renderProducts() {
           </td>
         </tr>`;
     }).join('') : `
-      <tr><td colspan="8">
+      <tr><td colspan="7">
         <div class="a-empty"><div class="a-empty-ico">◻</div><div>Sin productos</div></div>
       </td></tr>`;
   }
@@ -475,7 +456,7 @@ async function renderProducts() {
 
 function openProductForm(p = null) {
   const isNew = !p;
-  const d = p || { name: '', price: 30, cat: 'APPAREL', stock: 10, badge: '', sizes: ['S','M','L','XL'], img: '' };
+  const d = p || { name: '', price: 30, cat: 'APPAREL', badge: '', sizes: ['S','M','L','XL'], img: '' };
 
   document.getElementById('a-drawer').classList.add('wide');
 
@@ -485,15 +466,9 @@ function openProductForm(p = null) {
         <label>NOMBRE DEL PRODUCTO</label>
         <input class="a-input" id="pf-name" value="${d.name}" placeholder="Ej. SUPRA MK5 TEE" />
       </div>
-      <div class="a-grid-2">
-        <div class="a-field">
-          <label>PRECIO ($)</label>
-          <input class="a-input" id="pf-price" type="number" min="0" value="${d.price}" />
-        </div>
-        <div class="a-field">
-          <label>STOCK</label>
-          <input class="a-input" id="pf-stock" type="number" min="0" value="${d.stock}" />
-        </div>
+      <div class="a-field">
+        <label>PRECIO ($)</label>
+        <input class="a-input" id="pf-price" type="number" min="0" value="${d.price}" />
       </div>
       <div class="a-grid-2">
         <div class="a-field">
@@ -544,7 +519,6 @@ function openProductForm(p = null) {
   `, async () => {
     const name  = document.getElementById('pf-name').value.trim();
     const price = Number(document.getElementById('pf-price').value);
-    const stock = Number(document.getElementById('pf-stock').value);
     const cat   = document.getElementById('pf-cat').value;
     const badge = document.getElementById('pf-badge').value || null;
     const sizes = getSelectedSizes();
@@ -553,7 +527,7 @@ function openProductForm(p = null) {
     if (!name) throw new Error('El nombre es obligatorio');
     if (!sizes.length) throw new Error('Selecciona al menos una talla');
 
-    await saveProduct({ ...(isNew ? {} : { id: p.id }), name, price, stock, cat, badge, sizes, img });
+    await saveProduct({ ...(isNew ? {} : { id: p.id }), name, price, cat, badge, sizes, img });
     toast(isNew ? 'Producto creado ✓' : 'Producto actualizado ✓');
     renderProducts();
   });
@@ -561,7 +535,6 @@ function openProductForm(p = null) {
   const syncLivePreview = () => {
     const nameEl = document.getElementById('pf-name');
     const priceEl = document.getElementById('pf-price');
-    const stockEl = document.getElementById('pf-stock');
     const catEl = document.getElementById('pf-cat');
     const badgeEl = document.getElementById('pf-badge');
     
@@ -569,7 +542,6 @@ function openProductForm(p = null) {
     
     const name = nameEl.value.trim() || 'NOMBRE DEL PRODUCTO';
     const price = Number(priceEl.value) || 0;
-    const stock = Number(stockEl.value) || 0;
     const cat = catEl.value;
     const badge = badgeEl.value;
     
@@ -578,27 +550,14 @@ function openProductForm(p = null) {
     document.getElementById('pv-price').textContent = `$${price}.00`;
     document.getElementById('pv-cat').textContent = cat;
     
-    // Stock Status
+    // Stock — print-on-demand, always available
     const pvStock = document.getElementById('pv-stock');
-    const isSold = stock === 0;
-    if (isSold) {
-      pvStock.textContent = 'SOLD OUT';
-      pvStock.className = 'p-stock out';
-    } else if (stock <= 5) {
-      pvStock.textContent = `${stock} LEFT`;
-      pvStock.className = 'p-stock low';
-    } else {
-      pvStock.textContent = `${stock} IN STOCK`;
-      pvStock.className = 'p-stock';
-    }
+    pvStock.textContent = '';
+    pvStock.className = 'p-stock';
     
     // Badge status
     const pvBadge = document.getElementById('pv-badge');
-    if (isSold) {
-      pvBadge.textContent = 'SOLD OUT';
-      pvBadge.className = 'p-badge sold';
-      pvBadge.style.display = 'block';
-    } else if (badge && badge !== 'null') {
+    if (badge && badge !== 'null') {
       pvBadge.textContent = badge;
       pvBadge.className = `p-badge ${badge === 'LIMITED' ? 'lim' : ''}`;
       pvBadge.style.display = 'block';
@@ -614,7 +573,7 @@ function openProductForm(p = null) {
       if (cb && cb.checked) selectedSizes.push(s);
     });
     pvSizes.innerHTML = selectedSizes.map(s => 
-      `<button class="osz-btn ${isSold ? 'os-sold' : ''}" ${isSold ? 'disabled' : ''}>${s}</button>`
+      `<button class="osz-btn">${s}</button>`
     ).join('');
     
     // Image uploader
@@ -637,7 +596,7 @@ function openProductForm(p = null) {
   };
 
   // Attach keyup and inputs listeners
-  ['pf-name', 'pf-price', 'pf-stock'].forEach(id => {
+  ['pf-name', 'pf-price'].forEach(id => {
     document.getElementById(id)?.addEventListener('input', syncLivePreview);
   });
   ['pf-cat', 'pf-badge'].forEach(id => {

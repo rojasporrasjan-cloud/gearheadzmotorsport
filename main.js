@@ -7,32 +7,32 @@
 const PRODUCTS = [
   {
     id: 'p1', name: 'SUPRA MK5 TECH TEE', price: 48,
-    cat: 'APPAREL', badge: 'NEW DROP', stock: 12,
+    cat: 'APPAREL', badge: 'NEW DROP',
     sizes: ['S','M','L','XL','XXL'],
   },
   {
     id: 'p2', name: 'JDM CIRCUIT CAP', price: 36,
-    cat: 'HEADWEAR', badge: 'LIMITED', stock: 5,
+    cat: 'HEADWEAR', badge: 'LIMITED',
     sizes: ['ONE SIZE'],
   },
   {
     id: 'p3', name: 'RACING STRIPE LONGSLEEVE', price: 56,
-    cat: 'APPAREL', badge: 'NEW DROP', stock: 8,
+    cat: 'APPAREL', badge: 'NEW DROP',
     sizes: ['S','M','L','XL'],
   },
   {
     id: 'p4', name: 'GEARHEADZ SNAPBACK', price: 42,
-    cat: 'HEADWEAR', badge: null, stock: 15,
+    cat: 'HEADWEAR', badge: null,
     sizes: ['ONE SIZE'],
   },
   {
     id: 'p5', name: 'KEYCHAIN SET VOL.2', price: 28,
-    cat: 'ACCESSORIES', badge: null, stock: 20,
+    cat: 'ACCESSORIES', badge: null,
     sizes: ['ONE SIZE'],
   },
   {
     id: 'p6', name: 'JDM CULTURE TEE — WHITE', price: 44,
-    cat: 'APPAREL', badge: null, stock: 0,
+    cat: 'APPAREL', badge: null,
     sizes: ['S','M','L','XL','XXL'],
   },
 ];
@@ -158,24 +158,13 @@ function renderProducts(filter = 'ALL') {
     : PRODUCTS.filter(p => p.cat === filter);
 
   grid.innerHTML = list.map(p => {
-    const isSold = p.stock === 0;
-
     const badgeHTML = p.badge
-      ? `<span class="p-badge ${p.badge === 'LIMITED' ? 'limited' : isSold ? 'sold' : ''}">${p.badge}</span>`
-      : isSold
-        ? `<span class="p-badge sold">SOLD OUT</span>`
-        : '';
+      ? `<span class="p-badge ${p.badge === 'LIMITED' ? 'limited' : ''}">${p.badge}</span>`
+      : '';
 
     const sizesHTML = p.sizes.map(s => {
-      const sold = isSold ? 'sold' : '';
-      return `<button class="osz-btn ${sold}" data-pid="${p.id}" data-size="${s}" ${isSold ? 'disabled' : ''}>${s}</button>`;
+      return `<button class="osz-btn" data-pid="${p.id}" data-size="${s}">${s}</button>`;
     }).join('');
-
-    const stockLabel = isSold
-      ? `<span class="p-stock out">SOLD OUT</span>`
-      : p.stock <= 5
-        ? `<span class="p-stock low">${p.stock} LEFT</span>`
-        : `<span class="p-stock">${p.stock} IN STOCK</span>`;
 
     return `
       <div class="p-card" data-id="${p.id}" data-cat="${p.cat}">
@@ -191,14 +180,13 @@ function renderProducts(filter = 'ALL') {
           <div class="p-name">${p.name}</div>
           <div class="p-foot">
             <span class="p-price">$${p.price}.00</span>
-            ${stockLabel}
           </div>
         </div>
       </div>`;
   }).join('');
 
   // Bind size buttons inside overlay
-  grid.querySelectorAll('.osz-btn:not(.sold)').forEach(btn => {
+  grid.querySelectorAll('.osz-btn').forEach(btn => {
     btn.addEventListener('click', e => {
       e.stopPropagation();
       const product = PRODUCTS.find(p => p.id === btn.dataset.pid);
@@ -223,7 +211,7 @@ function initFilters() {
 // ─── FEATURED DROP ───────────────────────────────
 function initFeaturedDrop() {
   // Size selector
-  document.querySelectorAll('.sz-btn:not(.sold-out)').forEach(btn => {
+  document.querySelectorAll('.sz-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.sz-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');

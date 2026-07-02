@@ -69,7 +69,7 @@ export default async function(req, res) {
         price: Number(data.price),
         name: data.name || 'Product',
         img: data.img || '',
-        stock: typeof data.stock === 'number' ? data.stock : 999,
+        // Print-on-demand: no stock limits
       };
       catalogById[snap.id] = entry;
       // Index by normalized name for fallback matching
@@ -93,17 +93,6 @@ export default async function(req, res) {
 
       // Sanitize quantity: must be a positive integer
       const qty = Math.max(1, Math.min(99, Math.floor(Number(item.qty) || 1)));
-
-      // Check stock
-      if (product.stock <= 0) {
-        errors.push(`"${product.name}" is sold out`);
-        continue;
-      }
-
-      if (qty > product.stock) {
-        errors.push(`"${product.name}" only has ${product.stock} in stock`);
-        continue;
-      }
 
       // Use SERVER price, SERVER name — NEVER trust client
       validatedItems.push({
@@ -150,6 +139,25 @@ export default async function(req, res) {
       shipping_address_collection: {
         allowed_countries: ['US'],
       },
+      phone_number_collection: {
+        enabled: true,
+      },
+      shipping_options: [
+        {
+          shipping_rate_data: {
+            type: 'fixed_amount',
+            fixed_amount: {
+              amount: 700, // $7.00
+              currency: 'usd',
+            },
+            display_name: 'Standard Shipping',
+            delivery_estimate: {
+              minimum: { unit: 'business_day', value: 5 },
+              maximum: { unit: 'business_day', value: 7 },
+            },
+          },
+        },
+      ],
       billing_address_collection: 'auto',
       // Metadata uses SERVER-VALIDATED items (not client data)
       metadata: {
