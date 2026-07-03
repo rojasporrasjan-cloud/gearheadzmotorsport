@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const roleData = await checkUserRole(u.email);
             if (roleData && roleData.active === false) {
               await fb.signOut(fb.auth);
-              showLogin('Tu cuenta ha sido desactivada por el Superadministrador.');
+              showLogin('Your account has been deactivated by the Superadmin.');
             } else {
               showApp(u.email, roleData ? roleData.role : 'admin');
             }
@@ -204,7 +204,7 @@ function imgWidget(id, currentUrl = '') {
         <label class="a-img-filebtn" for="${id}-file">📎 Seleccionar archivo</label>
         <input type="file" id="${id}-file" accept="image/*" style="display:none" />
         <span class="a-img-fname" id="${id}-fname">
-          ${currentUrl ? currentUrl.split('/').pop().slice(0,35) : 'Sin imagen'}
+          ${currentUrl ? currentUrl.split('/').pop().slice(0,35) : 'No image'}
         </span>
         ${!cloudReady ? `<span class="a-img-warn">⚠ Cloudinary no configurado — solo URL</span>` : ''}
         <input class="a-input" id="${id}-url" type="text"
@@ -230,7 +230,7 @@ function bindImgWidget(id, onChange = null) {
     const prev = document.getElementById(`${id}-prev`);
     prev.src = url;
     prev.style.opacity = url ? '1' : '.25';
-    document.getElementById(`${id}-fname`).textContent = url ? url.split('/').pop().slice(0,35) : 'Sin imagen';
+    document.getElementById(`${id}-fname`).textContent = url ? url.split('/').pop().slice(0,35) : 'No image';
     if (onChange) onChange();
   });
 }
@@ -1726,7 +1726,7 @@ function initPostGeneratorApp() {
           <div style="display:flex;gap:1rem;align-items:center">
             <label class="a-img-filebtn" for="post-car-file" style="margin-top:0">📎 Subir PNG</label>
             <input type="file" id="post-car-file" accept="image/*" style="display:none" />
-            <span class="a-img-fname" id="post-car-fname">Sin imagen seleccionada</span>
+            <span class="a-img-fname" id="post-car-fname">No image seleccionada</span>
           </div>
         </div>
 

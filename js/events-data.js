@@ -122,7 +122,7 @@ export function buildEventFullCard(ev, index = 0) {
     ? `<div class="ev-full-instagram">
          <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="${escapeHTML(ev.instagramUrl)}" data-instgrm-version="14" style="background: #FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; width: 100%;">
            <div style="padding:16px;">
-             <a href="${escapeHTML(ev.instagramUrl)}" style="color:#c9c8cd; text-decoration:none;" target="_blank">Ver publicación en Instagram</a>
+             <a href="${escapeHTML(ev.instagramUrl)}" style="color:#c9c8cd; text-decoration:none;" target="_blank">View post on Instagram</a>
            </div>
          </blockquote>
        </div>`
