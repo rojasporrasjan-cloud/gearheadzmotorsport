@@ -122,3 +122,42 @@ export async function sendShippingEmail(orderId, trackingNumber, trackingCarrier
     console.error('[Emails] Failed to send shipping email:', error);
   }
 }
+
+export async function sendMerchantNotificationEmail(order) {
+  if (!resend) {
+    console.warn('[Emails] RESEND_API_KEY not configured. Skipping merchant email.');
+    return;
+  }
+  
+  const itemsHtml = order.items.map(i => `<li>${i.qty}x ${i.name} (Size: ${i.size}) - $${Number(i.price).toFixed(2)}</li>`).join('');
+  const html = `
+    <div style="font-family: Arial, sans-serif;">
+      <h2 style="color: #E8001C;">New Order Received! 🏁</h2>
+      <p><strong>Order #:</strong> ${order.orderNum}</p>
+      <p><strong>Customer:</strong> ${order.customer.name} (${order.customer.email})</p>
+      <p><strong>Total:</strong> $${Number(order.total).toFixed(2)}</p>
+      <h3>Items:</h3>
+      <ul>${itemsHtml}</ul>
+      <h3>Shipping Address:</h3>
+      <p>
+        ${order.shipping?.name || order.customer.name}<br/>
+        ${order.shipping?.address?.line1 || ''} ${order.shipping?.address?.line2 || ''}<br/>
+        ${order.shipping?.address?.city || ''}, ${order.shipping?.address?.state || ''} ${order.shipping?.address?.postal_code || ''}
+      </p>
+      <p><a href="https://gearheadzmotorsports.vercel.app/admin.html" style="display:inline-block; background: #E8001C; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; margin-top: 20px;">View in Admin Panel</a></p>
+    </div>
+  `;
+  
+  try {
+    const data = await resend.emails.send({
+      from: FROM_EMAIL,
+      to: 'ventas@gearheadzmotorsports.com', // To the merchant
+      subject: `🚨 NEW SALE: Order ${order.orderNum} - $${Number(order.total).toFixed(2)}`,
+      html
+    });
+    console.log('[Emails] Merchant notification sent:', data);
+    return data;
+  } catch (error) {
+    console.error('[Emails] Failed to send merchant notification:', error);
+  }
+}

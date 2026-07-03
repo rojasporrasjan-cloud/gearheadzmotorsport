@@ -112,8 +112,9 @@ export default async function(req, res) {
 
         // ── SEND CONFIRMATION EMAIL ──
         try {
-          const { sendConfirmationEmail } = await import('./_emails.js');
+          const { sendConfirmationEmail, sendMerchantNotificationEmail } = await import('./_emails.js');
           await sendConfirmationEmail(orderData);
+          await sendMerchantNotificationEmail(orderData);
         } catch (err) {
           console.error('[Webhook] Failed to send confirmation email:', err);
         }
