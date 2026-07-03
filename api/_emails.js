@@ -151,7 +151,7 @@ export async function sendMerchantNotificationEmail(order) {
   try {
     const data = await resend.emails.send({
       from: FROM_EMAIL,
-      to: 'ventas@gearheadzmotorsports.com', // To the merchant
+      to: '2gearheadzmotorsports@gmail.com', // To the merchant
       subject: `🚨 NEW SALE: Order ${order.orderNum} - $${Number(order.total).toFixed(2)}`,
       html
     });
