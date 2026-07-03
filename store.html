@@ -101,12 +101,16 @@
       <button class="cart-close" id="cart-close">✕</button>
     </div>
     <div class="cart-body" id="cart-body"></div>
-    <div class="cart-ft">
-      <div class="cart-total-row">
-        <span class="cart-total-lbl">SUBTOTAL</span>
-        <span class="cart-total-val" id="cart-total">$0.00</span>
+    <div class="cart-ft" style="padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1);">
+      <div class="cart-total-row" style="margin-bottom: 0.5rem;">
+        <span class="cart-total-lbl" style="font-size: 0.9rem; color: #aaa;">SUBTOTAL</span>
+        <span class="cart-total-val" id="cart-total" style="font-size: 0.9rem; color: #aaa;">$0.00</span>
       </div>
-      <button class="btn-red" style="width:100%;justify-content:center">CHECKOUT →</button>
+      <div class="cart-total-row" style="margin-bottom: 1.5rem;">
+        <span class="cart-total-lbl" style="font-size: 0.9rem; color: #aaa;">SHIPPING</span>
+        <span class="cart-total-val" style="font-size: 0.8rem; color: #888; letter-spacing: 0;">Calculated at checkout</span>
+      </div>
+      <button class="btn-red" style="width:100%;justify-content:center; font-size: 1.1rem; padding: 1.2rem;">CHECKOUT →</button>
     </div>
   </div>
 

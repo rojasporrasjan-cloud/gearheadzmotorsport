@@ -17,7 +17,7 @@ async function initEventsGrid() {
     btn.addEventListener('click', () => {
       cart.add(
         { id: btn.dataset.eid, name: btn.dataset.event, price: Number(btn.dataset.price),
-          cat: 'TICKET', sizes: ['ONE SIZE'], badge: null },
+          cat: 'TICKET', sizes: ['ONE SIZE'], badge: null, img: btn.dataset.img },
         'ONE SIZE'
       );
     });

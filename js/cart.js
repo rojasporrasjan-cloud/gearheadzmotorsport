@@ -61,7 +61,14 @@ export const cart = {
 
     body.innerHTML = this.items.map(item => `
       <div class="cart-item">
-        <div class="ci-thumb">${item.img ? `<img src="${escapeHTML(cldOptimize(item.img, { w: 150 }))}" alt="${escapeHTML(item.name)}" />` : ''}</div>
+        <div class="ci-thumb">
+          ${item.img 
+            ? `<img src="${escapeHTML(cldOptimize(item.img, { w: 150 }))}" alt="${escapeHTML(item.name)}" />` 
+            : (item.cat === 'TICKET' || item.name.includes('TICKET') 
+                ? `<div style="width:100%;height:100%;background:url('/images/events_hero.png') center/cover"></div>` 
+                : '')
+          }
+        </div>
         <div class="ci-info">
           <span class="ci-name">${escapeHTML(item.name)}</span>
           <span class="ci-meta">SIZE: ${escapeHTML(item.size)}</span>
