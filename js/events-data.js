@@ -105,12 +105,9 @@ export function buildEventPreviewCard(ev, index = 0) {
 export function buildEventFullCard(ev, index = 0) {
   const isSoon  = ev.status === 'soon';
   const delay   = index % 2 === 1 ? 'reveal-delay-1' : '';
-  let btn = '';
-  if (ev.price) {
-    btn = `<button class="btn-ticket" data-eid="${ev.id}" data-event="${escapeHTML(ev.name)}" data-price="${ev.price}" data-img="${escapeHTML(ev.img || '')}">BUY TICKET - $${ev.price}</button>`;
-  } else if (ev.instagramUrl) {
-    btn = `<a href="${escapeHTML(ev.instagramUrl)}" target="_blank" rel="noopener" class="btn-ticket learn-more">LEARN MORE ↗</a>`;
-  }
+  const btn     = ev.instagramUrl
+    ? `<a href="${escapeHTML(ev.instagramUrl)}" target="_blank" rel="noopener" class="btn-ticket learn-more">LEARN MORE ↗</a>`
+    : '';
   const timeStr = ev.timeStart
     ? `${escapeHTML(ev.month)} ${escapeHTML(ev.day)}${ev.year ? ', ' + escapeHTML(ev.year) : ''} · ${escapeHTML(ev.timeStart)} – ${escapeHTML(ev.timeEnd)}`
     : 'Date & location TBA';
