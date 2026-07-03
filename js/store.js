@@ -32,7 +32,7 @@ async function initStore() {
       : allProducts.filter(p => p.cat === activeFilter);
     list = sortProducts(list, activeSort);
     grid.innerHTML = list.map(buildCard).join('');
-    bindCards(grid, { cart, toast });
+    bindCards(grid, { cart, toast }, list);
     initReveal();
   }
 

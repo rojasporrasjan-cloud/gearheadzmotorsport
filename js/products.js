@@ -73,7 +73,7 @@ export const PRODUCTS = [
     id: 'p-turbo-girl', name: 'TURBO GIRL TEE',
     price: 30, cat: 'APPAREL', badge: 'NEW DROP',
     sizes: ['S','M','L','XL','2XL'],
-    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/turbo-girl.png',
+    img: '/images/products/turbo-girl.png',
   },
   {
     id: 'p-jdm-legends', name: 'JDM LEGENDS TEE',
@@ -305,18 +305,19 @@ function openProductModal(product) {
 }
 
 // ── BIND CARD EVENTS ──────────────────────────────
-export function bindCards(container, cartModule) {
-  _cartModule = cartModule;
-  const selected = {};
+export function bindCards(container, deps, allProds = PRODUCTS) {
+  const { cart: cartModule } = deps;
+  const selected = {}; // pid -> size
 
-  // size selection — all buttons always enabled (print-on-demand)
+  // size selection
   container.querySelectorAll('.osz-btn').forEach(btn => {
     btn.addEventListener('click', e => {
       e.stopPropagation();
-      const pid = btn.dataset.pid;
+      const row = btn.closest('.osz-row');
+      const pid = row.dataset.pid;
+      row.querySelectorAll('.osz-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
       selected[pid] = btn.dataset.size;
-      container.querySelectorAll(`.osz-btn[data-pid="${pid}"]`).forEach(b => b.style.borderColor = '');
-      btn.style.borderColor = '#fff';
     });
   });
 
@@ -330,7 +331,7 @@ export function bindCards(container, cartModule) {
         cartModule.toast('Select a size first', '⚠');
         return;
       }
-      const product = PRODUCTS.find(p => p.id === pid);
+      const product = allProds.find(p => p.id === pid);
       if (product) cartModule.cart.add(product, size);
     });
   });
@@ -340,7 +341,7 @@ export function bindCards(container, cartModule) {
     card.addEventListener('click', e => {
       if (e.target.closest('.osz-btn') || e.target.closest('.osz-cart-btn')) return;
       const pid = card.dataset.id;
-      const product = PRODUCTS.find(p => p.id === pid);
+      const product = allProds.find(p => p.id === pid);
       if (product) openProductModal(product);
     });
   });
