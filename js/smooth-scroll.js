@@ -96,6 +96,11 @@ export function initSmoothScroll() {
 
   // ── Wheel handler ─────────────────────────────────
   function onWheel(e) {
+    // Let native scroll handle fixed scrollable elements
+    if (e.target.closest('#pmodal') || e.target.closest('#cart-sidebar')) {
+      return;
+    }
+
     e.preventDefault();
 
     // Normalize delta across browsers and trackpads

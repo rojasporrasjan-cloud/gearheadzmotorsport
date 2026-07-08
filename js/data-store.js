@@ -7,13 +7,23 @@ import { getFirebase }                           from './firebase.js';
 import { PRODUCTS as FALLBACK_PRODUCTS }         from './products.js';
 import { EVENTS   as FALLBACK_EVENTS }           from './events-data.js';
 
+// Helper to prevent hanging if Firestore is not provisioned yet
+const withTimeout = (promise, ms = 8000) => {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error('TIMEOUT')), ms);
+    promise
+      .then(value => { clearTimeout(timer); resolve(value); })
+      .catch(err => { clearTimeout(timer); reject(err); });
+  });
+};
+
 // ── PRODUCTS ──────────────────────────────────────
 
 export async function getProducts() {
   const fb = await getFirebase();
   if (!fb) return FALLBACK_PRODUCTS;
   try {
-    const snap = await fb.getDocs(fb.collection(fb.db, 'products'));
+    const snap = await withTimeout(fb.getDocs(fb.collection(fb.db, 'products')));
     if (snap.empty) return FALLBACK_PRODUCTS;
     return snap.docs.map(d => ({ ...d.data(), id: d.id }));
   } catch { return FALLBACK_PRODUCTS; }
@@ -39,7 +49,7 @@ export async function getEvents() {
   const fb = await getFirebase();
   if (!fb) return FALLBACK_EVENTS;
   try {
-    const snap = await fb.getDocs(fb.collection(fb.db, 'events'));
+    const snap = await withTimeout(fb.getDocs(fb.collection(fb.db, 'events')));
     if (snap.empty) return FALLBACK_EVENTS;
     return snap.docs.map(d => ({ ...d.data(), id: d.id }));
   } catch { return FALLBACK_EVENTS; }
@@ -197,7 +207,7 @@ export async function getSiteConfig() {
   const fb = await getFirebase();
   if (!fb) return DEFAULT_CONFIG;
   try {
-    const snap = await fb.getDoc(fb.doc(fb.db, 'site-config', 'main'));
+    const snap = await withTimeout(fb.getDoc(fb.doc(fb.db, 'site-config', 'main')));
     return snap.exists() ? { ...DEFAULT_CONFIG, ...snap.data() } : DEFAULT_CONFIG;
   } catch { return DEFAULT_CONFIG; }
 }

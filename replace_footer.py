@@ -1,45 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Terms of Service - GearHeadz Motorsports</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/style.css">
-  <style>
-    .policy-container { max-width: 800px; margin: 120px auto 60px; padding: 0 20px; color: #ccc; line-height: 1.6; font-family: 'Space Grotesk', sans-serif; }
-    .policy-container h1 { color: #fff; margin-bottom: 30px; font-style: italic; text-transform: uppercase; }
-    .policy-container h3 { color: #fff; margin: 30px 0 10px; font-size: 1.2rem; }
-    .policy-container p { margin-bottom: 15px; font-size: 0.95rem; }
-    .policy-container a { color: #e21838; text-decoration: none; }
-  </style>
-</head>
-<body class="theme-dark">
-  <header id="nav">
-    <a href="/" class="nav-logo">GEAR<em>HEADZ</em></a>
-    <nav class="nav-links">
-      <a href="/" class="nav-link">HOME</a>
-      <a href="/store.html" class="nav-link">STORE</a>
-      <a href="/events.html" class="nav-link">EVENTS</a>
-    </nav>
-  </header>
+import os
+import re
 
-  <div class="policy-container">
-    <h1>Terms of Service</h1>
-    <p><strong>Last Updated: July 2026</strong></p>
-<p>Welcome to GearHeadz Motorsports. By visiting our site and/or purchasing something from us, you engage in our "Service" and agree to be bound by the following terms and conditions ("Terms of Service").</p>
-<h3>1. General Conditions</h3>
-<p>We reserve the right to refuse service to anyone for any reason at any time. You understand that your content (not including credit card information), may be transferred unencrypted. Credit card information is always encrypted during transfer over networks via our payment processor, Stripe.</p>
-<h3>2. Products or Services</h3>
-<p>Our apparel and accessories are printed on demand. We have made every effort to display as accurately as possible the colors and images of our products. We reserve the right to limit the sales of our products to any person or geographic region (currently USA only).</p>
-<h3>3. Accuracy of Billing and Account Information</h3>
-<p>You agree to provide current, complete and accurate purchase and account information for all purchases made at our store.</p>
-<h3>4. Prohibited Uses</h3>
-<p>You are prohibited from using the site or its content for any unlawful purpose, to solicit others to perform unlawful acts, or to violate any international, federal, provincial or state regulations.</p>
-<h3>5. Contact Information</h3>
-<p>Questions about the Terms of Service should be sent to us via Instagram @2gearheadz.</p>
-  </div>
-
-  <footer id="footer" class="page-section" style="margin-top:auto;">
+new_footer = """  <footer id="footer" class="page-section" style="margin-top:auto;">
     <div class="footer-brand-bar">
       <div class="f-logo">GEAR<em>HEADZ</em></div>
       <div class="f-social">
@@ -91,6 +53,17 @@
         <a href="/shipping-returns.html" class="f-link" style="display:inline; margin:0 5px; color:#888;">Shipping & Returns</a>
       </span>
     </div>
-  </footer>
-</body>
-</html>
+  </footer>"""
+
+html_files = [f for f in os.listdir('.') if f.endswith('.html')]
+count = 0
+for file in html_files:
+    with open(file, 'r', encoding='utf-8') as f:
+        content = f.read()
+    
+    if '<footer id="footer"' in content:
+        content = re.sub(r'  <footer id="footer"[\s\S]*?</footer>', new_footer, content)
+        with open(file, 'w', encoding='utf-8') as f:
+            f.write(content)
+        count += 1
+print(f"Updated {count} HTML files.")

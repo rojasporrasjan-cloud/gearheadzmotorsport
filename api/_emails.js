@@ -29,7 +29,9 @@ export async function sendConfirmationEmail(order) {
 
   const html = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-      <h1 style="color: #E8001C; font-style: italic; text-transform: uppercase;">GEARHEADZ MOTORSPORTS</h1>
+      <div style="text-align: center; margin-bottom: 20px;">
+        <h1 style="margin: 0; font-size: 28px; font-style: italic; text-transform: uppercase; color: #111; letter-spacing: 2px;">GEAR<span style="color: #E8001C;">HEADZ</span></h1>
+      </div>
       <h2>Thank you for your purchase, ${order.customer.name.split(' ')[0]}!</h2>
       <p>Your order <strong>${order.orderNum}</strong> has been confirmed and we are preparing it.</p>
       
@@ -86,7 +88,9 @@ export async function sendShippingEmail(orderId, trackingNumber, trackingCarrier
 
   const html = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-      <h1 style="color: #E8001C; font-style: italic; text-transform: uppercase;">GEARHEADZ MOTORSPORTS</h1>
+      <div style="text-align: center; margin-bottom: 20px;">
+        <h1 style="margin: 0; font-size: 28px; font-style: italic; text-transform: uppercase; color: #111; letter-spacing: 2px;">GEAR<span style="color: #E8001C;">HEADZ</span></h1>
+      </div>
       <h2>Good news${customerName ? ', ' + customerName.split(' ')[0] : ''}!</h2>
       <p>Your order <strong>${orderId}</strong> is on its way to you.</p>
       

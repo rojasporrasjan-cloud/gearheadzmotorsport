@@ -238,6 +238,10 @@ function ensureModal() {
       <div class="pmodal-sizes" id="pmodal-sizes"></div>
       <div class="pmodal-stock" id="pmodal-stock"></div>
       <button class="btn-red pmodal-add" id="pmodal-add">ADD TO BAG</button>
+      <div id="pmodal-suggestions-wrap" style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); display: none;">
+        <div style="font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 0.1em; margin-bottom: 1rem;">YOU MIGHT ALSO LIKE</div>
+        <div id="pmodal-suggestions" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;"></div>
+      </div>
     </div>`;
 
   document.body.appendChild(overlay);
@@ -252,7 +256,7 @@ function closeModal() {
   document.body.style.overflow = '';
 }
 
-function openProductModal(product) {
+function openProductModal(product, allProds = PRODUCTS) {
   ensureModal();
   let selectedSize = null;
 
@@ -312,6 +316,36 @@ function openProductModal(product) {
     import('./utils.js').then(m => m.openSizeGuide());
   });
 
+  // suggestions
+  const suggestionsEl = document.getElementById('pmodal-suggestions');
+  if (suggestionsEl) {
+    const related = allProds.filter(p => p.cat === product.cat && p.id !== product.id)
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 2);
+    
+    if (related.length > 0) {
+      document.getElementById('pmodal-suggestions-wrap').style.display = 'block';
+      suggestionsEl.innerHTML = related.map(p => `
+        <div class="pmodal-sugg-card" data-id="${p.id}" style="cursor:pointer; display:flex; flex-direction:column; gap:0.5rem; transition: transform 0.2s;">
+          <img src="${cldOptimize(p.img, { w: 300 })}" style="width:100%; aspect-ratio:1/1; object-fit:cover; background:#0d0d0d; border:1px solid rgba(255,255,255,0.1);" />
+          <div>
+            <div style="font-size:0.75rem; text-overflow:ellipsis; white-space:nowrap; overflow:hidden;">${escapeHTML(p.name)}</div>
+            <div style="font-family:'JetBrains Mono', monospace; font-size:0.7rem; color:#aaa;">$${p.price}.00</div>
+          </div>
+        </div>
+      `).join('');
+      
+      suggestionsEl.querySelectorAll('.pmodal-sugg-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const p = allProds.find(prod => prod.id === card.dataset.id);
+          if (p) openProductModal(p, allProds);
+        });
+      });
+    } else {
+      document.getElementById('pmodal-suggestions-wrap').style.display = 'none';
+    }
+  }
+
   document.getElementById('pmodal-overlay').classList.add('open');
   document.getElementById('pmodal').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -319,6 +353,7 @@ function openProductModal(product) {
 
 // ── BIND CARD EVENTS ──────────────────────────────
 export function bindCards(container, deps, allProds = PRODUCTS) {
+  _cartModule = deps;
   const { cart: cartModule } = deps;
   const selected = {}; // pid -> size
 
@@ -355,7 +390,7 @@ export function bindCards(container, deps, allProds = PRODUCTS) {
       if (e.target.closest('.osz-btn') || e.target.closest('.osz-cart-btn')) return;
       const pid = card.dataset.id;
       const product = allProds.find(p => p.id === pid);
-      if (product) openProductModal(product);
+      if (product) openProductModal(product, allProds);
     });
   });
 }
