@@ -73,7 +73,7 @@ export const PRODUCTS = [
     id: 'p-turbo-girl', name: 'TURBO GIRL TEE',
     price: 30, cat: 'APPAREL', badge: 'NEW DROP',
     sizes: ['S','M','L','XL','2XL'],
-    img: '/images/products/turbo-girl.png',
+    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1783491446/gearheadz/products/turbo-girl.png',
   },
   {
     id: 'p-jdm-legends', name: 'JDM LEGENDS TEE',
@@ -97,13 +97,13 @@ export const PRODUCTS = [
     id: 'p-need-speed', name: 'NEED FOR SPEED TEE',
     price: 35, cat: 'APPAREL', badge: 'NEW DROP',
     sizes: ['S','M','L','XL','2XL'],
-    img: '/images/products/Need-speed.png',
+    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1783491447/gearheadz/products/Need-speed.png',
   },
   {
     id: 'p-honda-civic', name: 'HONDA CIVIC TEE',
     price: 35, cat: 'APPAREL', badge: 'NEW DROP',
     sizes: ['S','M','L','XL','2XL'],
-    img: '/images/products/honda-civic.png',
+    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1783491448/gearheadz/products/honda-civic.png',
   },
   // ── KIDS ──────────────────────────────────────────
   {
@@ -119,6 +119,13 @@ export const PRODUCTS = [
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/kids-bluezilla-godzilla-tee.png',
   },
   // ── HEADWEAR ──────────────────────────────────────
+  {
+    id: 'p-lady-hat', name: 'LADY HAT',
+    price: 25, cat: 'HEADWEAR', badge: 'NEW DROP',
+    sizes: ['ONE SIZE'],
+    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1783487604/gearheadz/products/lady-hat-1-ai.jpg',
+    img2: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1783487616/gearheadz/products/lady-hat-2-ai.jpg',
+  },
   {
     id: 'p-turbi-hat', name: 'GEARHEADZ TURBI HAT — BLACK',
     price: 20, cat: 'HEADWEAR', badge: null,
@@ -177,14 +184,20 @@ export function buildCard(p) {
   ).join('');
 
   const imgUrl = cldOptimize(p.img, { w: 500 });
+  const hasSecondary = !!p.img2;
   const imgEl = imgUrl
-    ? `<img src="${escapeHTML(imgUrl)}" alt="${escapeHTML(p.name)}" loading="lazy" decoding="async" />`
+    ? `<img src="${escapeHTML(imgUrl)}" alt="${escapeHTML(p.name)}" class="p-img-primary ${hasSecondary ? 'has-secondary' : ''}" loading="lazy" decoding="async" />`
+    : '';
+    
+  const img2Url = hasSecondary ? cldOptimize(p.img2, { w: 500 }) : null;
+  const img2El = img2Url
+    ? `<img src="${escapeHTML(img2Url)}" alt="${escapeHTML(p.name)} Alternate" class="p-img-secondary" loading="lazy" decoding="async" />`
     : '';
 
   return `
     <div class="p-card" data-id="${p.id}" data-cat="${escapeHTML(p.cat)}" style="cursor:pointer">
       <div class="p-card-img">
-        <div class="p-card-img-inner">${imgEl}</div>
+        <div class="p-card-img-inner">${imgEl}${img2El}</div>
         ${badge}
         <div class="p-card-overlay">
           <div style="display:flex;gap:.35rem;flex-wrap:wrap">${sizes}</div>
