@@ -63,10 +63,7 @@ export default async function(req, res) {
         // ── RETRIEVE FULL SESSION from Stripe API ──────
         // The webhook event payload often omits shipping_details,
         // customer_details, etc. We must fetch the complete session.
-        const session = await stripe.checkout.sessions.retrieve(
-          sessionFromEvent.id,
-          { expand: ['shipping_details', 'customer_details'] }
-        );
+        const session = await stripe.checkout.sessions.retrieve(sessionFromEvent.id);
 
         const orderId = 'GHZ-' + session.id.slice(-8).toUpperCase();
         const items = session.metadata?.items
