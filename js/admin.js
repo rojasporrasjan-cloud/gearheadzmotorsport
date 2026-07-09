@@ -238,7 +238,7 @@ function bindImgWidget(id, onChange = null) {
 async function resolveImg(id, folder = 'gearheadz/products') {
   const file = document.getElementById(`${id}-file`)?.files[0];
   if (file && cloudReady) {
-    toast('Subiendo imagen…', 'inf');
+    toast('Uploading image…', 'inf');
     return await uploadImage(file, folder);
   }
   return document.getElementById(`${id}-url`)?.value.trim() || '';
@@ -247,7 +247,7 @@ async function resolveImg(id, folder = 'gearheadz/products') {
 async function resolveVideo(id, folder = 'gearheadz/hero') {
   const file = document.getElementById(`${id}-file`)?.files[0];
   if (file && cloudReady) {
-    toast('Subiendo video…', 'inf');
+    toast('Uploading video…', 'inf');
     return await uploadVideo(file, folder);
   }
   return document.getElementById(`${id}-url`)?.value.trim() || '';
@@ -443,10 +443,10 @@ async function renderProducts() {
       if (p) openProductForm(p);
     }
     if (delId) {
-      if (!confirm('¿Eliminar este producto? Esta acción no se puede deshacer.')) return;
+      if (!confirm('Delete this product? This action cannot be undone.')) return;
       try {
         await deleteProduct(delId);
-        toast('Producto eliminado');
+        toast('Product deleted');
         allProds = allProds.filter(x => x.id !== delId);
         renderRows(allProds);
       } catch (err) { toast(err.message, 'err'); }
@@ -666,10 +666,10 @@ async function renderEvents() {
     const delId  = e.target.closest('[data-del]')?.dataset.del;
     if (editId) openEventForm(allEvs.find(x => x.id === editId));
     if (delId) {
-      if (!confirm('¿Eliminar este evento?')) return;
+      if (!confirm('Delete this event?')) return;
       try {
         await deleteEvent(delId);
-        toast('Evento eliminado');
+        toast('Event deleted');
         allEvs = allEvs.filter(x => x.id !== delId);
         renderList(allEvs);
       } catch (err) { toast(err.message, 'err'); }
@@ -811,7 +811,7 @@ function openEventForm(ev = null) {
   // Google Maps generator — shows link, no iframe (avoids blocking renderer)
   document.getElementById('ef-maps-gen')?.addEventListener('click', () => {
     const addr = document.getElementById('ef-maps-addr').value.trim();
-    if (!addr) { toast('Escribe una dirección primero', 'inf'); return; }
+    if (!addr) { toast('Enter an address first', 'inf'); return; }
     const embedUrl = mapsEmbedUrl(addr);
     const linkUrl  = mapsDirectUrl(addr);
     const prevWrap = document.getElementById('ef-maps-prev');
@@ -930,7 +930,7 @@ async function renderMedia() {
         ? await resolveVideo('m-home', 'gearheadz/hero')
         : document.getElementById('m-home-url').value.trim();
       await saveSiteConfig({ heroHome: url });
-      toast('Hero home actualizado ✓');
+      toast('Home hero updated ✓');
     } catch (e) { toast(e.message, 'err'); }
   });
 
@@ -941,7 +941,7 @@ async function renderMedia() {
         ? await resolveImg('m-store', 'gearheadz/hero')
         : document.getElementById('m-store-url').value.trim();
       await saveSiteConfig({ heroStore: url });
-      toast('Hero store actualizado ✓');
+      toast('Store hero updated ✓');
     } catch (e) { toast(e.message, 'err'); }
   });
 
@@ -952,7 +952,7 @@ async function renderMedia() {
         ? await resolveVideo('m-ev', 'gearheadz/hero')
         : document.getElementById('m-ev-url').value.trim();
       await saveSiteConfig({ heroEvents: url });
-      toast('Hero events actualizado ✓');
+      toast('Events hero updated ✓');
     } catch (e) { toast(e.message, 'err'); }
   });
 }
@@ -1026,7 +1026,7 @@ async function renderConfig() {
         socialYT: document.getElementById('cfg-yt').value.trim(),
         socialFB: document.getElementById('cfg-fb').value.trim(),
       });
-      toast('Redes sociales guardadas ✓');
+      toast('Social links saved ✓');
     } catch (e) { toast(e.message, 'err'); }
   });
 
@@ -1036,7 +1036,7 @@ async function renderConfig() {
         footerTagline: document.getElementById('cfg-tagline').value.trim(),
         copyrightYear: document.getElementById('cfg-year').value.trim(),
       });
-      toast('Textos guardados ✓');
+      toast('Texts saved ✓');
     } catch (e) { toast(e.message, 'err'); }
   });
 }
@@ -1101,7 +1101,7 @@ async function renderPolicies() {
             : { termsOfService: text }
         );
         cfg[activeTab === 'privacy' ? 'privacyPolicy' : 'termsOfService'] = text;
-        toast('Política guardada ✓');
+        toast('Policy saved ✓');
       } catch (e) { toast(e.message, 'err'); }
     });
   }
@@ -1383,7 +1383,7 @@ async function renderOrders() {
           order.status = 'Shipped';
           order.trackingNumber = tracking;
           order.trackingCarrier = carrier;
-          toast('📦 Pedido marcado como enviado ✓ (Email enviado)');
+          toast('📦 Order marked as shipped ✓ (Email sent)');
           runFilter();
         } catch (err) { toast(err.message, 'err'); }
       });
@@ -1394,7 +1394,7 @@ async function renderOrders() {
       try {
         await updateOrderStatus(orderId, 'Completed', { completedAt: Date.now() });
         order.status = 'Completed';
-        toast('✔ Pedido completado ✓');
+        toast('✔ Order completed ✓');
         runFilter();
       } catch (err) { toast(err.message, 'err'); }
     }
@@ -1404,17 +1404,17 @@ async function renderOrders() {
       try {
         await updateOrderStatus(orderId, 'Confirmed');
         order.status = 'Confirmed';
-        toast('Pedido reabierto');
+        toast('Order reopened');
         runFilter();
       } catch (err) { toast(err.message, 'err'); }
     }
 
     // Delete order
     if (e.target.classList.contains('delete-order')) {
-      if (!confirm('¿Eliminar este pedido? Esta acción no se puede deshacer.')) return;
+      if (!confirm('Delete this order? This action cannot be undone.')) return;
       try {
         await deleteOrder(orderId);
-        toast('Pedido eliminado');
+        toast('Order deleted');
         allOrders = allOrders.filter(x => x.id !== orderId);
         runFilter();
       } catch (err) { toast(err.message, 'err'); }
@@ -1427,7 +1427,7 @@ async function renderOrders() {
         txtArea.select();
         txtArea.setSelectionRange(0, 99999);
         navigator.clipboard.writeText(txtArea.value);
-        toast('Dirección copiada al portapapeles');
+        toast('Address copied to clipboard');
       }
     }
   });
@@ -1535,7 +1535,7 @@ async function renderAdmins() {
 
     if (!email || !pass) return;
     if (allUsers.some(u => u.email === email)) {
-      toast('Este usuario ya existe en la lista', 'err');
+      toast('User already in the list', 'err');
       return;
     }
 
@@ -1547,7 +1547,7 @@ async function renderAdmins() {
         await createAuthUser(email, pass);
       }
       await saveAdminUser(email, role, true);
-      toast('Cuenta creada exitosamente ✓');
+      toast('Account created successfully ✓');
       allUsers.push({ email, role, active: true });
       renderRows(allUsers);
       document.getElementById('new-admin-email').value = '';
@@ -1598,13 +1598,13 @@ async function renderAdmins() {
     // Delete Admin User Document
     if (e.target.classList.contains('delete-admin')) {
       if (email === document.getElementById('as-email').textContent.trim().toLowerCase()) {
-        toast('No puedes eliminarte a ti mismo', 'err');
+        toast('You cannot delete yourself', 'err');
         return;
       }
-      if (!confirm(`¿Eliminar los privilegios de ${email}?`)) return;
+      if (!confirm(`Remove privileges from ${email}?`)) return;
       try {
         await deleteAdminUser(email);
-        toast('Administrador eliminado de la base de datos');
+        toast('Admin removed from database');
         allUsers = allUsers.filter(x => x.email !== email);
         renderRows(allUsers);
       } catch (err) { toast(err.message, 'err'); }
@@ -2167,7 +2167,7 @@ function initPostGeneratorApp() {
         document.getElementById('post-car-rot-val').textContent = '0°';
         
         drawCanvas();
-        toast('Imagen de producto cargada ✓');
+        toast('Product image uploaded ✓');
       };
       img.src = event.target.result;
     };
@@ -2227,7 +2227,7 @@ function initPostGeneratorApp() {
     link.download = 'gearheadz_promo_post.png';
     link.href = canvas.toDataURL('image/png');
     link.click();
-    toast('Publicación exportada y descargada ✓');
+    toast('Post exported and downloaded ✓');
   });
 
   drawCanvas();
