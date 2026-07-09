@@ -200,7 +200,7 @@ export function buildCard(p) {
         <div class="p-card-img-inner">${imgEl}${img2El}</div>
         ${badge}
         <div class="p-card-overlay">
-          <div style="display:flex;gap:.35rem;flex-wrap:wrap">${sizes}</div>
+          <div class="osz-row" data-pid="${p.id}" style="display:flex;gap:.35rem;flex-wrap:wrap">${sizes}</div>
           <button class="osz-cart-btn" data-pid="${p.id}">ADD</button>
         </div>
       </div>

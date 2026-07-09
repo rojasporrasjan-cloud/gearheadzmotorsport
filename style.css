@@ -1271,8 +1271,8 @@ button {
 .osz-btn {
   padding: .3rem .6rem;
   background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.15);
-  color: rgba(255,255,255,0.6);
+  border: 1px solid rgba(255,255,255,0.4);
+  color: #e0e0e0;
   font-size: .6rem;
   letter-spacing: .08em;
   transition: all .2s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -1280,10 +1280,18 @@ button {
 }
 
 .osz-btn:hover {
-  background: rgba(255,255,255,0.1);
-  border-color: rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.15);
+  border-color: rgba(255,255,255,0.8);
   color: #fff;
   transform: skewX(-8deg) translateY(-1px);
+}
+
+.osz-btn.active {
+  background: #fff;
+  border-color: #fff;
+  color: #000;
+  transform: skewX(-8deg) translateY(-1px);
+  font-weight: bold;
 }
 
 .osz-btn.os-sold {
@@ -2086,8 +2094,8 @@ button {
 .pmodal-sz {
   padding: .55rem 1rem;
   background: transparent;
-  border: 1px solid var(--line);
-  color: var(--muted);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #e0e0e0;
   font-size: .72rem;
   font-family: 'Inter', sans-serif;
   transition: all .15s;
@@ -2100,8 +2108,9 @@ button {
 
 .pmodal-sz.active {
   border-color: #fff;
-  color: #fff;
-  background: rgba(255, 255, 255, .07);
+  color: #000;
+  background: #fff;
+  font-weight: bold;
 }
 
 .pmodal-sz[disabled] {
