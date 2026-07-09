@@ -148,7 +148,7 @@ export async function sendMerchantNotificationEmail(order) {
         ${order.shipping?.address?.line1 || ''} ${order.shipping?.address?.line2 || ''}<br/>
         ${order.shipping?.address?.city || ''}, ${order.shipping?.address?.state || ''} ${order.shipping?.address?.postal_code || ''}
       </p>
-      <p><a href="https://gearheadzmotorsports.vercel.app/admin.html" style="display:inline-block; background: #E8001C; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; margin-top: 20px;">View in Admin Panel</a></p>
+      <p><a href="https://gearheadzmotorsports.com/admin" style="display:inline-block; background: #E8001C; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; margin-top: 20px;">View in Admin Panel</a></p>
     </div>
   `;
   

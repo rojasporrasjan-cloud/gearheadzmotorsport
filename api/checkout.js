@@ -134,8 +134,8 @@ export default async function(req, res) {
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'payment',
-      success_url: `${siteUrl}/success.html?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url:  `${siteUrl}/cancel.html`,
+      success_url: `${siteUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url:  `${siteUrl}/cancel`,
       shipping_address_collection: {
         allowed_countries: ['US'],
       },
