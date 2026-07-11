@@ -21,15 +21,28 @@ async function initStore() {
       case 'price-asc':  return sorted.sort((a, b) => a.price - b.price);
       case 'price-desc': return sorted.sort((a, b) => b.price - a.price);
       case 'name-az':    return sorted.sort((a, b) => a.name.localeCompare(b.name));
-      default:           return sorted;
+      default:           
+        // Group by category (TEES, KIDS, HEADWEAR, ACCESSORIES)
+        const order = { 'APPAREL': 1, 'KIDS': 2, 'HEADWEAR': 3, 'ACCESSORIES': 4 };
+        return sorted.sort((a, b) => {
+          const rankA = order[a.cat] || 99;
+          const rankB = order[b.cat] || 99;
+          if (rankA !== rankB) return rankA - rankB;
+          return a.name.localeCompare(b.name);
+        });
     }
   }
 
   async function render() {
     if (!allProducts.length) allProducts = await getProducts();
-    let list = activeFilter === 'ALL'
-      ? allProducts
-      : allProducts.filter(p => p.cat === activeFilter);
+    let list = allProducts;
+    if (activeFilter === 'SALE') {
+      list = allProducts.filter(p => p.badge === 'SPECIAL OFFER' || p.oldPrice);
+    } else if (activeFilter === 'NEW') {
+      list = allProducts.filter(p => p.badge === 'NEW DROP');
+    } else if (activeFilter !== 'ALL') {
+      list = allProducts.filter(p => p.cat === activeFilter);
+    }
     list = sortProducts(list, activeSort);
     grid.innerHTML = list.map(buildCard).join('');
     bindCards(grid, { cart, toast }, list);

@@ -67,41 +67,30 @@ export const PRODUCTS = [
     id: 'p-boosted-bowl', name: 'THE BOOSTED BOWL TEE',
     price: 30, cat: 'APPAREL', badge: 'NEW DROP',
     sizes: ['S','M','L','XL','2XL'],
-    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/boosted-bowl.png',
+    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1783808059/gearheadz/products/preview_boosted_bowl.png',
   },
   {
     id: 'p-turbo-girl', name: 'TURBO GIRL TEE',
     price: 30, cat: 'APPAREL', badge: 'NEW DROP',
     sizes: ['S','M','L','XL','2XL'],
-    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1783491446/gearheadz/products/turbo-girl.png',
+    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1783807661/gearheadz/products/preview_toxica_shirt_2.png',
   },
   {
     id: 'p-jdm-legends', name: 'JDM LEGENDS TEE',
     price: 30, cat: 'APPAREL', badge: 'NEW DROP',
     sizes: ['S','M','L','XL','2XL'],
-    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/jdm-legends.png',
+    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1783758617/gearheadz/products/jdm-legends-custom-bg.png',
   },
-  {
-    id: 'p-boosted-bowl-text', name: 'THE BOOSTED BOWL TEE (TEXT)',
-    price: 30, cat: 'APPAREL', badge: 'NEW DROP',
-    sizes: ['S','M','L','XL','2XL'],
-    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/boosted-bowl-text.png',
-  },
-  {
-    id: 'p-jdm-legends-text', name: 'THE LEGENDS TEE (TEXT)',
-    price: 30, cat: 'APPAREL', badge: 'NEW DROP',
-    sizes: ['S','M','L','XL','2XL'],
-    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/jdm-legends-text.png',
-  },
+
   {
     id: 'p-need-speed', name: 'NEED FOR SPEED TEE',
-    price: 35, cat: 'APPAREL', badge: 'NEW DROP',
+    price: 25, oldPrice: 35, cat: 'APPAREL', badge: 'SPECIAL OFFER', desc: 'Special Offer: Available until August 21!',
     sizes: ['S','M','L','XL','2XL'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1783491447/gearheadz/products/Need-speed.png',
   },
   {
     id: 'p-honda-civic', name: 'HONDA CIVIC TEE',
-    price: 35, cat: 'APPAREL', badge: 'NEW DROP',
+    price: 25, oldPrice: 35, cat: 'APPAREL', badge: 'SPECIAL OFFER', desc: 'Special Offer: Available until August 21!',
     sizes: ['S','M','L','XL','2XL'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1783491448/gearheadz/products/honda-civic.png',
   },
@@ -208,7 +197,9 @@ export function buildCard(p) {
         <span class="p-cat">${escapeHTML(p.cat)}</span>
         <div class="p-name">${escapeHTML(p.name)}</div>
         <div class="p-foot">
-          <span class="p-price">$${p.price}.00</span>
+          <span class="p-price">
+            ${p.oldPrice ? `<span style="text-decoration:line-through; opacity:0.6; font-size:0.85em; margin-right:6px;">$${p.oldPrice}.00</span>` : ''}$${p.price}.00
+          </span>
         </div>
       </div>
     </div>`;
@@ -276,7 +267,9 @@ function openProductModal(product, allProds = PRODUCTS) {
   // text
   document.getElementById('pmodal-cat').textContent   = product.cat;
   document.getElementById('pmodal-name').textContent  = product.name;
-  document.getElementById('pmodal-price').textContent = `$${product.price}.00`;
+  document.getElementById('pmodal-price').innerHTML = product.oldPrice 
+    ? `<span style="text-decoration:line-through; opacity:0.6; font-size:0.85em; margin-right:8px;">$${product.oldPrice}.00</span>$${product.price}.00`
+    : `$${product.price}.00`;
 
   // stock — print-on-demand, always available
   const stockEl = document.getElementById('pmodal-stock');
