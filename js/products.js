@@ -22,12 +22,6 @@ export const PRODUCTS = [
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/bluzilla-tee.png',
   },
   {
-    id: 'p-gtr', name: 'GTR TEE',
-    price: 20, cat: 'APPAREL', badge: null,
-    sizes: ['S','M','L','XL','2XL'],
-    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/gtr-tee.png',
-  },
-  {
     id: 'p-labubu-miata', name: 'LABUBU MIATA TEE',
     price: 30, cat: 'APPAREL', badge: null,
     sizes: ['S','M','L','XL','2XL'],
@@ -53,7 +47,7 @@ export const PRODUCTS = [
   },
   {
     id: 'p-forever-static', name: 'FOREVER STATIC TEE',
-    price: 20, cat: 'APPAREL', badge: null,
+    price: 30, cat: 'APPAREL', badge: null,
     sizes: ['S','M','L','XL','2XL'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/forever-static-tee.png',
   },
@@ -91,13 +85,13 @@ export const PRODUCTS = [
   // ── KIDS ──────────────────────────────────────────
   {
     id: 'p-kids-labubu', name: 'KIDS LABUBU MIATA TEE',
-    price: 20, cat: 'KIDS', badge: null,
+    price: 30, cat: 'KIDS', badge: null,
     sizes: ['XS','S','M','L','XL'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/kids-labubu-miata-tee.png',
   },
   {
     id: 'p-kids-bluezilla', name: 'KIDS BLUEZILLA GODZILLA TEE',
-    price: 20, cat: 'KIDS', badge: null,
+    price: 30, cat: 'KIDS', badge: null,
     sizes: ['XS','S','M','L'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/kids-bluezilla-godzilla-tee.png',
   },
