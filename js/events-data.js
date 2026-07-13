@@ -63,7 +63,7 @@ export const EVENTS = [
     timeStart: '',
     timeEnd: '',
     location: 'Follow @2gearheadz',
-    description: "Stay tuned. We're always cooking something up for the community. Sign up for the newsletter to get first access when tickets go live.",
+    description: "Stay tuned. We're always cooking something up for the community. Sign up for the newsletter to get first access when events go live.",
     price: null,
     status: 'soon',
     img: '/images/race_grid.png',

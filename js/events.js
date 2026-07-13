@@ -13,16 +13,6 @@ async function initEventsGrid() {
   grid.innerHTML = events.map((ev, i) => buildEventFullCard(ev, i)).join('');
   initReveal();
 
-  grid.querySelectorAll('.btn-ticket[data-price]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      cart.add(
-        { id: btn.dataset.eid, name: btn.dataset.event, price: Number(btn.dataset.price),
-          cat: 'TICKET', sizes: ['ONE SIZE'], badge: null, img: btn.dataset.img },
-        'ONE SIZE'
-      );
-    });
-  });
-
   grid.querySelectorAll('.btn-check-details').forEach(btn => {
     btn.addEventListener('click', () => {
       const eid = btn.dataset.eid;
