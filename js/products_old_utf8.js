@@ -1,13 +1,19 @@
-// ── PRODUCTS DATA ─────────────────────────────────
+﻿// ÔöÇÔöÇ PRODUCTS DATA ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
 import { escapeHTML, cldOptimize } from './utils.js';
 
 export const PRODUCTS = [
-  // ── TEES ──────────────────────────────────────────
+  // ÔöÇÔöÇ TEES ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
   {
     id: 'p-180sx', name: '180 SX TEE',
     price: 30, cat: 'APPAREL', badge: null,
     sizes: ['S','M','L','XL','2XL'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/180sx-tee.png',
+  },
+  {
+    id: 'p-911', name: '911 TEE',
+    price: 20, cat: 'APPAREL', badge: null,
+    sizes: ['S','M','L','XL','2XL'],
+    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/911-tee.png',
   },
   {
     id: 'p-bluezilla', name: 'BLUEZILLA GODZILLA TEE',
@@ -61,34 +67,45 @@ export const PRODUCTS = [
     id: 'p-boosted-bowl', name: 'THE BOOSTED BOWL TEE',
     price: 30, cat: 'APPAREL', badge: 'NEW DROP',
     sizes: ['S','M','L','XL','2XL'],
-    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1783808059/gearheadz/products/preview_boosted_bowl.png',
+    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/boosted-bowl.png',
   },
   {
     id: 'p-turbo-girl', name: 'TURBO GIRL TEE',
     price: 30, cat: 'APPAREL', badge: 'NEW DROP',
     sizes: ['S','M','L','XL','2XL'],
-    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1783807661/gearheadz/products/preview_toxica_shirt_2.png',
+    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1783491446/gearheadz/products/turbo-girl.png',
   },
   {
     id: 'p-jdm-legends', name: 'JDM LEGENDS TEE',
     price: 30, cat: 'APPAREL', badge: 'NEW DROP',
     sizes: ['S','M','L','XL','2XL'],
-    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1783758617/gearheadz/products/jdm-legends-custom-bg.png',
+    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/jdm-legends.png',
   },
-
   {
-    id: 'p-need-speed', name: 'THE FURIOUS TEE',
-    price: 25, oldPrice: 35, cat: 'APPAREL', badge: 'SPECIAL OFFER', desc: 'Special Offer: Available until August 21!',
+    id: 'p-boosted-bowl-text', name: 'THE BOOSTED BOWL TEE (TEXT)',
+    price: 30, cat: 'APPAREL', badge: 'NEW DROP',
+    sizes: ['S','M','L','XL','2XL'],
+    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/boosted-bowl-text.png',
+  },
+  {
+    id: 'p-jdm-legends-text', name: 'THE LEGENDS TEE (TEXT)',
+    price: 30, cat: 'APPAREL', badge: 'NEW DROP',
+    sizes: ['S','M','L','XL','2XL'],
+    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/jdm-legends-text.png',
+  },
+  {
+    id: 'p-need-speed', name: 'NEED FOR SPEED TEE',
+    price: 35, cat: 'APPAREL', badge: 'NEW DROP',
     sizes: ['S','M','L','XL','2XL'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1783491447/gearheadz/products/Need-speed.png',
   },
   {
     id: 'p-honda-civic', name: 'HONDA CIVIC TEE',
-    price: 25, oldPrice: 35, cat: 'APPAREL', badge: 'SPECIAL OFFER', desc: 'Special Offer: Available until August 21!',
+    price: 35, cat: 'APPAREL', badge: 'NEW DROP',
     sizes: ['S','M','L','XL','2XL'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1783491448/gearheadz/products/honda-civic.png',
   },
-  // ── KIDS ──────────────────────────────────────────
+  // ÔöÇÔöÇ KIDS ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
   {
     id: 'p-kids-labubu', name: 'KIDS LABUBU MIATA TEE',
     price: 20, cat: 'KIDS', badge: null,
@@ -101,47 +118,60 @@ export const PRODUCTS = [
     sizes: ['XS','S','M','L'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/kids-bluezilla-godzilla-tee.png',
   },
-  // ── HEADWEAR ──────────────────────────────────────
+  // ÔöÇÔöÇ HEADWEAR ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
   {
     id: 'p-lady-hat', name: 'LADY HAT',
-    price: 30, cat: 'HEADWEAR', badge: 'NEW DROP',
+    price: 25, cat: 'HEADWEAR', badge: 'NEW DROP',
     sizes: ['ONE SIZE'],
-    img: 'images/products/lady-hat-final-bg.png',
+    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1783487604/gearheadz/products/lady-hat-1-ai.jpg',
+    img2: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1783487616/gearheadz/products/lady-hat-2-ai.jpg',
   },
   {
-    id: 'p-turbi-hat', name: 'GEARHEADZ TURBI HAT — BLACK',
-    price: 30, cat: 'HEADWEAR', badge: null,
+    id: 'p-turbi-hat', name: 'GEARHEADZ TURBI HAT ÔÇö BLACK',
+    price: 20, cat: 'HEADWEAR', badge: null,
     sizes: ['ONE SIZE'],
-    img: 'images/products/turbi-hat-black.png',
+    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/turbi-hat-black.png',
   },
   {
-    id: 'p-logo-hat', name: 'GEARHEADZ LOGO HAT — BLACK',
-    price: 30, cat: 'HEADWEAR', badge: null,
+    id: 'p-logo-hat', name: 'GEARHEADZ LOGO HAT ÔÇö WHITE',
+    price: 20, cat: 'HEADWEAR', badge: null,
     sizes: ['ONE SIZE'],
-    img: 'images/products/logo-hat-final-bg.png',
-  },
-  {
-    id: 'p-new-logo-hat', name: 'NEW GEARHEADZ LOGO HAT',
-    price: 30, cat: 'HEADWEAR', badge: null,
-    sizes: ['ONE SIZE'],
-    img: 'images/products/logo-gray-hat-final-bg.png',
+    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/logo-hat-white.png',
   },
   {
     id: 'p-beanie', name: 'GEAR HEADZ LOGO BEANIE',
-    price: 30, cat: 'HEADWEAR', badge: null,
+    price: 25, cat: 'HEADWEAR', badge: null,
     sizes: ['ONE SIZE'],
-    img: 'images/products/logo-beanie.png',
+    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/logo-beanie.png',
   },
-  // ── ACCESSORIES ───────────────────────────────────
+  // ÔöÇÔöÇ ACCESSORIES ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+  {
+    id: 'p-koozie', name: '"I IDENTIFY AS WATER" KOOZIE',
+    price: 8, cat: 'ACCESSORIES', badge: null,
+    sizes: ['ONE SIZE'],
+    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/i-identify-as-water-koozie.png',
+  },
   {
     id: 'p-sunbrella', name: 'GEAR HEADZ SUNBRELLA',
     price: 15, cat: 'ACCESSORIES', badge: null,
     sizes: ['ONE SIZE'],
-    img: 'images/products/gear-headz-sunbrella.png',
-  }
+    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/gear-headz-sunbrella.png',
+  },
+  {
+    id: 'p-soap', name: 'TURBO CLEAN SOAP',
+    price: 15, cat: 'ACCESSORIES', badge: null,
+    sizes: ['ONE SIZE'],
+    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/turbo-clean-soap.png',
+  },
+  {
+    id: 'p-plushie', name: 'TURBI PILLOW PLUSHIE',
+    price: 30, cat: 'ACCESSORIES', badge: 'LIMITED',
+    sizes: ['ONE SIZE'],
+    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/turbi-pillow-plushie.png',
+  },
 ];
 
-// ── BUILD PRODUCT CARD HTML ───────────────────────
+// ÔöÇÔöÇ BUILD PRODUCT CARD HTML ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
 // Print-on-demand: products are always available, no stock limits.
 export function buildCard(p) {
   const badge = p.badge
@@ -178,15 +208,13 @@ export function buildCard(p) {
         <span class="p-cat">${escapeHTML(p.cat)}</span>
         <div class="p-name">${escapeHTML(p.name)}</div>
         <div class="p-foot">
-          <span class="p-price">
-            ${p.oldPrice ? `<span style="text-decoration:line-through; opacity:0.6; font-size:0.85em; margin-right:6px;">$${p.oldPrice}.00</span>` : ''}$${p.price}.00
-          </span>
+          <span class="p-price">$${p.price}.00</span>
         </div>
       </div>
     </div>`;
 }
 
-// ── MODAL ─────────────────────────────────────────
+// ÔöÇÔöÇ MODAL ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
 let _cartModule = null;
 
 function ensureModal() {
@@ -199,14 +227,14 @@ function ensureModal() {
   const modal = document.createElement('div');
   modal.id = 'pmodal';
   modal.innerHTML = `
-    <button class="pmodal-close" id="pmodal-close">✕</button>
+    <button class="pmodal-close" id="pmodal-close">Ô£ò</button>
     <div class="pmodal-img" id="pmodal-img"></div>
     <div class="pmodal-info">
       <span class="pmodal-cat" id="pmodal-cat"></span>
       <div class="pmodal-name" id="pmodal-name"></div>
       <div class="pmodal-price" id="pmodal-price"></div>
       <div class="pmodal-sz-label">SELECT SIZE</div>
-      <button class="pmodal-sg-btn" id="pmodal-sg-btn">📐 SIZE GUIDE</button>
+      <button class="pmodal-sg-btn" id="pmodal-sg-btn">­ƒôÉ SIZE GUIDE</button>
       <div class="pmodal-sizes" id="pmodal-sizes"></div>
       <div class="pmodal-stock" id="pmodal-stock"></div>
       <button class="btn-red pmodal-add" id="pmodal-add">ADD TO BAG</button>
@@ -248,16 +276,14 @@ function openProductModal(product, allProds = PRODUCTS) {
   // text
   document.getElementById('pmodal-cat').textContent   = product.cat;
   document.getElementById('pmodal-name').textContent  = product.name;
-  document.getElementById('pmodal-price').innerHTML = product.oldPrice 
-    ? `<span style="text-decoration:line-through; opacity:0.6; font-size:0.85em; margin-right:8px;">$${product.oldPrice}.00</span>$${product.price}.00`
-    : `$${product.price}.00`;
+  document.getElementById('pmodal-price').textContent = `$${product.price}.00`;
 
-  // stock — print-on-demand, always available
+  // stock ÔÇö print-on-demand, always available
   const stockEl = document.getElementById('pmodal-stock');
   stockEl.textContent = '';
   stockEl.className = 'pmodal-stock';
 
-  // sizes — all always enabled
+  // sizes ÔÇö all always enabled
   const sizesEl = document.getElementById('pmodal-sizes');
   sizesEl.innerHTML = product.sizes.map(s =>
     `<button class="pmodal-sz" data-size="${escapeHTML(s)}">${escapeHTML(s)}</button>`
@@ -271,13 +297,13 @@ function openProductModal(product, allProds = PRODUCTS) {
     });
   });
 
-  // add button — replace node to clear old listeners
+  // add button ÔÇö replace node to clear old listeners
   const oldBtn = document.getElementById('pmodal-add');
   const newBtn = oldBtn.cloneNode(true);
   oldBtn.replaceWith(newBtn);
   newBtn.addEventListener('click', () => {
     if (!selectedSize) {
-      _cartModule?.toast('Select a size first', '⚠');
+      _cartModule?.toast('Select a size first', 'ÔÜá');
       return;
     }
     _cartModule?.cart.add(product, selectedSize);
@@ -325,7 +351,7 @@ function openProductModal(product, allProds = PRODUCTS) {
   document.body.style.overflow = 'hidden';
 }
 
-// ── BIND CARD EVENTS ──────────────────────────────
+// ÔöÇÔöÇ BIND CARD EVENTS ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
 export function bindCards(container, deps, allProds = PRODUCTS) {
   _cartModule = deps;
   const { cart: cartModule } = deps;
@@ -350,7 +376,7 @@ export function bindCards(container, deps, allProds = PRODUCTS) {
       const pid  = btn.dataset.pid;
       const size = selected[pid];
       if (!size) {
-        cartModule.toast('Select a size first', '⚠');
+        cartModule.toast('Select a size first', 'ÔÜá');
         return;
       }
       const product = allProds.find(p => p.id === pid);
@@ -358,7 +384,7 @@ export function bindCards(container, deps, allProds = PRODUCTS) {
     });
   });
 
-  // click card → open modal
+  // click card ÔåÆ open modal
   container.querySelectorAll('.p-card').forEach(card => {
     card.addEventListener('click', e => {
       if (e.target.closest('.osz-btn') || e.target.closest('.osz-cart-btn')) return;
