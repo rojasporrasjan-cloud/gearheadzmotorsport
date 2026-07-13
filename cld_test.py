@@ -4,7 +4,7 @@ import cloudinary.uploader
 cloudinary.config(
     cloud_name = "db4ld8cy2",
     api_key = "957631876521587",
-    api_secret = "atfNfPLWJRm3rAbUoRcZfG0GmiA",
+    api_secret = "YOUR_API_SECRET",
     secure = True
 )
 
