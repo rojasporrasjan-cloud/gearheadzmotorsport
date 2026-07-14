@@ -2,7 +2,7 @@ import { Resend } from 'resend';
 
 // Initialize only if we have a key
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
-const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'GearHeadz Sales <sales@gearheadzmotorsports.com>';
+const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'GearHeadz Sales <ventas@gearheadzmotorsports.com>';
 
 export async function sendConfirmationEmail(order) {
   if (!resend) {
