@@ -28,9 +28,15 @@ export function initCursor() {
   const c = document.getElementById('cursor');
   if (!c) return;
 
+  let rafActive = false;
   document.addEventListener('mousemove', e => {
-    c.style.left = e.clientX + 'px';
-    c.style.top  = e.clientY + 'px';
+    if (rafActive) return;
+    rafActive = true;
+    requestAnimationFrame(() => {
+      c.style.left = e.clientX + 'px';
+      c.style.top  = e.clientY + 'px';
+      rafActive = false;
+    });
   });
 
   document.querySelectorAll('a, button, .p-card, .ev-card, .ev-full-card, .gallery-item, input')
@@ -146,30 +152,34 @@ export function initCardTilt() {
   // Only on non-touch devices
   if (window.matchMedia('(hover: none)').matches) return;
 
+  let tiltRaf = false;
   document.addEventListener('mousemove', e => {
-    const card = e.target.closest('.p-card');
-    if (!card) return;
+    if (tiltRaf) return;
+    tiltRaf = true;
+    requestAnimationFrame(() => {
+      tiltRaf = false;
+      const card = e.target.closest('.p-card');
+      if (!card) return;
 
-    const rect = card.getBoundingClientRect();
-    const x = (e.clientX - rect.left)  / rect.width;
-    const y = (e.clientY - rect.top)   / rect.height;
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left)  / rect.width;
+      const y = (e.clientY - rect.top)   / rect.height;
 
-    const tiltX = (y - 0.5) * -12;  // vertical tilt
-    const tiltY = (x - 0.5) *  12;  // horizontal tilt
+      const tiltX = (y - 0.5) * -12;
+      const tiltY = (x - 0.5) *  12;
 
-    // Preserve the existing skew from the NFS style
-    const baseSkew = window.innerWidth > 768 ? 'skewX(-4deg)' : '';
-    card.style.transform = `${baseSkew} perspective(800px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-8px)`;
+      const baseSkew = window.innerWidth > 768 ? 'skewX(-4deg)' : '';
+      card.style.transform = `${baseSkew} perspective(800px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-8px)`;
 
-    // Move glare
-    let glare = card.querySelector('.tilt-glare');
-    if (!glare) {
-      glare = document.createElement('div');
-      glare.className = 'tilt-glare';
-      card.appendChild(glare);
-    }
-    glare.style.setProperty('--glare-x', `${x * 100}%`);
-    glare.style.setProperty('--glare-y', `${y * 100}%`);
+      let glare = card.querySelector('.tilt-glare');
+      if (!glare) {
+        glare = document.createElement('div');
+        glare.className = 'tilt-glare';
+        card.appendChild(glare);
+      }
+      glare.style.setProperty('--glare-x', `${x * 100}%`);
+      glare.style.setProperty('--glare-y', `${y * 100}%`);
+    });
   });
 
   document.addEventListener('mouseleave', e => {

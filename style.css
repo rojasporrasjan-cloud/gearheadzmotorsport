@@ -1209,6 +1209,12 @@ button {
 }
 
 .p-card-img-inner img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
   transition: transform 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease;
   filter: brightness(0.95) contrast(1.05);
   transform-origin: center;

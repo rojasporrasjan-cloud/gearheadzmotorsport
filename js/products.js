@@ -4,6 +4,12 @@ import { escapeHTML, cldOptimize } from './utils.js';
 export const PRODUCTS = [
   // ── TEES ──────────────────────────────────────────
   {
+    id: 'p-supra-tee', name: 'SUPRA TEE',
+    price: 30, cat: 'APPAREL', badge: 'NEW DROP',
+    sizes: ['S','M','L','XL','2XL'],
+    img: 'images/products/supra-tee-bg.png',
+  },
+  {
     id: 'p-180sx', name: '180 SX TEE',
     price: 30, cat: 'APPAREL', badge: null,
     sizes: ['S','M','L','XL','2XL'],
@@ -72,13 +78,13 @@ export const PRODUCTS = [
 
   {
     id: 'p-need-speed', name: 'THE FURIOUS TEE',
-    price: 25, oldPrice: 35, cat: 'APPAREL', badge: 'SPECIAL OFFER', desc: 'Special Offer: Available until August 21!',
+    price: 25, oldPrice: 35, cat: 'APPAREL', badge: 'NEW DROP', desc: 'Special Offer: Available until August 21!',
     sizes: ['S','M','L','XL','2XL'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1783491447/gearheadz/products/Need-speed.png',
   },
   {
     id: 'p-honda-civic', name: 'HONDA CIVIC TEE',
-    price: 25, oldPrice: 35, cat: 'APPAREL', badge: 'SPECIAL OFFER', desc: 'Special Offer: Available until August 21!',
+    price: 25, oldPrice: 35, cat: 'APPAREL', badge: 'NEW DROP', desc: 'Special Offer: Available until August 21!',
     sizes: ['S','M','L','XL','2XL'],
     img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1783491448/gearheadz/products/honda-civic.png',
   },

@@ -16,7 +16,7 @@ export default defineConfig({
       input: {
         main:    resolve(__dirname, 'index.html'),
         store:   resolve(__dirname, 'store.html'),
-        events:  resolve(__dirname, 'events.html'),
+
         admin:   resolve(__dirname, 'admin.html'),
         success: resolve(__dirname, 'success.html'),
         cancel:  resolve(__dirname, 'cancel.html'),

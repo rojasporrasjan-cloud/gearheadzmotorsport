@@ -4,10 +4,10 @@
 // 3. Settings → Upload → Add upload preset → Signing Mode: Unsigned
 // 4. Pega el nombre del preset abajo
 
-const CLOUD_NAME    = "YOUR_CLOUD_NAME";
-const UPLOAD_PRESET = "YOUR_UPLOAD_PRESET";
+const CLOUD_NAME    = "db4ld8cy2";
+const UPLOAD_PRESET = "GH 123";
 
-export const isConfigured = CLOUD_NAME !== "YOUR_CLOUD_NAME";
+export const isConfigured = CLOUD_NAME !== "YOUR_CLOUD_NAME" && UPLOAD_PRESET !== "YOUR_UPLOAD_PRESET";
 
 async function cloudinaryUpload(file, resourceType = 'image', folder = 'gearheadz') {
   if (!isConfigured) throw new Error('Cloudinary no configurado — edita js/cloudinary.js');

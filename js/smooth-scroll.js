@@ -48,6 +48,9 @@ export function initSmoothScroll() {
     body.style.width     = '100%';
     body.style.top       = '0';
     body.style.left      = '0';
+    
+    // Force GPU composite layer to prevent scroll paint lag
+    wrapper.style.willChange = 'transform';
 
     // Set page height so scrollbar appears
     const setHeight = () => {

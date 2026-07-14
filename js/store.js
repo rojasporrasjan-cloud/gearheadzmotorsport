@@ -2,7 +2,7 @@
 import { cart, initCart, toast }                                    from './cart.js';
 import { initCursor, initNav, initReveal, initNewsletter,
          initCardTilt, initSizeGuide, initFaq }                    from './utils.js';
-import { buildCard, bindCards }                                     from './products.js';
+import { buildCard, bindCards, PRODUCTS }                             from './products.js';
 import { getProducts }                                              from './data-store.js';
 import { initSmoothScroll }                                         from './smooth-scroll.js';
 
@@ -25,10 +25,18 @@ async function initStore() {
         // Group by category (TEES, KIDS, HEADWEAR, ACCESSORIES)
         const order = { 'APPAREL': 1, 'KIDS': 2, 'HEADWEAR': 3, 'ACCESSORIES': 4 };
         return sorted.sort((a, b) => {
+          const isNewA = a.badge === 'NEW DROP' ? 1 : 0;
+          const isNewB = b.badge === 'NEW DROP' ? 1 : 0;
+          if (isNewA !== isNewB) return isNewB - isNewA;
+
           const rankA = order[a.cat] || 99;
           const rankB = order[b.cat] || 99;
           if (rankA !== rankB) return rankA - rankB;
-          return a.name.localeCompare(b.name);
+          
+          // Use manual order from PRODUCTS array instead of arbitrary Firebase document ID order
+          const indexA = PRODUCTS.findIndex(p => p.id === a.id);
+          const indexB = PRODUCTS.findIndex(p => p.id === b.id);
+          return (indexA === -1 ? 999 : indexA) - (indexB === -1 ? 999 : indexB);
         });
     }
   }
