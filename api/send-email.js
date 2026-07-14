@@ -10,14 +10,14 @@ export default async function(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const { type, orderId, trackingNumber, trackingCarrier, customerEmail, customerName } = req.body;
+    const { type, orderId, trackingNumber, trackingCarrier, shippingNotes, customerEmail, customerName } = req.body;
 
     if (type === 'shipped') {
       if (!customerEmail || !orderId) {
         return res.status(400).json({ error: 'Missing customer email or order ID' });
       }
 
-      await sendShippingEmail(orderId, trackingNumber, trackingCarrier, customerEmail, customerName);
+      await sendShippingEmail(orderId, trackingNumber, trackingCarrier, customerEmail, customerName, shippingNotes);
       return res.status(200).json({ success: true, message: 'Shipping email sent' });
     }
 

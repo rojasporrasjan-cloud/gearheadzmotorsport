@@ -51,6 +51,15 @@ export async function sendConfirmationEmail(order) {
       </p>
 
       <p>We will send you another email as soon as your order ships with the tracking number.</p>
+      
+      <div style="margin-top: 40px; padding: 20px; background: #f9f9f9; border-radius: 6px; text-align: center; color: #333;">
+        <p style="margin: 0; font-weight: bold; font-size: 14px;">Questions about your order?</p>
+        <p style="margin: 10px 0 0 0; font-size: 14px;">
+          <a href="mailto:2gearheadzmotorsports@gmail.com" style="color: #E8001C; text-decoration: none;">2gearheadzmotorsports@gmail.com</a><br/>
+          <a href="https://wa.me/19088846483" style="display: inline-block; margin-top: 15px; background: #25D366; color: white; padding: 10px 20px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 14px;">Contact us on WhatsApp</a>
+        </p>
+      </div>
+
       <p style="color: #999; font-size: 12px; margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px;">This is an automated email, please do not reply to this address.</p>
     </div>
   `;
@@ -69,7 +78,7 @@ export async function sendConfirmationEmail(order) {
   }
 }
 
-export async function sendShippingEmail(orderId, trackingNumber, trackingCarrier, customerEmail, customerName) {
+export async function sendShippingEmail(orderId, trackingNumber, trackingCarrier, customerEmail, customerName, shippingNotes) {
   if (!resend) {
     console.warn('[Emails] RESEND_API_KEY not configured. Skipping shipping email.');
     return;
@@ -108,7 +117,22 @@ export async function sendShippingEmail(orderId, trackingNumber, trackingCarrier
         ` : ''}
       </div>
 
+      ${shippingNotes ? `
+        <div style="background: #f9f9f9; padding: 15px; border-radius: 4px; border-left: 4px solid #E8001C; margin-bottom: 25px; color: #333;">
+          <p style="margin: 0; font-style: italic;"><strong>Note from GearHeadz:</strong> ${shippingNotes}</p>
+        </div>
+      ` : ''}
+
       <p style="font-size: 16px; font-style: italic; margin-top: 30px;">Thank you for supporting the culture. We hope you enjoy it! 🏁</p>
+
+      <div style="margin-top: 40px; padding: 20px; background: #f9f9f9; border-radius: 6px; text-align: center; color: #333;">
+        <p style="margin: 0; font-weight: bold; font-size: 14px;">Questions about your order?</p>
+        <p style="margin: 10px 0 0 0; font-size: 14px;">
+          <a href="mailto:2gearheadzmotorsports@gmail.com" style="color: #E8001C; text-decoration: none;">2gearheadzmotorsports@gmail.com</a><br/>
+          <a href="https://wa.me/19088846483" style="display: inline-block; margin-top: 15px; background: #25D366; color: white; padding: 10px 20px; text-decoration: none; border-radius: 50px; font-weight: bold; font-size: 14px;">Contact us on WhatsApp</a>
+        </p>
+      </div>
+
       <p style="color: #999; font-size: 12px; margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px;">This is an automated email, please do not reply to this address.</p>
     </div>
   `;

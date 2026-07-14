@@ -1374,6 +1374,7 @@ async function renderOrders() {
                 orderId: order.orderNum || orderId,
                 trackingNumber: tracking,
                 trackingCarrier: carrier,
+                shippingNotes: notes,
                 customerEmail: order.customer.email,
                 customerName: order.customer.name
               })
