@@ -340,7 +340,6 @@ export const PRODUCTS = [
   },
   {
     "id": "p-turbo-girl",
-    "name": "TURBO GIRL TEE",
     "price": 30,
     "cat": "APPAREL",
     "badge": "NEW DROP",
@@ -351,7 +350,8 @@ export const PRODUCTS = [
       "XL",
       "2XL"
     ],
-    "img": "https://res.cloudinary.com/db4ld8cy2/image/upload/v1783807661/gearheadz/products/preview_toxica_shirt_2.png"
+    "img": "https://res.cloudinary.com/db4ld8cy2/image/upload/v1783807661/gearheadz/products/preview_toxica_shirt_2.png",
+    "name": "LA TOXICA TEE"
   }
 ];
 
