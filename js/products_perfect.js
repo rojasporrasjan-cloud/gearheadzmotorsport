@@ -206,6 +206,7 @@ function ensureModal() {
       <span class="pmodal-cat" id="pmodal-cat"></span>
       <div class="pmodal-name" id="pmodal-name"></div>
       <div class="pmodal-price" id="pmodal-price"></div>
+      <div id="pmodal-promo"></div>
       <div class="pmodal-sz-label">SELECT SIZE</div>
       <button class="pmodal-sg-btn" id="pmodal-sg-btn">📐 SIZE GUIDE</button>
       <div class="pmodal-sizes" id="pmodal-sizes"></div>
@@ -252,6 +253,18 @@ function openProductModal(product, allProds = PRODUCTS) {
   document.getElementById('pmodal-price').innerHTML = product.oldPrice 
     ? `<span style="text-decoration:line-through; opacity:0.6; font-size:0.85em; margin-right:8px;">$${product.oldPrice}.00</span>$${product.price}.00`
     : `$${product.price}.00`;
+    
+  // promo
+  const promoEl = document.getElementById('pmodal-promo');
+  if (product.badge === '+ FREE STICKER') {
+    promoEl.innerHTML = `
+      <div style="background: rgba(255, 0, 60, 0.1); color: #ff003c; border: 1px dashed #ff003c; padding: 0.75rem; margin: 1rem 0; font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 1px; text-align: center;">
+        🎁 WITH THE PURCHASE OF THIS TEE YOU GET A FREE EXCLUSIVE STICKER!
+      </div>`;
+    promoEl.style.display = 'block';
+  } else {
+    promoEl.style.display = 'none';
+  }
 
   // stock — print-on-demand, always available
   const stockEl = document.getElementById('pmodal-stock');

@@ -25,18 +25,34 @@ async function initStore() {
         // Group by category (TEES, KIDS, HEADWEAR, ACCESSORIES)
         const order = { 'APPAREL': 1, 'KIDS': 2, 'HEADWEAR': 3, 'ACCESSORIES': 4 };
         return sorted.sort((a, b) => {
+          // 1. Force specific products to the absolute top
+          const topPriority = [
+            'p-need-speed',
+            'p-honda-civic',
+            'p-supra-tee',
+            'E1X1pZQ669hLeQMGaX4Z', // FOREVER STATIC TEE (WHITE)
+            'kEQu3U3pYZCcDLRJoeoy', // REAL CARS TEE (BLACK)
+            '3T2iP4DsTGl4wgVCrFNJ'  // REAL CARS TEE (WHITE)
+          ];
+          const prioA = topPriority.indexOf(a.id);
+          const prioB = topPriority.indexOf(b.id);
+          
+          if (prioA !== -1 && prioB !== -1) return prioA - prioB;
+          if (prioA !== -1) return -1;
+          if (prioB !== -1) return 1;
+          
+          // 2. Prioritize "NEW DROP" items
           const isNewA = a.badge === 'NEW DROP' ? 1 : 0;
           const isNewB = b.badge === 'NEW DROP' ? 1 : 0;
           if (isNewA !== isNewB) return isNewB - isNewA;
 
+          // 3. Group by category
           const rankA = order[a.cat] || 99;
           const rankB = order[b.cat] || 99;
           if (rankA !== rankB) return rankA - rankB;
           
-          // Use manual order from PRODUCTS array instead of arbitrary Firebase document ID order
-          const indexA = PRODUCTS.findIndex(p => p.id === a.id);
-          const indexB = PRODUCTS.findIndex(p => p.id === b.id);
-          return (indexA === -1 ? 999 : indexA) - (indexB === -1 ? 999 : indexB);
+          // Use alphabetical order as fallback since DB IDs are random
+          return a.name.localeCompare(b.name);
         });
     }
   }

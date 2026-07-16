@@ -2,142 +2,356 @@
 import { escapeHTML, cldOptimize } from './utils.js';
 
 export const PRODUCTS = [
-  // ── TEES ──────────────────────────────────────────
   {
-    id: 'p-supra-tee', name: 'SUPRA TEE',
-    price: 30, cat: 'APPAREL', badge: 'NEW DROP',
-    sizes: ['S','M','L','XL','2XL'],
-    img: 'images/products/supra-tee-bg.png',
+    "name": "REAL CARS TEE (WHITE)",
+    "price": 30,
+    "cat": "APPAREL",
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "img": "https://res.cloudinary.com/db4ld8cy2/image/upload/v1784000337/gearheadz/products/fosxl4w1fo4r1svx9wce.jpg",
+    "badge": "NEW DROP",
+    "id": "3T2iP4DsTGl4wgVCrFNJ"
   },
   {
-    id: 'p-180sx', name: '180 SX TEE',
-    price: 30, cat: 'APPAREL', badge: null,
-    sizes: ['S','M','L','XL','2XL'],
-    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/180sx-tee.png',
+    "name": "FOREVER STATIC TEE (WHITE)",
+    "price": 30,
+    "cat": "APPAREL",
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "img": "https://res.cloudinary.com/db4ld8cy2/image/upload/v1783993806/gearheadz/products/twjzflojdjwmd0rtrbln.png",
+    "badge": null,
+    "id": "E1X1pZQ669hLeQMGaX4Z"
   },
   {
-    id: 'p-bluezilla', name: 'BLUEZILLA GODZILLA TEE',
-    price: 30, cat: 'APPAREL', badge: 'NEW DROP',
-    sizes: ['XS','S','M','L','XL'],
-    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/bluezilla-godzilla-tee.png',
+    "name": "REAL CARS TEE (BLACK)",
+    "price": 30,
+    "cat": "APPAREL",
+    "badge": "NEW DROP",
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "img": "https://res.cloudinary.com/db4ld8cy2/image/upload/v1784000308/gearheadz/products/uro40euszf2dq0ttnwfi.png",
+    "id": "kEQu3U3pYZCcDLRJoeoy"
   },
   {
-    id: 'p-bluzilla', name: 'BLUZILLA TEE',
-    price: 30, cat: 'APPAREL', badge: null,
-    sizes: ['S','M','L','XL','2XL'],
-    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/bluzilla-tee.png',
+    "id": "p-180sx",
+    "name": "180 SX TEE",
+    "price": 30,
+    "cat": "APPAREL",
+    "badge": null,
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "2XL"
+    ],
+    "img": "https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/180sx-tee.png"
   },
   {
-    id: 'p-labubu-miata', name: 'LABUBU MIATA TEE',
-    price: 30, cat: 'APPAREL', badge: null,
-    sizes: ['S','M','L','XL','2XL'],
-    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/labubu-miata-tee.png',
+    "id": "p-beanie",
+    "name": "GEAR HEADZ LOGO BEANIE",
+    "price": 30,
+    "cat": "HEADWEAR",
+    "badge": null,
+    "sizes": [
+      "ONE SIZE"
+    ],
+    "img": "https://res.cloudinary.com/db4ld8cy2/image/upload/v1782448977/gearheadz/products/logo-beanie.jpg"
   },
   {
-    id: 'p-miata', name: 'MIATA TEE',
-    price: 30, cat: 'APPAREL', badge: null,
-    sizes: ['S','M','L','XL','2XL'],
-    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/miata-tee.png',
+    "id": "p-bluezilla",
+    "name": "BLUEZILLA GODZILLA TEE",
+    "price": 30,
+    "cat": "APPAREL",
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "img": "https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/bluezilla-godzilla-tee.png",
+    "badge": null
   },
   {
-    id: 'p-rotary', name: 'ROTARY TEE',
-    price: 30, cat: 'APPAREL', badge: null,
-    sizes: ['S','M','L','XL','2XL'],
-    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/rotary-tee.png',
+    "id": "p-bluzilla",
+    "name": "BLUZILLA TEE",
+    "price": 30,
+    "cat": "APPAREL",
+    "badge": null,
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "2XL"
+    ],
+    "img": "https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/bluzilla-tee.png"
   },
   {
-    id: 'p-sakura', name: 'SAKURA TEE',
-    price: 30, cat: 'APPAREL', badge: null,
-    sizes: ['S','M','L','XL','2XL'],
-    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/sakura-tee.png',
+    "id": "p-boosted-bowl",
+    "name": "THE BOOSTED BOWL TEE",
+    "price": 30,
+    "cat": "APPAREL",
+    "badge": "NEW DROP",
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "2XL"
+    ],
+    "img": "https://res.cloudinary.com/db4ld8cy2/image/upload/v1783808059/gearheadz/products/preview_boosted_bowl.png"
   },
   {
-    id: 'p-forever-static', name: 'FOREVER STATIC TEE',
-    price: 30, cat: 'APPAREL', badge: null,
-    sizes: ['S','M','L','XL','2XL'],
-    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/forever-static-tee.png',
+    "id": "p-forever-static",
+    "name": "FOREVER STATIC TEE",
+    "price": 30,
+    "cat": "APPAREL",
+    "badge": null,
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "2XL"
+    ],
+    "img": "https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/forever-static-tee.png"
   },
   {
-    id: 'p-boosted-bowl', name: 'THE BOOSTED BOWL TEE',
-    price: 30, cat: 'APPAREL', badge: 'NEW DROP',
-    sizes: ['S','M','L','XL','2XL'],
-    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1783808059/gearheadz/products/preview_boosted_bowl.png',
+    "id": "p-honda-civic",
+    "name": "HONDA CIVIC TEE",
+    "price": 25,
+    "oldPrice": 35,
+    "cat": "APPAREL",
+    "badge": "+ FREE STICKER",
+    "desc": "Special Offer: Available until August 21!",
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "2XL"
+    ],
+    "img": "https://res.cloudinary.com/db4ld8cy2/image/upload/v1783491448/gearheadz/products/honda-civic.png"
   },
   {
-    id: 'p-turbo-girl', name: 'TURBO GIRL TEE',
-    price: 30, cat: 'APPAREL', badge: 'NEW DROP',
-    sizes: ['S','M','L','XL','2XL'],
-    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1783807661/gearheadz/products/preview_toxica_shirt_2.png',
+    "id": "p-jdm-legends",
+    "name": "JDM LEGENDS TEE",
+    "price": 30,
+    "cat": "APPAREL",
+    "badge": "NEW DROP",
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "2XL"
+    ],
+    "img": "https://res.cloudinary.com/db4ld8cy2/image/upload/v1783758617/gearheadz/products/jdm-legends-custom-bg.png"
   },
   {
-    id: 'p-jdm-legends', name: 'JDM LEGENDS TEE',
-    price: 30, cat: 'APPAREL', badge: 'NEW DROP',
-    sizes: ['S','M','L','XL','2XL'],
-    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1783758617/gearheadz/products/jdm-legends-custom-bg.png',
-  },
-
-  {
-    id: 'p-need-speed', name: 'THE FURIOUS TEE',
-    price: 25, oldPrice: 35, cat: 'APPAREL', badge: 'NEW DROP', desc: 'Special Offer: Available until August 21!',
-    sizes: ['S','M','L','XL','2XL'],
-    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1783491447/gearheadz/products/Need-speed.png',
-  },
-  {
-    id: 'p-honda-civic', name: 'HONDA CIVIC TEE',
-    price: 25, oldPrice: 35, cat: 'APPAREL', badge: 'NEW DROP', desc: 'Special Offer: Available until August 21!',
-    sizes: ['S','M','L','XL','2XL'],
-    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1783491448/gearheadz/products/honda-civic.png',
-  },
-  // ── KIDS ──────────────────────────────────────────
-  {
-    id: 'p-kids-labubu', name: 'KIDS LABUBU MIATA TEE',
-    price: 30, cat: 'KIDS', badge: null,
-    sizes: ['XS','S','M','L','XL'],
-    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/kids-labubu-miata-tee.png',
+    "id": "p-kids-bluezilla",
+    "name": "KIDS BLUEZILLA GODZILLA TEE",
+    "price": 30,
+    "cat": "KIDS",
+    "badge": null,
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L"
+    ],
+    "img": "https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/kids-bluezilla-godzilla-tee.png"
   },
   {
-    id: 'p-kids-bluezilla', name: 'KIDS BLUEZILLA GODZILLA TEE',
-    price: 30, cat: 'KIDS', badge: null,
-    sizes: ['XS','S','M','L'],
-    img: 'https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/kids-bluezilla-godzilla-tee.png',
-  },
-  // ── HEADWEAR ──────────────────────────────────────
-  {
-    id: 'p-lady-hat', name: 'LADY HAT',
-    price: 30, cat: 'HEADWEAR', badge: 'NEW DROP',
-    sizes: ['ONE SIZE'],
-    img: 'images/products/lady-hat-final-bg.png',
-  },
-  {
-    id: 'p-turbi-hat', name: 'GEARHEADZ TURBI HAT — BLACK',
-    price: 30, cat: 'HEADWEAR', badge: null,
-    sizes: ['ONE SIZE'],
-    img: 'images/products/turbi-hat-black.png',
+    "id": "p-kids-labubu",
+    "name": "KIDS LABUBU MIATA TEE",
+    "price": 30,
+    "cat": "KIDS",
+    "badge": null,
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "img": "https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/kids-labubu-miata-tee.png"
   },
   {
-    id: 'p-logo-hat', name: 'GEARHEADZ LOGO HAT — BLACK',
-    price: 30, cat: 'HEADWEAR', badge: null,
-    sizes: ['ONE SIZE'],
-    img: 'images/products/logo-hat-final-bg.png',
+    "id": "p-labubu-miata",
+    "name": "LABUBU MIATA TEE",
+    "price": 30,
+    "cat": "APPAREL",
+    "badge": null,
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "2XL"
+    ],
+    "img": "https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/labubu-miata-tee.png"
   },
   {
-    id: 'p-new-logo-hat', name: 'NEW GEARHEADZ LOGO HAT',
-    price: 30, cat: 'HEADWEAR', badge: null,
-    sizes: ['ONE SIZE'],
-    img: 'images/products/logo-gray-hat-final-bg.png',
+    "id": "p-lady-hat",
+    "name": "LADY HAT",
+    "price": 30,
+    "cat": "HEADWEAR",
+    "badge": "NEW DROP",
+    "sizes": [
+      "ONE SIZE"
+    ],
+    "img": "https://res.cloudinary.com/db4ld8cy2/image/upload/v1784151742/gearheadz/products/lady-hat-final-bg.png"
   },
   {
-    id: 'p-beanie', name: 'GEAR HEADZ LOGO BEANIE',
-    price: 30, cat: 'HEADWEAR', badge: null,
-    sizes: ['ONE SIZE'],
-    img: 'images/products/logo-beanie.png',
+    "id": "p-logo-hat",
+    "name": "GEARHEADZ LOGO HAT — BLACK",
+    "price": 30,
+    "cat": "HEADWEAR",
+    "badge": null,
+    "sizes": [
+      "ONE SIZE"
+    ],
+    "img": "https://res.cloudinary.com/db4ld8cy2/image/upload/v1784151743/gearheadz/products/logo-hat-final-bg.png"
   },
-  // ── ACCESSORIES ───────────────────────────────────
   {
-    id: 'p-sunbrella', name: 'GEAR HEADZ SUNBRELLA',
-    price: 15, cat: 'ACCESSORIES', badge: null,
-    sizes: ['ONE SIZE'],
-    img: 'images/products/gear-headz-sunbrella.png',
+    "id": "p-miata",
+    "name": "MIATA TEE",
+    "price": 30,
+    "cat": "APPAREL",
+    "badge": null,
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "2XL"
+    ],
+    "img": "https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/miata-tee.png"
+  },
+  {
+    "id": "p-need-speed",
+    "name": "THE FURIOUS TEE",
+    "price": 25,
+    "oldPrice": 35,
+    "cat": "APPAREL",
+    "badge": "+ FREE STICKER",
+    "desc": "Special Offer: Available until August 21!",
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "2XL"
+    ],
+    "img": "https://res.cloudinary.com/db4ld8cy2/image/upload/v1784234333/gearheadz/products/need-speed-perfect-neon-bg.png"
+  },
+  {
+    "id": "p-new-logo-hat",
+    "name": "NEW GEARHEADZ LOGO HAT",
+    "price": 30,
+    "cat": "HEADWEAR",
+    "badge": null,
+    "sizes": [
+      "ONE SIZE"
+    ],
+    "img": "https://res.cloudinary.com/db4ld8cy2/image/upload/v1784151744/gearheadz/products/logo-gray-hat-final-bg.png"
+  },
+  {
+    "id": "p-rotary",
+    "name": "ROTARY TEE",
+    "price": 30,
+    "cat": "APPAREL",
+    "badge": null,
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "2XL"
+    ],
+    "img": "https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/rotary-tee.png"
+  },
+  {
+    "id": "p-sakura",
+    "name": "SAKURA TEE",
+    "price": 30,
+    "cat": "APPAREL",
+    "badge": null,
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "2XL"
+    ],
+    "img": "https://res.cloudinary.com/db4ld8cy2/image/upload/v1/gearheadz/products/sakura-tee.png"
+  },
+  {
+    "id": "p-sunbrella",
+    "name": "GEAR HEADZ SUNBRELLA",
+    "price": 15,
+    "cat": "ACCESSORIES",
+    "badge": null,
+    "sizes": [
+      "ONE SIZE"
+    ],
+    "img": "https://res.cloudinary.com/db4ld8cy2/image/upload/v1782448970/gearheadz/products/gear-headz-sunbrella.jpg"
+  },
+  {
+    "id": "p-supra-tee",
+    "name": "SUPRA TEE",
+    "price": 30,
+    "cat": "APPAREL",
+    "badge": "NEW DROP",
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "2XL"
+    ],
+    "img": "https://res.cloudinary.com/db4ld8cy2/image/upload/v1784232494/gearheadz/products/cmmgigq6wkbh2m2eohrf.png"
+  },
+  {
+    "id": "p-turbi-hat",
+    "name": "GEARHEADZ TURBI HAT — BLACK",
+    "price": 30,
+    "cat": "HEADWEAR",
+    "badge": null,
+    "sizes": [
+      "ONE SIZE"
+    ],
+    "img": "https://res.cloudinary.com/db4ld8cy2/image/upload/v1782448985/gearheadz/products/turbi-hat-black.jpg"
+  },
+  {
+    "id": "p-turbo-girl",
+    "name": "TURBO GIRL TEE",
+    "price": 30,
+    "cat": "APPAREL",
+    "badge": "NEW DROP",
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "2XL"
+    ],
+    "img": "https://res.cloudinary.com/db4ld8cy2/image/upload/v1783807661/gearheadz/products/preview_toxica_shirt_2.png"
   }
 ];
 
@@ -205,6 +419,7 @@ function ensureModal() {
       <span class="pmodal-cat" id="pmodal-cat"></span>
       <div class="pmodal-name" id="pmodal-name"></div>
       <div class="pmodal-price" id="pmodal-price"></div>
+      <div id="pmodal-promo"></div>
       <div class="pmodal-sz-label">SELECT SIZE</div>
       <button class="pmodal-sg-btn" id="pmodal-sg-btn">📐 SIZE GUIDE</button>
       <div class="pmodal-sizes" id="pmodal-sizes"></div>
@@ -251,6 +466,18 @@ function openProductModal(product, allProds = PRODUCTS) {
   document.getElementById('pmodal-price').innerHTML = product.oldPrice 
     ? `<span style="text-decoration:line-through; opacity:0.6; font-size:0.85em; margin-right:8px;">$${product.oldPrice}.00</span>$${product.price}.00`
     : `$${product.price}.00`;
+    
+  // promo
+  const promoEl = document.getElementById('pmodal-promo');
+  if (product.badge === '+ FREE STICKER') {
+    promoEl.innerHTML = `
+      <div style="background: rgba(255, 0, 60, 0.1); color: #ff003c; border: 1px dashed #ff003c; padding: 0.75rem; margin: 1rem 0; font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 1px; text-align: center;">
+        🎁 WITH THE PURCHASE OF THIS TEE YOU GET A FREE EXCLUSIVE STICKER!
+      </div>`;
+    promoEl.style.display = 'block';
+  } else {
+    promoEl.style.display = 'none';
+  }
 
   // stock — print-on-demand, always available
   const stockEl = document.getElementById('pmodal-stock');

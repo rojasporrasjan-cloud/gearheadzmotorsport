@@ -62,7 +62,17 @@ async function initFeatured() {
   const grid = document.getElementById('featured-grid');
   if (!grid) return;
   const products = await getProducts();
-  grid.innerHTML  = products.slice(0, 3).map(buildCard).join('');
+  
+  // Specific order for featured drop
+  const featuredIds = ['p-need-speed', 'p-honda-civic', 'p-forever-static'];
+  const featuredProducts = [];
+  
+  for (const id of featuredIds) {
+    const prod = products.find(p => p.id === id);
+    if (prod) featuredProducts.push(prod);
+  }
+  
+  grid.innerHTML  = featuredProducts.map(buildCard).join('');
   bindCards(grid, { cart, toast });
 }
 
