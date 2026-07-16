@@ -147,7 +147,7 @@ export default async function(req, res) {
           shipping_rate_data: {
             type: 'fixed_amount',
             fixed_amount: {
-              amount: 700, // $7.00
+              amount: 999, // $9.99
               currency: 'usd',
             },
             display_name: 'Standard Shipping',
