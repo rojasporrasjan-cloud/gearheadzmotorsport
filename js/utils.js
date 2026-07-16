@@ -140,10 +140,40 @@ export function initSmoothLinks() {
 
 // Newsletter
 export function initNewsletter() {
-  document.getElementById('nl-form')?.addEventListener('submit', e => {
+  document.getElementById('nl-form')?.addEventListener('submit', async e => {
     e.preventDefault();
-    import('./cart.js').then(m => m.toast('Welcome to the grid!', '✓'));
-    e.target.reset();
+    const btn = e.target.querySelector('button[type="submit"]');
+    const input = e.target.querySelector('input[type="email"]');
+    const email = input.value;
+    
+    if (!email) return;
+    
+    const originalText = btn.textContent;
+    btn.textContent = 'JOINING...';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      
+      const data = await res.json();
+      
+      if (res.ok) {
+        import('./cart.js').then(m => m.toast(data.message || 'Welcome to the grid!', '✓'));
+        e.target.reset();
+      } else {
+        import('./cart.js').then(m => m.toast(data.error || 'Failed to subscribe', '⚠'));
+      }
+    } catch (err) {
+      console.error('Newsletter error:', err);
+      import('./cart.js').then(m => m.toast('Network error. Try again later.', '⚠'));
+    } finally {
+      btn.textContent = originalText;
+      btn.disabled = false;
+    }
   });
 }
 
