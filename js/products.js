@@ -64,11 +64,12 @@ export const PRODUCTS = [
     "name": "GEAR HEADZ LOGO BEANIE",
     "price": 30,
     "cat": "HEADWEAR",
-    "badge": null,
     "sizes": [
       "ONE SIZE"
     ],
-    "img": "https://res.cloudinary.com/db4ld8cy2/image/upload/v1782448977/gearheadz/products/logo-beanie.jpg"
+    "img": "https://res.cloudinary.com/db4ld8cy2/image/upload/v1782448977/gearheadz/products/logo-beanie.jpg",
+    "badge": "SEASONAL ONLY",
+    "outOfStock": true
   },
   {
     "id": "p-bluezilla",
@@ -384,8 +385,11 @@ export function buildCard(p) {
         <div class="p-card-img-inner">${imgEl}${img2El}</div>
         ${badge}
         <div class="p-card-overlay">
-          <div class="osz-row" data-pid="${p.id}" style="display:flex;gap:.35rem;flex-wrap:wrap">${sizes}</div>
-          <button class="osz-cart-btn" data-pid="${p.id}">ADD</button>
+          ${p.outOfStock 
+            ? `<div style="color:var(--red); font-family:'Bebas Neue', sans-serif; font-size:1.5rem; letter-spacing:2px; margin:auto; text-shadow: 0 0 10px rgba(255,0,0,0.5);">SOLD OUT</div>`
+            : `<div class="osz-row" data-pid="${p.id}" style="display:flex;gap:.35rem;flex-wrap:wrap">${sizes}</div>
+               <button class="osz-cart-btn" data-pid="${p.id}">ADD</button>`
+          }
         </div>
       </div>
       <div class="p-card-body">
@@ -479,10 +483,20 @@ function openProductModal(product, allProds = PRODUCTS) {
     promoEl.style.display = 'none';
   }
 
-  // stock — print-on-demand, always available
+  // stock — print-on-demand, always available unless explicitly marked outOfStock
   const stockEl = document.getElementById('pmodal-stock');
-  stockEl.textContent = '';
-  stockEl.className = 'pmodal-stock';
+  if (product.outOfStock) {
+    stockEl.textContent = 'SOLD OUT';
+    stockEl.className = 'pmodal-stock out-of-stock';
+    stockEl.style.color = 'var(--red)';
+    stockEl.style.fontWeight = 'bold';
+    stockEl.style.marginTop = '0.5rem';
+    stockEl.style.fontSize = '0.9rem';
+  } else {
+    stockEl.textContent = '';
+    stockEl.className = 'pmodal-stock';
+    stockEl.style.color = '';
+  }
 
   // sizes — all always enabled
   const sizesEl = document.getElementById('pmodal-sizes');
@@ -502,14 +516,26 @@ function openProductModal(product, allProds = PRODUCTS) {
   const oldBtn = document.getElementById('pmodal-add');
   const newBtn = oldBtn.cloneNode(true);
   oldBtn.replaceWith(newBtn);
-  newBtn.addEventListener('click', () => {
-    if (!selectedSize) {
-      _cartModule?.toast('Select a size first', '⚠');
-      return;
-    }
-    _cartModule?.cart.add(product, selectedSize);
-    closeModal();
-  });
+  
+  if (product.outOfStock) {
+    newBtn.textContent = 'SOLD OUT';
+    newBtn.disabled = true;
+    newBtn.style.opacity = '0.4';
+    newBtn.style.cursor = 'not-allowed';
+  } else {
+    newBtn.textContent = 'ADD TO CART';
+    newBtn.disabled = false;
+    newBtn.style.opacity = '1';
+    newBtn.style.cursor = 'pointer';
+    newBtn.addEventListener('click', () => {
+      if (!selectedSize) {
+        _cartModule?.toast('Select a size first', '⚠');
+        return;
+      }
+      _cartModule?.cart.add(product, selectedSize);
+      closeModal();
+    });
+  }
 
   // size guide button
   document.getElementById('pmodal-sg-btn')?.addEventListener('click', e => {
