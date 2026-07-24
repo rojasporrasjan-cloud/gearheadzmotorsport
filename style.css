@@ -1752,7 +1752,7 @@ button {
 }
 
 #footer {
-  background: #060606;
+  background: #111111;
   border-top: 3px solid var(--red);
   padding: 0 0 2rem;
 }
@@ -1835,25 +1835,25 @@ button {
 }
 
 .f-col-title {
-  font-size: .58rem;
-  letter-spacing: .28em;
-  color: #3a3a3a;
+  font-size: .65rem;
+  letter-spacing: .25em;
+  color: #888888;
   margin-bottom: 1.1rem;
   display: block;
   padding-bottom: .65rem;
-  border-bottom: 1px solid #1a1a1a;
+  border-bottom: 1px solid #333333;
 }
 
 .f-link {
   display: block;
-  font-size: .78rem;
-  color: #4a4a4a;
+  font-size: .85rem;
+  color: #aaaaaa;
   padding: .3rem 0;
   transition: color .2s;
 }
 
 .f-link:hover {
-  color: rgba(255, 255, 255, .7);
+  color: #ffffff;
 }
 
 .footer-bottom {
