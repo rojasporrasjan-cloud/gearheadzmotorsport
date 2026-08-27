@@ -70,7 +70,23 @@ async function initStore() {
     list = sortProducts(list, activeSort);
     
     let html = list.map(buildCard).join('');
-    
+
+    // Nothing matched the filter (e.g. SALE with no active promo) — say so
+    // instead of leaving an empty grid that looks broken.
+    if (!list.length) {
+      html = `
+        <div style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem; color: #aaa;">
+          <div style="font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: #fff; letter-spacing: 1px;">
+            ${activeFilter === 'SALE' ? 'NO ACTIVE DEALS RIGHT NOW' : 'NOTHING HERE YET'}
+          </div>
+          <p style="font-family: 'Inter', sans-serif; font-size: 0.95rem; margin: 0.5rem 0 0;">
+            ${activeFilter === 'SALE'
+              ? 'Follow us on Instagram so you don\'t miss the next drop.'
+              : 'Check back soon or browse the rest of the store.'}
+          </p>
+        </div>`;
+    }
+
     if (activeFilter === 'KIDS') {
       html = `
         <div style="grid-column: 1 / -1; background: rgba(255, 255, 255, 0.03); border: 1px dashed rgba(255, 255, 255, 0.2); padding: 2rem; border-radius: 8px; text-align: center; margin-bottom: 1rem; display: flex; flex-direction: column; align-items: center;">

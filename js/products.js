@@ -1,5 +1,6 @@
 // ── PRODUCTS DATA ─────────────────────────────────
 import { escapeHTML, cldOptimize } from './utils.js';
+import { PLUS_SIZE_SURCHARGE, hasPlusSizes, isPlusSize, priceFor } from './pricing.js';
 
 export const PRODUCTS = [
   {
@@ -134,11 +135,11 @@ export const PRODUCTS = [
   {
     "id": "p-honda-civic",
     "name": "HONDA CIVIC TEE",
-    "price": 25,
-    "oldPrice": 35,
+    "price": 30,
     "cat": "APPAREL",
-    "badge": "+ FREE STICKER",
-    "desc": "Special Offer: Available until August 21!",
+    "badge": "NEW DROP",
+    "sticker": true,
+    "desc": "Comes with a free exclusive sticker while supplies last.",
     "sizes": [
       "S",
       "M",
@@ -247,11 +248,11 @@ export const PRODUCTS = [
   {
     "id": "p-need-speed",
     "name": "THE FURIOUS TEE",
-    "price": 25,
-    "oldPrice": 35,
+    "price": 30,
     "cat": "APPAREL",
-    "badge": "+ FREE STICKER",
-    "desc": "Special Offer: Available until August 21!",
+    "badge": "NEW DROP",
+    "sticker": true,
+    "desc": "Comes with a free exclusive sticker while supplies last.",
     "sizes": [
       "S",
       "M",
@@ -395,10 +396,16 @@ export function buildCard(p) {
       <div class="p-card-body">
         <span class="p-cat">${escapeHTML(p.cat)}</span>
         <div class="p-name">${escapeHTML(p.name)}</div>
+        ${p.sticker || p.badge === '+ FREE STICKER'
+          ? `<div style="font-family:'JetBrains Mono', monospace; font-size:0.6rem; letter-spacing:0.5px; color:#ff003c; margin-bottom:0.35rem;">🎁 FREE STICKER · WHILE SUPPLIES LAST</div>`
+          : ''}
         <div class="p-foot">
           <span class="p-price">
             ${p.oldPrice ? `<span style="text-decoration:line-through; opacity:0.6; font-size:0.85em; margin-right:6px;">$${p.oldPrice}.00</span>` : ''}$${p.price}.00
           </span>
+          ${hasPlusSizes(p)
+            ? `<span style="font-family:'JetBrains Mono', monospace; font-size:0.6rem; letter-spacing:0.5px; opacity:0.6;">2XL+ &nbsp;+$${PLUS_SIZE_SURCHARGE}</span>`
+            : ''}
         </div>
       </div>
     </div>`;
@@ -467,16 +474,27 @@ function openProductModal(product, allProds = PRODUCTS) {
   // text
   document.getElementById('pmodal-cat').textContent   = product.cat;
   document.getElementById('pmodal-name').textContent  = product.name;
-  document.getElementById('pmodal-price').innerHTML = product.oldPrice 
-    ? `<span style="text-decoration:line-through; opacity:0.6; font-size:0.85em; margin-right:8px;">$${product.oldPrice}.00</span>$${product.price}.00`
-    : `$${product.price}.00`;
-    
-  // promo
+
+  // price — reflects the selected size (2XL and up cost more)
+  const priceEl = document.getElementById('pmodal-price');
+  function renderPrice(size) {
+    const unit = priceFor(product, size);
+    const plus = isPlusSize(size);
+    priceEl.innerHTML = `
+      ${product.oldPrice ? `<span style="text-decoration:line-through; opacity:0.6; font-size:0.85em; margin-right:8px;">$${product.oldPrice}.00</span>` : ''}$${unit}.00
+      ${plus ? `<span style="font-size:0.6em; opacity:0.7; margin-left:8px; letter-spacing:1px;">INCLUDES +$${PLUS_SIZE_SURCHARGE} ${escapeHTML(size)}</span>` : ''}`;
+  }
+  renderPrice(null);
+
+  // promo — free sticker (flag, or the legacy badge that used to carry it)
   const promoEl = document.getElementById('pmodal-promo');
-  if (product.badge === '+ FREE STICKER') {
+  if (product.sticker || product.badge === '+ FREE STICKER') {
     promoEl.innerHTML = `
       <div style="background: rgba(255, 0, 60, 0.1); color: #ff003c; border: 1px dashed #ff003c; padding: 0.75rem; margin: 1rem 0; font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 1px; text-align: center;">
         🎁 WITH THE PURCHASE OF THIS TEE YOU GET A FREE EXCLUSIVE STICKER!
+        <div style="font-family: 'Inter', sans-serif; font-size: 0.7rem; letter-spacing: 0; opacity: 0.85; margin-top: 0.35rem; text-transform: none;">
+          *While supplies last.
+        </div>
       </div>`;
     promoEl.style.display = 'block';
   } else {
@@ -502,13 +520,18 @@ function openProductModal(product, allProds = PRODUCTS) {
   const sizesEl = document.getElementById('pmodal-sizes');
   sizesEl.innerHTML = product.sizes.map(s =>
     `<button class="pmodal-sz" data-size="${escapeHTML(s)}">${escapeHTML(s)}</button>`
-  ).join('');
+  ).join('') + (hasPlusSizes(product)
+    ? `<div style="flex-basis:100%; font-family:'JetBrains Mono', monospace; font-size:0.65rem; letter-spacing:0.5px; opacity:0.6; margin-top:0.5rem;">
+         2XL AND UP: +$${PLUS_SIZE_SURCHARGE}
+       </div>`
+    : '');
 
   sizesEl.querySelectorAll('.pmodal-sz').forEach(btn => {
     btn.addEventListener('click', () => {
       sizesEl.querySelectorAll('.pmodal-sz').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       selectedSize = btn.dataset.size;
+      renderPrice(selectedSize);
     });
   });
 

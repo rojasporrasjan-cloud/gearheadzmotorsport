@@ -262,6 +262,7 @@ export function initSizeGuide() {
           <tr><td>2XL</td><td>44 – 46</td><td>32</td><td>10.0</td></tr>
         </tbody>
       </table>
+      <p class="sg-note">Sizes 2XL and up have a $2 surcharge — they cost us more to print.</p>
     </div>`;
 
   document.body.appendChild(overlay);

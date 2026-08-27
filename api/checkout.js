@@ -8,6 +8,7 @@
 
 import Stripe from 'stripe';
 import { getDb } from './_firebase.js';
+import { sizeSurcharge } from './_pricing.js';
 
 export default async function(req, res) {
   // CORS headers
@@ -94,13 +95,17 @@ export default async function(req, res) {
       // Sanitize quantity: must be a positive integer
       const qty = Math.max(1, Math.min(99, Math.floor(Number(item.qty) || 1)));
 
+      // Plus sizes (2XL and up) cost more — recomputed here, never taken from the client
+      const size = item.size || 'ONE SIZE';
+      const surcharge = sizeSurcharge(size);
+
       // Use SERVER price, SERVER name — NEVER trust client
       validatedItems.push({
         id,
         name: product.name,
-        price: product.price,
+        price: product.price + surcharge,
         img: product.img,
-        size: item.size || 'ONE SIZE',
+        size,
         qty,
       });
     }

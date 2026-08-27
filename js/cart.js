@@ -1,5 +1,6 @@
 // ── SHARED CART MODULE ────────────────────────────
 import { escapeHTML, cldOptimize } from './utils.js';
+import { priceFor, sizeSurcharge } from './pricing.js';
 
 export const cart = {
   items: [],
@@ -7,7 +8,12 @@ export const cart = {
   add(product, size) {
     const key = `${product.id}__${size}`;
     const ex  = this.items.find(i => i.key === key);
-    ex ? ex.qty++ : this.items.push({ key, ...product, size, qty: 1 });
+    // price already includes the plus-size surcharge; the server re-verifies it
+    ex ? ex.qty++ : this.items.push({
+      key, ...product, size, qty: 1,
+      basePrice: Number(product.price || 0),
+      price: priceFor(product, size),
+    });
     this.save();
     this.render();
     openCart();
@@ -34,7 +40,14 @@ export const cart = {
   load() {
     try {
       const saved = localStorage.getItem('ghz-cart');
-      if (saved) this.items = JSON.parse(saved);
+      if (!saved) return;
+      this.items = JSON.parse(saved).map(item => {
+        // Items saved before the plus-size surcharge existed carry the base
+        // price only — upgrade them so the bag total matches what Stripe charges.
+        if (item.basePrice != null) return item;
+        const basePrice = Number(item.price || 0);
+        return { ...item, basePrice, price: basePrice + sizeSurcharge(item.size) };
+      });
     } catch {}
   },
 
@@ -71,7 +84,7 @@ export const cart = {
         </div>
         <div class="ci-info">
           <span class="ci-name">${escapeHTML(item.name)}</span>
-          <span class="ci-meta">SIZE: ${escapeHTML(item.size)}</span>
+          <span class="ci-meta">SIZE: ${escapeHTML(item.size)}${sizeSurcharge(item.size) ? ` (+$${sizeSurcharge(item.size)})` : ''}</span>
           <div class="ci-qty">
             <button class="ci-qty-btn" data-key="${item.key}" data-d="-1">−</button>
             <span class="ci-qty-n">${item.qty}</span>
